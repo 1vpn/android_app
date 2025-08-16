@@ -8,7 +8,7 @@ import com.tencent.mmkv.MMKV
 import com.v2ray.ang.AppConfig.ANG_PACKAGE
 import com.v2ray.ang.handler.SettingsManager
 
-class AngApplication : MultiDexApplication() {
+open class AngApplication : MultiDexApplication() {
     companion object {
         lateinit var application: AngApplication
     }

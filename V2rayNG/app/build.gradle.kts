@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.jaredsburrows.license")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -48,8 +49,23 @@ android {
         }
     }
 
+    flavorDimensions.add("source")
     flavorDimensions.add("distribution")
+
     productFlavors {
+        create("v2rayng") {
+            dimension = "source"
+            applicationId = "com.v2ray.ang"
+            resValue("string", "app_name", "v2rayNG")
+            buildConfigField("String", "SOURCE", "\"v2rayng\"")
+        }
+        create("1vpn") {
+            dimension = "source"
+            applicationId = "com.one.vpnapp"
+            resValue("string", "app_name", "1VPN")
+            buildConfigField("String", "SOURCE", "\"1vpn\"")
+        }
+
         create("fdroid") {
             dimension = "distribution"
             applicationIdSuffix = ".fdroid"
@@ -64,6 +80,10 @@ android {
     sourceSets {
         getByName("main") {
             jniLibs.srcDirs("libs")
+        }
+        getByName("1vpn") {
+            java.srcDirs("src/1vpn/java")
+            res.srcDirs("src/1vpn/res")
         }
     }
 
@@ -122,8 +142,13 @@ android {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
         buildConfig = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 
     packaging {
@@ -135,6 +160,21 @@ android {
 }
 
 dependencies {
+    // 1VPN
+    implementation(platform("androidx.compose:compose-bom:2025.08.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.navigation:navigation-compose:2.9.0")
+    implementation("com.revenuecat.purchases:purchases:8.15.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.compose.ui:ui:1.7.8")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+
     // Core Libraries
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
 
