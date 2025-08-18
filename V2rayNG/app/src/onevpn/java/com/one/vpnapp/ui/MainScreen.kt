@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.one.vpnapp.handler.MmkvManager
 import com.v2ray.ang.handler.V2RayServiceManager
 import com.v2ray.ang.R
-//import com.one.vpnapp.handler.AdManager
+import com.one.vpnapp.handler.AdManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +52,7 @@ fun MainScreen(
 
     LaunchedEffect(selectedLocation) {
         MmkvManager.setSelectedLocation(selectedLocation)
-//        AdManager.loadInterstitialAd(context, isPremium)
+        AdManager.loadInterstitialAd(context, isPremium)
     }
 
     TopAppBar(
@@ -85,29 +85,29 @@ fun MainScreen(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
     )
 
-//    VpnToggle(
-//        startVpn = {
-//            AdManager.showInterstitialAdAndHandleVpn(
-//                context,
-//                onVpnConnect = {
-//                    V2RayServiceManager.startVServiceFromToggle(context)
-//                    isVpnOnState.value = true
-//                },
-//                onVpnCancel = {
-//                    isVpnOnState.value = false
-//                },
-//                isPremium
-//            )
-//        },
-//        stopVpn = {
-//            V2RayServiceManager.stopVService(context)
-////            AdManager.loadInterstitialAd(context, isPremium)
-//            isVpnOnState.value = false
-//            showReviewDialog = true
-//        },
-//        requestVpnPermission = requestVpnPermission,
-//        isVpnOnState = isVpnOnState,
-//    )
+    VpnToggle(
+        startVpn = {
+            AdManager.showInterstitialAdAndHandleVpn(
+                context,
+                onVpnConnect = {
+                    V2RayServiceManager.startVServiceFromToggle(context)
+                    isVpnOnState.value = true
+                },
+                onVpnCancel = {
+                    isVpnOnState.value = false
+                },
+                isPremium
+            )
+        },
+        stopVpn = {
+            V2RayServiceManager.stopVService(context)
+            AdManager.loadInterstitialAd(context, isPremium)
+            isVpnOnState.value = false
+            showReviewDialog = true
+        },
+        requestVpnPermission = requestVpnPermission,
+        isVpnOnState = isVpnOnState,
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         LocationButton(

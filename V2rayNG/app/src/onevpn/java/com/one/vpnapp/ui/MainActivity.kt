@@ -28,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.one.vpnapp.handler.MmkvManager
-//import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.MobileAds
 
 @OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        MobileAds.initialize(this)
+        MobileAds.initialize(this)
 
         vpnPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
