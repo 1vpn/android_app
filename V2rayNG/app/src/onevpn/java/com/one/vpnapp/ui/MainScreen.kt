@@ -25,6 +25,8 @@ import com.one.vpnapp.handler.MmkvManager
 import com.v2ray.ang.handler.V2RayServiceManager
 import com.v2ray.ang.R
 import com.one.vpnapp.handler.AdManager
+import com.v2ray.ang.fmt.CustomFmt
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,6 +55,103 @@ fun MainScreen(
     LaunchedEffect(selectedLocation) {
         MmkvManager.setSelectedLocation(selectedLocation)
         AdManager.loadInterstitialAd(context, isPremium)
+
+        val userData = MmkvManager.getUserData()
+        val isPremium = userData?.isPremium == true
+
+        val hardcodedConfig = """
+        {
+          "log": {
+            "loglevel": "warning"
+          },
+          "inbounds": [
+            {
+              "listen": "127.0.0.1",
+              "port": 10808,
+              "protocol": "socks",
+              "settings": {
+                "udp": true
+              },
+              "sniffing": {
+                "enabled": true,
+                "destOverride": ["http", "tls"]
+              }
+            },
+            {
+              "listen": "127.0.0.1",
+              "port": 10809,
+              "protocol": "http",
+              "sniffing": {
+                "enabled": true,
+                "destOverride": ["http", "tls"]
+              }
+            }
+          ],
+          "routing": {
+            "domainStrategy": "IPIfNonMatch",
+            "rules": [
+              {
+                "type": "field",
+                "domain": ["geosite:geolocation-!cn"],
+                "outboundTag": "proxy"
+              },
+              {
+                "type": "field",
+                "domain": ["geosite:cn"],
+                "outboundTag": "direct"
+              }
+            ]
+          },
+          "outbounds": [
+            {
+              "protocol": "vless",
+              "tag": "proxy",
+              "settings": {
+                "vnext": [
+                  {
+                    "address": "${selectedLocation.xrayHost}",
+                    "port": 443,
+                    "users": [
+                      {
+                        "id": "${if (isPremium) userData.uuid else "e493f498-8794-40eb-88d4-3befb950743c"}",
+                        ${if (isPremium) "\"flow\": \"xtls-rprx-vision\", " else ""}
+                        "encryption": "none"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                  "fingerprint": "chrome",
+                  "serverName": "www.msu.ru",
+                  "publicKey": "${if (isPremium) userData.publicKey else selectedLocation.publicKey}",
+                  "shortId": "${if (isPremium) userData.shortId else selectedLocation.shortId}",
+                  "spiderX": "${if (isPremium) "" else "/"}"
+                }
+              }
+            },
+            {
+              "protocol": "freedom",
+              "tag": "direct"
+            },
+            {
+              "protocol": "blackhole",
+              "tag": "block"
+            }
+          ]
+        }
+    """.trimIndent()
+
+        val profileItem = CustomFmt.parse(hardcodedConfig)
+
+        if (profileItem != null) {
+            val guid = com.v2ray.ang.handler.MmkvManager.encodeServerConfig("", profileItem)
+            com.v2ray.ang.handler.MmkvManager.encodeServerRaw(guid, hardcodedConfig)
+            com.v2ray.ang.handler.MmkvManager.setSelectServer(guid)
+        }
     }
 
     TopAppBar(
