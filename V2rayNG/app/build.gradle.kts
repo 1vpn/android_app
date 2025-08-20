@@ -19,8 +19,8 @@ android {
         applicationId = "com.v2ray.ang"
         minSdk = 23
         targetSdk = 35
-        versionCode = 668
-        versionName = "1.10.18"
+        versionCode = 296
+        versionName = "2.1.0"
         multiDexEnabled = true
 
         buildConfigField(
@@ -132,8 +132,8 @@ android {
                     val abi = output.getFilter("ABI") ?: "universal"
                     output.outputFileName = "v2rayNG_${variant.versionName}-fdroid_${abi}.apk"
                     if (versionCodes.containsKey(abi)) {
-                        output.versionCodeOverride =
-                            (100 * variant.versionCode + versionCodes[abi]!!).plus(5000000)
+//                        output.versionCodeOverride =
+//                            (100 * variant.versionCode + versionCodes[abi]!!).plus(5000000)
                     } else {
                         return@forEach
                     }
@@ -152,8 +152,8 @@ android {
 
                     output.outputFileName = "v2rayNG_${variant.versionName}_${abi}.apk"
                     if (versionCodes.containsKey(abi)) {
-                        output.versionCodeOverride =
-                            (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
+//                        output.versionCodeOverride =
+//                            (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
                     } else {
                         return@forEach
                     }
