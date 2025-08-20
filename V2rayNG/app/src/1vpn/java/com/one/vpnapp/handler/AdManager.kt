@@ -16,7 +16,8 @@ object AdManager {
     private var interstitialAd: InterstitialAd? = null
 
     fun loadInterstitialAd(context: Context, isPremium: Boolean = false) {
-        if (isPremium) return
+        return
+//        if (isPremium) return
 
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(

@@ -79,7 +79,7 @@ android {
             resValue("string", "app_name", "v2rayNG")
             buildConfigField("String", "SOURCE", "\"v2rayng\"")
         }
-        create("onevpn") {
+        create("1vpn") {
             dimension = "source"
             applicationId = "com.one.vpnapp"
             resValue("string", "app_name", "1VPN")
@@ -101,9 +101,9 @@ android {
         getByName("main") {
             jniLibs.srcDirs("libs")
         }
-        getByName("onevpn") {
-            java.srcDirs("src/onevpn/java")
-            res.srcDirs("src/onevpn/res")
+        getByName("1vpn") {
+            java.srcDirs("src/1vpn/java")
+            res.srcDirs("src/1vpn/res")
         }
     }
 
