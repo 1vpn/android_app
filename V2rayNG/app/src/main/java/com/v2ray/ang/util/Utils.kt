@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.LocaleList
 import android.provider.Settings
 import android.text.Editable
@@ -432,7 +433,7 @@ object Utils {
      *
      * @return The system locale.
      */
-    fun getSysLocale(): Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    fun getSysLocale(): Locale = if (Build.VERSION.SDK_INT >= VERSION_CODES.N) {
         LocaleList.getDefault()[0]
     } else {
         Locale.getDefault()
@@ -502,7 +503,7 @@ object Utils {
      *
      * @return The receiver flags.
      */
-    fun receiverFlags(): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    fun receiverFlags(): Int = if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
         ContextCompat.RECEIVER_EXPORTED
     } else {
         ContextCompat.RECEIVER_NOT_EXPORTED
