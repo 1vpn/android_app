@@ -19,8 +19,8 @@ android {
         applicationId = "com.v2ray.ang"
         minSdk = 23
         targetSdk = 35
-        versionCode = 296
-        versionName = "2.1.0"
+        versionCode = 297
+        versionName = "2.1.1"
         multiDexEnabled = true
 
         buildConfigField(
