@@ -6,9 +6,6 @@ on:
       release_tag:
         required: false
         type: string
-  push:
-    branches:
-      - master
 
 jobs:
   build:
@@ -34,7 +31,7 @@ jobs:
           --channel=0 \
           --install "ndk;28.2.13676358"
         echo "NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358" >> $GITHUB_ENV
-        sed -i '10i\
+        sed -i '15i\
         \
             ndkVersion = "28.2.13676358"' ${{ github.workspace }}/V2rayNG/app/build.gradle.kts
 
