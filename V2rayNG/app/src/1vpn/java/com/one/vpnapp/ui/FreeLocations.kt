@@ -6,16 +6,16 @@ val freeLocations = listOf(
     Location(
         country = "Netherlands",
         countryCode = "nl",
-        xrayHost = "netherlands-x-free-1.technetcdn.com",
-        publicKey = "akDQRdTG9bZXxy8AFjmd-YIolKMFfUqBha7OvlfEUGY",
-        shortId = "86",
+        xrayHost = "netherlands-node-free-1.cloudwidecdn.com",
+        publicKey = "PryGoq51ilG0eLUPl9i0xCvmk1xpwkyFSr_tG4GNLlU",
+        shortId = "1d86d17709852910",
     ),
     Location(
         country = "USA West",
         countryCode = "usw",
-        xrayHost = "usa-west-x-free-1.technetcdn.com",
-        publicKey = "fYd_I_xhFfiGtG_EsQAJmue22112TYaX73bRUoF82D0",
-        shortId = "58",
+        xrayHost = "usa-west-node-free-1.cloudwidecdn.com",
+        publicKey = "PryGoq51ilG0eLUPl9i0xCvmk1xpwkyFSr_tG4GNLlU",
+        shortId = "1d86d17709852910",
     ),
     Location(
         country = "Australia",

@@ -61,8 +61,8 @@ fun setupServerConfig(selectedLocation: Location, userData: UserData?, isPremium
                     "port": 443,
                     "users": [
                       {
-                        "id": "${if (isPremium) userData?.uuid else "e493f498-8794-40eb-88d4-3befb950743c"}",
-                        ${if (isPremium) "\"flow\": \"xtls-rprx-vision\", " else ""}
+                        "id": "${if (isPremium) userData?.uuid else "44ae52b9-76fc-444d-8e43-186b4384b80a"}",
+                        "flow": "xtls-rprx-vision",
                         "encryption": "none"
                       }
                     ]
@@ -74,10 +74,10 @@ fun setupServerConfig(selectedLocation: Location, userData: UserData?, isPremium
                 "security": "reality",
                 "realitySettings": {
                   "fingerprint": "chrome",
-                  "serverName": "www.msu.ru",
+                  "serverName": "www.cloudflare.com",
                   "publicKey": "${if (isPremium) userData?.publicKey else selectedLocation.publicKey}",
                   "shortId": "${if (isPremium) userData?.shortId else selectedLocation.shortId}",
-                  "spiderX": "${if (isPremium) "" else "/"}"
+                  "spiderX": ""
                 }
               }
             },
