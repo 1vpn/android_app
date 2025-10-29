@@ -6,7 +6,6 @@ import com.one.vpnapp.model.Location
 import com.one.vpnapp.model.UserData
 
 fun setupServerConfig(selectedLocation: Location, userData: UserData?, isPremium: Boolean) {
-
     val config = """
         {
           "log": {
