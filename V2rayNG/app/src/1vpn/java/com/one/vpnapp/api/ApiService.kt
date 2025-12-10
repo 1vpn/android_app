@@ -34,7 +34,7 @@ interface ApiService {
     suspend fun signUp(@Body request: SignUpRequest): Response<UserData>
 
     @Headers("Content-Type: application/json", "Client-Type: app")
-    @POST("get_user_data/")
+    @POST("get_user_data_api/")
     suspend fun fetchUserData(
         @HeaderMap headers: Map<String, String>
     ): Response<UserData>
