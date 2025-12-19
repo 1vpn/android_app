@@ -12,7 +12,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email_optional">Email (optional)</string>
-    <string name="username_password_required">Username and password required</string>
+    <string name="email_password_required">Email and password required</string>
     <string name="have_an_account">Have an Account?</string>
     <string name="create_account">Create Account</string>
     <string name="forgot_password">Reset Password</string>

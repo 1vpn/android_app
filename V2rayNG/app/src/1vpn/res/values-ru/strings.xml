@@ -11,7 +11,7 @@
     <string name="username">Имя пользователя</string>
     <string name="password">Пароль</string>
     <string name="email_optional">Электронная почта (необязательно)</string>
-    <string name="username_password_required">Требуются имя пользователя и пароль</string>
+    <string name="email_password_required">Требуются электронная почта и пароль</string>
     <string name="have_an_account">Уже есть аккаунт?</string>
     <string name="create_account">Создать аккаунт</string>
     <string name="forgot_password">Сброс пароля</string>

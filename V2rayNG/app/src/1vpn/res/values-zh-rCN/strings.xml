@@ -11,7 +11,7 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="email_optional">电子邮箱（可选）</string>
-    <string name="username_password_required">用户名和密码为必填项</string>
+    <string name="email_password_required">需要邮箱和密码</string>
     <string name="have_an_account">已有账户？</string>
     <string name="create_account">创建账户</string>
     <string name="forgot_password">重置密码</string>

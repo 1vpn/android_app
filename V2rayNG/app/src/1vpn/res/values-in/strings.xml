@@ -11,7 +11,7 @@
     <string name="username">Nama Pengguna</string>
     <string name="password">Kata Sandi</string>
     <string name="email_optional">Email (opsional)</string>
-    <string name="username_password_required">Nama pengguna dan kata sandi diperlukan</string>
+    <string name="email_password_required">Email dan kata sandi diperlukan</string>
     <string name="have_an_account">Sudah punya akun?</string>
     <string name="create_account">Buat Akun</string>
     <string name="forgot_password">Setel Ulang Kata Sandi</string>

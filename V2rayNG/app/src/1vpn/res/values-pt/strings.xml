@@ -11,7 +11,7 @@
     <string name="username">Nome de usuário</string>
     <string name="password">Senha</string>
     <string name="email_optional">Email (opcional)</string>
-    <string name="username_password_required">Nome de usuário e senha obrigatórios</string>
+    <string name="email_password_required">E-mail e senha obrigatórios</string>
     <string name="have_an_account">Já tem uma conta?</string>
     <string name="create_account">Criar conta</string>
     <string name="forgot_password">Redefinir senha</string>

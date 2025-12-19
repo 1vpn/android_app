@@ -11,7 +11,7 @@
     <string name="username">Ім’я користувача</string>
     <string name="password">Пароль</string>
     <string name="email_optional">Електронна пошта (необов’язково)</string>
-    <string name="username_password_required">Потрібні ім’я користувача та пароль</string>
+    <string name="email_password_required">Потрібні електронна пошта та пароль</string>
     <string name="have_an_account">Вже маєте обліковий запис?</string>
     <string name="create_account">Створити обліковий запис</string>
     <string name="forgot_password">Скинути пароль</string>

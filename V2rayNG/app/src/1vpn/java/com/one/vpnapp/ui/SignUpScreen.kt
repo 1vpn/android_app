@@ -52,7 +52,7 @@ fun SignUpScreen(navController: NavController) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
-    val emailPasswordRequiredString = stringResource(R.string.username_password_required)
+    val emailPasswordRequiredString = stringResource(R.string.email_password_required)
     val enterValidEmailString = stringResource(R.string.enter_valid_email)
     val unknownErrorString = stringResource(R.string.unknown_error)
     val signUpErrorString = stringResource(R.string.sign_up_error)

@@ -11,7 +11,7 @@
     <string name="username">Kullanıcı Adı</string>
     <string name="password">Şifre</string>
     <string name="email_optional">E-posta (isteğe bağlı)</string>
-    <string name="username_password_required">Kullanıcı adı ve şifre gereklidir</string>
+    <string name="email_password_required">E-posta ve şifre gereklidir</string>
     <string name="have_an_account">Zaten bir hesabınız var mı?</string>
     <string name="create_account">Hesap Oluştur</string>
     <string name="forgot_password">Şifreyi Sıfırla</string>

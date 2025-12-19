@@ -11,7 +11,7 @@
     <string name="username">사용자 이름</string>
     <string name="password">비밀번호</string>
     <string name="email_optional">이메일 (선택사항)</string>
-    <string name="username_password_required">사용자 이름과 비밀번호가 필요합니다</string>
+    <string name="email_password_required">이메일과 비밀번호가 필요합니다</string>
     <string name="have_an_account">계정이 있으신가요?</string>
     <string name="create_account">계정 만들기</string>
     <string name="forgot_password">비밀번호 재설정</string>

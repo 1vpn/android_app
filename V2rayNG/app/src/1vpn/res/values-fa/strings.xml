@@ -11,7 +11,7 @@
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>
     <string name="email_optional">ایمیل (اختیاری)</string>
-    <string name="username_password_required">نام کاربری و رمز عبور الزامی است</string>
+    <string name="email_password_required">ایمیل و رمز عبور الزامی است</string>
     <string name="have_an_account">حساب کاربری دارید؟</string>
     <string name="create_account">ایجاد حساب کاربری</string>
     <string name="forgot_password">بازیابی رمز عبور</string>

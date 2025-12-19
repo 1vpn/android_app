@@ -11,7 +11,7 @@
     <string name="username">ชื่อผู้ใช้</string>
     <string name="password">รหัสผ่าน</string>
     <string name="email_optional">อีเมล (ไม่บังคับ)</string>
-    <string name="username_password_required">ต้องระบุชื่อผู้ใช้และรหัสผ่าน</string>
+    <string name="email_password_required">จำเป็นต้องใช้อีเมลและรหัสผ่าน</string>
     <string name="have_an_account">มีบัญชีอยู่แล้ว?</string>
     <string name="create_account">สร้างบัญชี</string>
     <string name="forgot_password">รีเซ็ตรหัสผ่าน</string>

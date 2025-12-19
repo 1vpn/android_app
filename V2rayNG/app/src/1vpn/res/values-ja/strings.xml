@@ -11,7 +11,7 @@
     <string name="username">ユーザー名</string>
     <string name="password">パスワード</string>
     <string name="email_optional">メールアドレス（任意）</string>
-    <string name="username_password_required">ユーザー名とパスワードが必要です</string>
+    <string name="email_password_required">メールアドレスとパスワードが必要です</string>
     <string name="have_an_account">アカウントをお持ちですか？</string>
     <string name="create_account">アカウントを作成</string>
     <string name="forgot_password">パスワードをリセット</string>

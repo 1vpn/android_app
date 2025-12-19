@@ -11,7 +11,7 @@
     <string name="username">Tên người dùng</string>
     <string name="password">Mật khẩu</string>
     <string name="email_optional">Email (không bắt buộc)</string>
-    <string name="username_password_required">Yêu cầu tên người dùng và mật khẩu</string>
+    <string name="email_password_required">Yêu cầu email và mật khẩu</string>
     <string name="have_an_account">Đã có tài khoản?</string>
     <string name="create_account">Tạo tài khoản</string>
     <string name="forgot_password">Đặt lại mật khẩu</string>

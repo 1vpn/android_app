@@ -11,7 +11,7 @@
     <string name="username">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
     <string name="email_optional">البريد الإلكتروني (اختياري)</string>
-    <string name="username_password_required">اسم المستخدم وكلمة المرور مطلوبان</string>
+    <string name="email_password_required">البريد الإلكتروني وكلمة المرور مطلوبان</string>
     <string name="have_an_account">هل لديك حساب؟</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="forgot_password">إعادة تعيين كلمة المرور</string>

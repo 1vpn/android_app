@@ -60,7 +60,7 @@ fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
-    val usernamePasswordRequiredMsg = stringResource(R.string.username_password_required)
+    val usernamePasswordRequiredMsg = stringResource(R.string.email_password_required)
     val loginSuccessfulString = stringResource(R.string.login_successful)
     val loginErrorString = stringResource(R.string.login_error)
     val unknownErrorString = stringResource(R.string.unknown_error)
