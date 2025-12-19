@@ -9,10 +9,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
@@ -29,6 +33,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.one.vpnapp.handler.MmkvManager
 import com.google.android.gms.ads.MobileAds
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 @OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
@@ -38,6 +44,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        window.statusBarColor = android.graphics.Color.WHITE
+        window.navigationBarColor = android.graphics.Color.WHITE
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true
+            isAppearanceLightNavigationBars = true
+        }
 
         MobileAds.initialize(this)
 
@@ -58,42 +72,50 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme(
-                colorScheme = lightColorScheme(),
+                colorScheme = lightColorScheme(
+                    background = Color.White,
+                    surface = Color.White
+                ),
                 typography = Typography()
             ) {
                 val navController = rememberNavController()
 
-                NavHost(
-                    navController = navController,
-                    startDestination = "main",
-                    enterTransition = {
-                        slideInHorizontally { it }
-                    },
-                    exitTransition = {
-                        slideOutHorizontally { -it }
-                    },
-                    popEnterTransition = {
-                        slideInHorizontally { -it }
-                    },
-                    popExitTransition = {
-                        slideOutHorizontally { it }
-                    }
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.White
                 ) {
-                    composable("main") {
-                        MainScreen(
-                            requestVpnPermission = { intent -> vpnPermissionLauncher.launch(intent) },
-                            isVpnOnState = isVpnOnState,
-                            navController = navController
-                        )
-                    }
-                    composable("login") {
-                        LoginScreen(navController = navController)
-                    }
-                    composable("signUp") {
-                        SignUpScreen(navController = navController)
-                    }
-                    composable("upgrade") {
-                        UpgradeScreen(navController = navController)
+                    NavHost(
+                        navController = navController,
+                        startDestination = "main",
+                        enterTransition = {
+                            slideInHorizontally { it }
+                        },
+                        exitTransition = {
+                            slideOutHorizontally { -it }
+                        },
+                        popEnterTransition = {
+                            slideInHorizontally { -it }
+                        },
+                        popExitTransition = {
+                            slideOutHorizontally { it }
+                        }
+                    ) {
+                        composable("main") {
+                            MainScreen(
+                                requestVpnPermission = { intent -> vpnPermissionLauncher.launch(intent) },
+                                isVpnOnState = isVpnOnState,
+                                navController = navController
+                            )
+                        }
+                        composable("login") {
+                            LoginScreen(navController = navController)
+                        }
+                        composable("signUp") {
+                            SignUpScreen(navController = navController)
+                        }
+                        composable("upgrade") {
+                            UpgradeScreen(navController = navController)
+                        }
                     }
                 }
             }
