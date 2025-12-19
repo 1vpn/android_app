@@ -52,7 +52,7 @@ import com.v2ray.ang.R
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var token by remember { mutableStateOf("") }
     var showTokenInput by remember { mutableStateOf(false) }
@@ -66,7 +66,7 @@ fun LoginScreen(navController: NavController) {
     val unknownErrorString = stringResource(R.string.unknown_error)
 
     fun handleSubmit() {
-        if (username.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || email.isEmpty()) {
             Toast.makeText(context, usernamePasswordRequiredMsg, Toast.LENGTH_SHORT).show()
             return
         }
@@ -74,9 +74,9 @@ fun LoginScreen(navController: NavController) {
         coroutineScope.launch {
             try {
                 val loginRequest = if (token.isNotEmpty()) {
-                    LoginRequest(username, password, token)
+                    LoginRequest(email, password, token)
                 } else {
-                    LoginRequest(username, password)
+                    LoginRequest(email, password)
                 }
                 val response = RetrofitClient.apiService.login(loginRequest)
                 if (response.isSuccessful) {
@@ -86,7 +86,7 @@ fun LoginScreen(navController: NavController) {
                     }
                     Toast.makeText(context, loginSuccessfulString, Toast.LENGTH_SHORT).show()
 
-                    Purchases.sharedInstance.logIn(username)
+                    Purchases.sharedInstance.logIn(email)
 
                     MmkvManager.removeSelectedLocation()
                     V2RayServiceManager.stopVService(context)
@@ -137,9 +137,9 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.padding(top = 24.dp)
         )
         ReusableOutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            labelText = stringResource(R.string.username),
+            value = email,
+            onValueChange = { email = it },
+            labelText = stringResource(R.string.email),
             imeAction = ImeAction.Next,
             onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
         )

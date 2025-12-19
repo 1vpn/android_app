@@ -118,7 +118,6 @@ fun AccountDialog(
 ) {
     val context = LocalContext.current
     val options = listOf(
-        stringResource(R.string.username) to (userData?.username ?: "N/A"),
         stringResource(R.string.email) to (if (userData?.email.isNullOrEmpty()) stringResource(R.string.no_email) else userData.email),
         stringResource(R.string.plan) to (if (userData?.isPremium == true) stringResource(R.string.premium) else stringResource(
             R.string.free

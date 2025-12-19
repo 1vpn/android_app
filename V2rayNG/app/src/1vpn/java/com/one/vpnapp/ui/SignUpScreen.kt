@@ -46,24 +46,23 @@ import com.v2ray.ang.R
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
-    val usernamePasswordRequiredString = stringResource(R.string.username_password_required)
+    val emailPasswordRequiredString = stringResource(R.string.username_password_required)
     val enterValidEmailString = stringResource(R.string.enter_valid_email)
     val unknownErrorString = stringResource(R.string.unknown_error)
     val signUpErrorString = stringResource(R.string.sign_up_error)
     val signUpSuccessfulString = stringResource(R.string.sign_up_successful)
 
     fun handleSubmit() {
-        if (username.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(
                 context,
-                usernamePasswordRequiredString,
+                emailPasswordRequiredString,
                 Toast.LENGTH_SHORT
             ).show()
             return
@@ -79,9 +78,8 @@ fun SignUpScreen(navController: NavController) {
             try {
                 val customerInfo = Purchases.sharedInstance.awaitCustomerInfo()
                 val signUpRequest = SignUpRequest(
-                    username = username,
-                    password = password,
                     email = email,
+                    password = password,
                     revenuecat_id = customerInfo.originalAppUserId
                 )
 
@@ -92,7 +90,7 @@ fun SignUpScreen(navController: NavController) {
                     }
                     Toast.makeText(context, signUpSuccessfulString, Toast.LENGTH_SHORT).show()
 
-                    Purchases.sharedInstance.logIn(username)
+                    Purchases.sharedInstance.logIn(email)
 
                     MmkvManager.removeSelectedLocation()
                     V2RayServiceManager.stopVService(context)
@@ -138,9 +136,9 @@ fun SignUpScreen(navController: NavController) {
             modifier = Modifier.padding(top = 24.dp)
         )
         ReusableOutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            labelText = stringResource(R.string.username),
+            value = email,
+            onValueChange = { email = it },
+            labelText = stringResource(R.string.email),
             imeAction = androidx.compose.ui.text.input.ImeAction.Next,
             onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
         )
@@ -152,17 +150,6 @@ fun SignUpScreen(navController: NavController) {
             keyboardType = androidx.compose.ui.text.input.KeyboardType.Password,
             visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
             onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
-        )
-        ReusableOutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            labelText = stringResource(R.string.email_optional),
-            imeAction = androidx.compose.ui.text.input.ImeAction.Done,
-            keyboardType = androidx.compose.ui.text.input.KeyboardType.Email,
-            onImeAction = {
-                focusManager.clearFocus()
-                handleSubmit()
-            }
         )
         Button(
             onClick = { handleSubmit() },

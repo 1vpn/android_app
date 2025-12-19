@@ -8,15 +8,14 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 data class LoginRequest(
-    val username: String,
+    val email: String,
     val password: String,
     val token: String? = null
 )
 
 data class SignUpRequest(
-    val username: String,
-    val password: String,
     val email: String,
+    val password: String,
     val revenuecat_id: String? = null
 )
 
