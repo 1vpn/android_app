@@ -65,7 +65,7 @@ fun MainScreen(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo",
                 tint = Color.Unspecified,
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
             )
         },
         actions = {
@@ -75,7 +75,7 @@ fun MainScreen(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null
                     ) { showMenuDialog = true }
-                    .padding(horizontal = 24.dp, vertical = 4.dp)
+                    .padding(horizontal = 24.dp, vertical = 12.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.menu),
