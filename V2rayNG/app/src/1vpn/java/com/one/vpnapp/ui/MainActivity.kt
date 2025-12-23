@@ -1,7 +1,9 @@
 package com.one.vpnapp.ui
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -17,6 +19,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
+import com.v2ray.ang.util.Utils
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
@@ -25,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.revenuecat.purchases.Purchases
 import com.one.vpnapp.api.RetrofitClient
 import com.one.vpnapp.model.Location
+import com.v2ray.ang.AppConfig
 import com.v2ray.ang.handler.V2RayServiceManager
 import com.v2ray.ang.service.V2RayVpnService
 import com.one.vpnapp.util.VpnServiceUtil
@@ -41,6 +46,39 @@ class MainActivity : ComponentActivity() {
 
     private val isVpnOnState = mutableStateOf(false)
     private lateinit var vpnPermissionLauncher: ActivityResultLauncher<Intent>
+
+    private val v2rayStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.getIntExtra("key", 0)) {
+                AppConfig.MSG_STATE_RUNNING,
+                AppConfig.MSG_STATE_START_SUCCESS -> isVpnOnState.value = true
+
+                AppConfig.MSG_STATE_NOT_RUNNING,
+                AppConfig.MSG_STATE_STOP_SUCCESS,
+                AppConfig.MSG_STATE_START_FAILURE -> isVpnOnState.value = false
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        try {
+            val filter = IntentFilter(AppConfig.BROADCAST_ACTION_ACTIVITY)
+            ContextCompat.registerReceiver(this, v2rayStateReceiver, filter, Utils.receiverFlags())
+        } catch (_: Exception) {
+            // no-op
+        }
+        isVpnOnState.value = VpnServiceUtil.isVpnServiceRunning(this, V2RayVpnService::class.java)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        try {
+            unregisterReceiver(v2rayStateReceiver)
+        } catch (_: Exception) {
+            // no-op
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
