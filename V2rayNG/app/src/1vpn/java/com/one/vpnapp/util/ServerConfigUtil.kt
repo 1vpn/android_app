@@ -95,6 +95,7 @@ fun setupServerConfig(selectedLocation: Location, userData: UserData?, isPremium
     val profileItem = CustomFmt.parse(config)
 
     if (profileItem != null) {
+        profileItem.remarks = "1VPN"
         val guid = MmkvManager.encodeServerConfig("", profileItem)
         MmkvManager.encodeServerRaw(guid, config)
         MmkvManager.setSelectServer(guid)
