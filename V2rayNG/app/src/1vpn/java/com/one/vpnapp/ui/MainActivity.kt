@@ -165,7 +165,7 @@ fun getAvailableLocations(): List<Location> {
     val userData = MmkvManager.getUserData()
 
     return if (userData != null && userData.isPremium && userData.locations.isNotEmpty()) {
-        userData.locations
+        userData.locations.filter { it.xrayHost != null }
     } else {
         freeLocations
     }

@@ -48,7 +48,15 @@ cp -r hysteria/libs/* V2rayNG/app/libs/
 
 ## 5. App
 
+**Debug (install on device):**
 ```bash
 cd V2rayNG
 ./gradlew :app:install1vpnPlaystoreDebug
 ```
+
+**Prod (release APK):**
+```bash
+cd V2rayNG
+./gradlew :app:assemble1vpnPlaystoreRelease
+```
+APKs: `V2rayNG/app/build/outputs/apk/1vpnPlaystore/release/`. Signing: configure in `app/build.gradle.kts` or pass `-Pandroid.injected.signing.*` (see CI workflow).
