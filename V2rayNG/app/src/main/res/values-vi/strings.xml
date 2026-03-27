@@ -6,6 +6,7 @@
     <string name="navigation_drawer_open">Mở Menu ứng dụng</string>
     <string name="navigation_drawer_close">Đóng Menu ứng dụng</string>
     <string name="migration_success">Đã chuyển dữ liệu!</string>
+    <string name="action_stop_service">Stop service</string>
     <string name="migration_fail">Không thể chuyển dữ liệu!</string>
     <string name="pull_down_to_refresh">Please pull down to refresh!</string>
 
@@ -23,10 +24,12 @@
     <string name="title_server">v2rayNG</string>
     <string name="menu_item_add_config">Thêm cấu hình</string>
     <string name="menu_item_save_config">Lưu cấu hình</string>
+    <string name="menu_item_edit_config">Edit configuration</string>
     <string name="menu_item_del_config">Xoá cấu hình</string>
     <string name="menu_item_import_config_qrcode">Nhập cấu hình từ mã QR</string>
     <string name="menu_item_import_config_clipboard">Nhập cấu hình từ Clipboard</string>
     <string name="menu_item_import_config_local">Import config from locally</string>
+    <string name="menu_item_import_config_policy_group">Add [Policy group]</string>
     <string name="menu_item_import_config_manually_vmess">Nhập thủ công [VMess]</string>
     <string name="menu_item_import_config_manually_vless">Nhập thủ công [VLESS]</string>
     <string name="menu_item_import_config_manually_ss">Nhập thủ công [ShadowSocks]</string>
@@ -105,11 +108,13 @@
     <string name="server_obfs_password">Obfs password</string>
     <string name="server_lab_port_hop">Port Hopping</string>
     <string name="server_lab_port_hop_interval">Port Hopping Interval</string>
-    <string name="server_lab_stream_pinsha256">pinSHA256</string>
-    <string name="server_lab_bandwidth_down">Bandwidth down (units)</string>
-    <string name="server_lab_bandwidth_up">Bandwidth up (units)</string>
+    <string name="server_lab_bandwidth_down">Bandwidth down (Supported units: k/m/g/t)</string>
+    <string name="server_lab_bandwidth_up">Bandwidth up (Supported units: k/m/g/t)</string>
     <string name="server_lab_xhttp_mode">XHTTP Mode</string>
     <string name="server_lab_xhttp_extra">XHTTP Extra raw JSON, format: { XHTTPObject }</string>
+    <string name="server_lab_ech_config_list">EchConfigList</string>
+    <string name="server_lab_ech_force_query">EchForceQuery</string>
+    <string name="server_lab_pinned_ca256">Certificate fingerprint (SHA-256)</string>
 
     <!-- UserAssetActivity -->
     <string name="toast_asset_copy_failed">Không thể sao chép tệp tin, hãy dùng trình quản lý tệp!</string>
@@ -126,6 +131,7 @@
     <string name="msg_dialog_progress">Đang tải...</string>
     <string name="menu_item_search">Tìm kiếm</string>
     <string name="menu_item_select_all">Chọn tất cả</string>
+    <string name="menu_item_invert_selection">Đảo chọn</string>
     <string name="msg_enter_keywords">Nhập từ khoá</string>
     <string name="switch_bypass_apps_mode">Chế độ Bypass</string>
     <string name="menu_item_select_proxy_app">Tự động chọn ứng dụng Proxy</string>
@@ -145,6 +151,11 @@
     <string name="summary_pref_per_app_proxy">- Bình thường: Ứng dụng đã chọn sẽ kết nối thông qua Proxy, chưa chọn sẽ kết nối trực tiếp. \n- Chế độ Bypass: Ứng dụng đã chọn sẽ kết nối trực tiếp, chưa chọn sẽ kết nối qua Proxy. \n- Nếu bạn đang ở Trung Quốc thì vào Menu, chọn Tự động chọn ứng dụng Proxy.</string>
     <string name="title_pref_is_booted">Auto connect at startup</string>
     <string name="summary_pref_is_booted">Automatically connects to the selected server at startup, which may be unsuccessful</string>
+
+    <string name="title_pref_auto_remove_invalid_after_test">Auto delete invalid config after testing</string>
+    <string name="summary_pref_auto_remove_invalid_after_test">Test results may not be accurate; deleted config cannot be recovered.</string>
+    <string name="title_pref_auto_sort_after_test">Auto sort after testing</string>
+    <string name="summary_pref_auto_sort_after_test">Test results may not be accurate;</string>
 
     <string name="title_mux_settings">Cài đặt Mux</string>
     <string name="title_pref_mux_enabled">Bật Mux</string>
@@ -192,8 +203,11 @@
     <string name="title_pref_dns_hosts">DNS hosts (Format: domain:address,…)</string>
     <string name="summary_pref_dns_hosts">domain:address,…</string>
 
-    <string name="title_pref_delay_test_url">URL kiểm tra độ trễ thực (HTTP / HTTPS)</string>
+    <string name="title_pref_delay_test_url">URL kiểm tra độ trễ thực </string>
     <string name="summary_pref_delay_test_url">URL</string>
+
+    <string name="title_pref_ip_api_url">Current connection info test url</string>
+    <string name="summary_pref_ip_api_url">Url</string>
 
     <string name="title_pref_proxy_sharing_enabled">Cho phép kết nối từ mạng LAN</string>
     <string name="summary_pref_proxy_sharing_enabled">Các thiết bị khác trong cùng mạng LAN có thể kết nối đến SOCKS / HTTP proxy trên thiết bị của bạn. \nChỉ bật tính năng này trong các mạng đáng tin cậy để tránh kết nối trái phép.</string>
@@ -220,6 +234,8 @@
     <string name="title_pref_double_column_display">Enable double column display</string>
     <string name="summary_pref_double_column_display">The profile list is displayed in double columns, allowing more content to be displayed on the screen. You need to restart the application to take effect.</string>
 
+    <string name="title_pref_group_all_display">Enable show all groups</string>
+    <string name="summary_pref_group_all_display">Add an extra "All Tabs" page</string>
     <!-- AboutActivity -->
     <string name="title_pref_feedback">Phản hồi lỗi</string>
     <string name="summary_pref_feedback">Phản hồi cải tiến hoặc lỗi lên GitHub</string>
@@ -231,12 +247,7 @@
     <string name="title_source_code">Mã nguồn</string>
     <string name="title_oss_license">Open Source licenses</string>
     <string name="title_tg_channel">Kênh Telegram</string>
-    <string name="title_configuration_backup">Sao lưu cấu hình</string>
-    <string name="summary_configuration_backup">Nơi lưu trữ: [%s], bản backup sẽ được dọn dẹp sau khi xóa ứng dụng hoặc xóa bộ nhớ.</string>
-    <string name="title_configuration_restore">Khôi phục cấu hình</string>
-    <string name="title_configuration_share">Chia sẻ cấu hình</string>
     <string name="title_pref_promotion">Quảng bá server</string>
-    <string name="summary_pref_promotion">Quảng cáo, nhấn để biết thêm (Ủng hộ có thể được gỡ bỏ)</string>
 
     <string name="title_pref_auto_update_subscription">Tự động cập nhật các gói đăng ký</string>
     <string name="summary_pref_auto_update_subscription">Tự động cập nhật các gói đăng ký của bạn ở trong nền với khoảng thời gian cố định. Tùy thiết bị, tính năng này có thể không luôn hoạt động đúng như mong đợi.</string>
@@ -249,10 +260,10 @@
     <string name="title_language">Ngôn ngữ</string>
     <string name="title_ui_settings">Cài đặt UI</string>
     <string name="title_pref_ui_mode_night">Cài đặt chế độ UI</string>
-    <string name="title_pref_use_hev_tunnel">Enable New TUN Feature</string>
-    <string name="summary_pref_use_hev_tunnel">When enabled, TUN will use hev-socks5-tunnel; otherwise, it will use badvpn-tun2socks.</string>
+    <string name="title_pref_use_hev_tunnel">Enable Hev TUN Feature</string>
+    <string name="summary_pref_use_hev_tunnel">When enabled, TUN will use hev-socks5-tunnel; otherwise, it will use xray-core.</string>
     <string name="title_pref_hev_tunnel_loglevel">Hev Tun Log Level</string>
-    <string name="title_pref_hev_tunnel_rw_timeout">Hev Tun Read/Write Timeout (ms, default 300000)</string>
+    <string name="title_pref_hev_tunnel_rw_timeout">Hev Tun read/write timeout (seconds) (tcp,udp default 300,60)</string>
 
     <string name="title_logcat">Logcat</string>
     <string name="logcat_copy">Sao chép</string>
@@ -265,6 +276,7 @@
     <string name="title_sub_setting">Các gói đăng ký</string>
     <string name="sub_setting_remarks">Tên gói đăng ký</string>
     <string name="sub_setting_url">URL gói đăng ký</string>
+    <string name="sub_setting_user_agent">User Agent</string>
     <string name="sub_setting_filter">Remarks regular filter</string>
     <string name="sub_setting_enable">Sử dụng gói đăng ký này</string>
     <string name="sub_auto_update">Bật tự động cập nhật</string>
@@ -275,17 +287,20 @@
     <string name="title_sub_update">Cập nhật các gói đăng ký</string>
     <string name="title_ping_all_server">Ping tất cả máy chủ</string>
     <string name="title_real_ping_all_server">Kiểm tra HTTP tất cả máy chủ</string>
-    <string name="title_create_intelligent_selection_all_server">Creating Intelligent Selection Current Group Configuration</string>
     <string name="title_user_asset_setting">Asset files</string>
     <string name="title_sort_by_test_results">Sắp xếp lại theo lần kiểm tra cuối cùng</string>
     <string name="title_filter_config">Lọc cấu hình theo các gói đăng ký</string>
-    <string name="filter_config_all">Hiển thị tất cả các gói đăng ký</string>
+    <string name="filter_config_all">All</string>
     <string name="title_del_duplicate_config_count">Xoá %d cấu hình trùng lặp</string>
 
     <string name="title_del_config_count">Delete %d configurations</string>
     <string name="title_import_config_count">Import %d configurations</string>
     <string name="title_export_config_count">Export %d configurations</string>
     <string name="title_update_config_count">Update %d configurations</string>
+    <string name="title_update_subscription_result">Updated %1$d configs (%2$d success, %3$d failed, %4$d skipped)</string>
+    <string name="title_update_subscription_no_subscription">No subscriptions</string>
+    <string name="toast_server_not_found_in_group">Selected server not found in current group</string>
+    <string name="toast_fragment_not_available">Unable to locate current view</string>
     <string name="tasker_start_service">Khởi động v2rayNG</string>
     <string name="tasker_setting_confirm">Xác nhận</string>
 
@@ -313,6 +328,7 @@
     <string name="connection_test_error_status_code">Mã lỗi: #%d</string>
     <string name="connection_connected">Đã kết nối, nhấn để kiểm tra kết nối mạng!</string>
     <string name="connection_not_connected">Chưa kết nối</string>
+    <string name="connection_runing_task_left">Number of running test tasks: %s</string>
 
     <string name="import_subscription_success">Nhập gói đăng ký thành công!</string>
     <string name="import_subscription_failure">Nhập gói đăng ký không thành công!</string>
@@ -329,6 +345,22 @@
     <string name="update_now">Update now</string>
     <string name="update_check_pre_release">Check Pre-release</string>
     <string name="update_checking_for_update">Checking for update…</string>
+
+    <string name="title_policy_group_type">Policy group type</string>
+    <string name="title_policy_group_subscription_id">From subscription group</string>
+    <string name="title_policy_group_subscription_filter">Remarks regular filter</string>
+
+    <!-- BackupActivity -->
+    <string name="title_configuration_backup_restore">Backup &amp; Restore</string>
+    <string name="title_configuration_backup">Sao lưu cấu hình</string>
+    <string name="title_configuration_restore">Khôi phục cấu hình</string>
+    <string name="title_configuration_share">Chia sẻ cấu hình</string>
+    <string name="title_webdav_config_setting">WebDAV Settings</string>
+    <string name="title_webdav_config_setting_unknown">Please configure WebDAV first.</string>
+    <string name="title_webdav_url">WebDAV server URL</string>
+    <string name="title_webdav_user">Username</string>
+    <string name="title_webdav_pass">Password</string>
+    <string name="title_webdav_remote_path">Remote directory (optional)</string>
 
     <string-array name="share_method">
         <item>Xuất ra mã QR (Chụp màn hình để lưu)</item>
@@ -372,13 +404,16 @@
         <item>Resolve and add to DNS Hosts</item>
         <item>Resolve and replace domain</item>
     </string-array>
-    <string name="intelligent_selection">Intelligent Selection</string>
-    <string name="sub_setting_intelligent_selection_filter">Remarks Intelligent Selection regular filter</string>
-    <string name="title_intelligent_selection_method">Intelligent Selection Method</string>
-    <string-array name="intelligent_selection_method">
+    <string-array name="policy_group_type">
         <item>Least Ping</item>
         <item>Least Load</item>
+        <item>Random</item>
+        <item>Round Robin</item>
     </string-array>
-    <string name="pre_resolving_domain">Pre-resolving domain…</string>
+
+    <string-array name="config_backup_options">
+        <item>Local</item>
+        <item>WebDAV</item>
+    </string-array>
 
 </resources>

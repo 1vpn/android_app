@@ -8,14 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.PerAppProxyActivity">
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/pb_waiting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:indicatorColor="@color/color_fab_active" />
-
     <LinearLayout
         android:id="@+id/header_view"
         android:layout_width="match_parent"
@@ -49,7 +41,6 @@
                         android:maxLines="2"
                         android:text="@string/per_app_proxy_settings_enable"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/colorAccent"
                         app:theme="@style/BrandedSwitch" />
 
                 </LinearLayout>
@@ -69,7 +60,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/switch_bypass_apps_mode"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/colorAccent"
                         app:theme="@style/BrandedSwitch" />
 
                     <LinearLayout
@@ -78,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
+                        android:contentDescription="@string/switch_bypass_apps_mode"
                         android:focusable="true"
                         android:gravity="center"
                         android:padding="@dimen/padding_spacing_dp8">
@@ -85,6 +76,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_about_24dp" />
 
                     </LinearLayout>

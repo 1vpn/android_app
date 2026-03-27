@@ -6,6 +6,7 @@
     <string name="navigation_drawer_open">باز کردن منو کشویی</string>
     <string name="navigation_drawer_close">بستن منو کشویی</string>
     <string name="migration_success">موفقیت در انتقال داده</string>
+    <string name="action_stop_service">توقف کردن سرویس</string>
     <string name="migration_fail">انتقال داده انجام نشد!</string>
     <string name="pull_down_to_refresh">لطفاً برای تازه کردن، پایین بکشید!</string>
 
@@ -23,10 +24,12 @@
     <string name="title_server">فایل کانفیگ</string>
     <string name="menu_item_add_config">افزودن کانفیگ</string>
     <string name="menu_item_save_config">ذخیره کانفیگ</string>
+    <string name="menu_item_edit_config">ویرایش کردن کانفیگ</string>
     <string name="menu_item_del_config">حذف کانفیگ</string>
     <string name="menu_item_import_config_qrcode">کانفیگ را از QRcode وارد کنید</string>
     <string name="menu_item_import_config_clipboard">کانفیگ را از کلیپ ‌بورد وارد کنید</string>
     <string name="menu_item_import_config_local">کانفیگ را از محلی وارد کنید</string>
+    <string name="menu_item_import_config_policy_group">اضافه کردن [گروه خط مشی]</string>
     <string name="menu_item_import_config_manually_vmess">تایپ دستی[VMESS]</string>
     <string name="menu_item_import_config_manually_vless">تایپ دستی[VLESS]</string>
     <string name="menu_item_import_config_manually_ss">تایپ دستی[SHADOWSOCKS]</string>
@@ -105,11 +108,13 @@
     <string name="server_obfs_password">رمز عبور obfs</string>
     <string name="server_lab_port_hop">پورت پرش (درگاه سرور را بازنویسی می کند)</string>
     <string name="server_lab_port_hop_interval">فاصله پورت پرش (ثانیه)</string>
-    <string name="server_lab_stream_pinsha256">pinSHA256</string>
     <string name="server_lab_bandwidth_down">کاهش پهنای باند (واحد)</string>
     <string name="server_lab_bandwidth_up">افزایش پهنای باند (واحد)</string>
     <string name="server_lab_xhttp_mode">حالت XHTTP</string>
     <string name="server_lab_xhttp_extra">خام JSON XHTTP Extra، قالب: { XHTTPObject }</string>
+    <string name="server_lab_ech_config_list">لیست کانفیگ Ech</string>
+    <string name="server_lab_ech_force_query">EchForceQuery</string>
+    <string name="server_lab_pinned_ca256">Certificate fingerprint (SHA-256)</string>
 
     <!-- UserAssetActivity -->
     <string name="toast_asset_copy_failed">کپی فایل انجام نشد، لطفا از برنامه مدیریت فایل استفاده کنید</string>
@@ -126,7 +131,8 @@
     <string name="msg_dialog_progress">بارگذاری</string>
     <string name="menu_item_search">جستجو</string>
     <string name="menu_item_select_all">انتخاب همه</string>
-    <string name="msg_enter_keywords">کلیدواژه‌ ها را وارد کنید</string>
+    <string name="menu_item_invert_selection">Invert selection</string>
+    <string name="msg_enter_keywords">کلمه ی کلیدی را وارد نمایید</string>
     <string name="switch_bypass_apps_mode">حالت دور زدن</string>
     <string name="menu_item_select_proxy_app">انتخاب خودکار پروکسی برنامه</string>
     <string name="msg_downloading_content">در حال دانلود محتوا</string>
@@ -144,6 +150,11 @@
     <string name="summary_pref_per_app_proxy">عمومی: برنامه انتخاب شده از طریق یک پروکسی متصل می شود، برنامه انتخاب نشده مستقیماً متصل می شود. \nحالت دور زدن: برنامه انتخاب شده مستقیماً متصل می شود، برنامه انتخاب نشده از طریق یک پروکسی متصل می شود. \nانتخاب خودکار برنامه های پراکسی در منو امکان پذیر است.</string>
     <string name="title_pref_is_booted">اتصال خودکار هنگام راه اندازی</string>
     <string name="summary_pref_is_booted">هنگام راه اندازی به طور خودکار به سرور انتخابی متصل می شود که ممکن است ناموفق باشد.</string>
+
+    <string name="title_pref_auto_remove_invalid_after_test">Auto delete invalid config after testing</string>
+    <string name="summary_pref_auto_remove_invalid_after_test">Test results may not be accurate; deleted config cannot be recovered.</string>
+    <string name="title_pref_auto_sort_after_test">Auto sort after testing</string>
+    <string name="summary_pref_auto_sort_after_test">Test results may not be accurate;</string>
 
     <string name="title_mux_settings">تنظیمات MUX</string>
     <string name="title_pref_mux_enabled">فعال کردن MUX</string>
@@ -190,8 +201,11 @@
     <string name="title_pref_dns_hosts">DNS مستقیم هاست (فرمت: دامنه:آدرس،…)</string>
     <string name="summary_pref_dns_hosts">دامنه:آدرس،…</string>
 
-    <string name="title_pref_delay_test_url">آدرس اینترنتی آزمایش تاخیر واقعی کانفیگ ها (HTTP/HTTPS)</string>
+    <string name="title_pref_delay_test_url">آدرس اینترنتی آزمایش تاخیر واقعی کانفیگ ها </string>
     <string name="summary_pref_delay_test_url">URL</string>
+
+    <string name="title_pref_ip_api_url">تست اطلاعات اتصال فعلی url</string>
+    <string name="summary_pref_ip_api_url">Url</string>
 
     <string name="title_pref_proxy_sharing_enabled">اجازه اتصالات از طریق شبکه محلی</string>
     <string name="summary_pref_proxy_sharing_enabled">سایر دستگاه ها می توانند با استفاده از آدرس آیپی شما برای استفاده از یک پروکسی محلی متصل شوند. فقط در یک شبکه قابل اعتماد برای جلوگیری از اتصالات غیرمجاز استفاده کنید.</string>
@@ -218,6 +232,8 @@
     <string name="title_pref_double_column_display">فعال کردن نمایش دو ستون</string>
     <string name="summary_pref_double_column_display">لیست نمایه در دو ستون نمایش داده می شود و امکان نمایش محتوای بیشتری را بر روی صفحه نمایش می دهد. برای اجرا باید برنامه را مجددا راه اندازی کنید.</string>
 
+    <string name="title_pref_group_all_display">Enable show all groups</string>
+    <string name="summary_pref_group_all_display">Add an extra "All Tabs" page</string>
     <!-- AboutActivity -->
     <string name="title_pref_feedback">بازخورد</string>
     <string name="summary_pref_feedback">بازخورد یا گزارش اشکالات در گیت‌ هاب</string>
@@ -229,12 +245,7 @@
     <string name="title_source_code">کد منبع</string>
     <string name="title_oss_license">مجوز های منبع باز</string>
     <string name="title_tg_channel">کانال تلگرام</string>
-    <string name="title_configuration_backup">پشتیبان گیری از پیکربندی</string>
-    <string name="summary_configuration_backup">محل ذخیره سازی: [%s], پس از حذف نصب برنامه یا پاک کردن فضای ذخیره سازی، نسخه پشتیبان پاک می شود</string>
-    <string name="title_configuration_restore">بازیابی پیکربندی</string>
-    <string name="title_configuration_share">اشتراک گذاری پیکربندی</string>
     <string name="title_pref_promotion">تبلیغات</string>
-    <string name="summary_pref_promotion">تبلیغات، برای جزئیات بیشتر کلیک کنید (کمک مالی کنید تا حذف شود)</string>
 
     <string name="title_pref_auto_update_subscription">به‌ روزرسانی خودکار اشتراک ها</string>
     <string name="summary_pref_auto_update_subscription">اشتراک های خود را به طور خودکار با فاصله زمانی در پس زمینه به روز کنید. بسته به دستگاه، این ویژگی ممکن است همیشه کار نکند.</string>
@@ -246,10 +257,10 @@
     <string name="title_language">زبان</string>
     <string name="title_ui_settings">تنظیمات رابط کاربری</string>
     <string name="title_pref_ui_mode_night">تنظیمات حالت رابط کاربری</string>
-    <string name="title_pref_use_hev_tunnel">فعالسازی قابلیت TUN جدید</string>
-    <string name="summary_pref_use_hev_tunnel">در صورت فعال بودن، TUN از hev-socks5-tunnel استفاده می‌کند؛ در غیر این صورت از badvpn-tun2socks.</string>
+    <string name="title_pref_use_hev_tunnel">Enable Hev TUN Feature</string>
+    <string name="summary_pref_use_hev_tunnel">When enabled, TUN will use hev-socks5-tunnel; otherwise, it will use xray-core.</string>
     <string name="title_pref_hev_tunnel_loglevel">سطح گزارشات Hev Tun</string>
-    <string name="title_pref_hev_tunnel_rw_timeout">زمان انتظار خواندن/نوشتن (میلی‌ثانیه، پیش‌فرض ۳۰۰۰۰۰) Hev Tun</string>
+    <string name="title_pref_hev_tunnel_rw_timeout">زمان انتظار خواندن/نوشتن Hev Tun (ثانیه) (پیش‌فرض tcp,udp 300،60)</string>
 
     <string name="title_logcat">گزارشات</string>
     <string name="logcat_copy">کپی</string>
@@ -262,6 +273,7 @@
     <string name="title_sub_setting">تنظیمات گروه‌ اشتراک</string>
     <string name="sub_setting_remarks">ملاحظات</string>
     <string name="sub_setting_url">نشانی اینترنتی اختیاری</string>
+    <string name="sub_setting_user_agent">User Agent</string>
     <string name="sub_setting_filter">نام مستعار فیلتر</string>
     <string name="sub_setting_enable">فعال کردن به‌روزرسانی</string>
     <string name="sub_auto_update">فعال سازی به‌روزرسانی خودکار</string>
@@ -272,17 +284,20 @@
     <string name="title_sub_update">به‌روزرسانی گروه فعلی اشتراک</string>
     <string name="title_ping_all_server">TCPING کانفیگ های گروه فعلی</string>
     <string name="title_real_ping_all_server">تاخیر واقعی کانفیگ های گروه فعلی</string>
-    <string name="title_create_intelligent_selection_all_server">ایجاد کانفیگ انتخاب هوشمند برای گروه فعلی</string>
     <string name="title_user_asset_setting">فایل های منبع جغرافیایی</string>
     <string name="title_sort_by_test_results">مرتب‌ سازی بر اساس نتایج آزمایش</string>
     <string name="title_filter_config">فیلتر کردن کانفیگ‌ها</string>
-    <string name="filter_config_all">همه گروه‌های اشتراک</string>
+    <string name="filter_config_all">All</string>
     <string name="title_del_duplicate_config_count">حذف %d کانفیگ تکراری</string>
 
     <string name="title_del_config_count">حذف %d کانفیگ</string>
     <string name="title_import_config_count">وارد کردن %d کانفیگ</string>
     <string name="title_export_config_count">صادر کردن %d کانفیگ</string>
     <string name="title_update_config_count">آپدیت کردن %d کانفیگ</string>
+    <string name="title_update_subscription_result">Updated %1$d configs (%2$d success, %3$d failed, %4$d skipped)</string>
+    <string name="title_update_subscription_no_subscription">No subscriptions</string>
+    <string name="toast_server_not_found_in_group">Selected server not found in current group</string>
+    <string name="toast_fragment_not_available">Unable to locate current view</string>
     <string name="tasker_start_service">شروع خدمات</string>
     <string name="tasker_setting_confirm">تایید</string>
 
@@ -318,6 +333,7 @@
     <string name="connection_test_error_status_code">کد خطا: #%d</string>
     <string name="connection_connected">متصل است، برای بررسی اتصال ضربه بزنید</string>
     <string name="connection_not_connected">متصل نیست</string>
+    <string name="connection_runing_task_left">تعداد وظایف آزمایشی در حال اجرا: %s</string>
 
     <string name="import_subscription_success">اشتراک با موفقیت ذخیره شد</string>
     <string name="import_subscription_failure">ذخیره اشتراک ناموفق بود</string>
@@ -333,6 +349,22 @@
     <string name="update_now">اکنون به روز رسانی کنید</string>
     <string name="update_check_pre_release">بررسی نسخه پیش از انتشار</string>
     <string name="update_checking_for_update">در حال بررسی برای به‌روزرسانی…</string>
+
+    <string name="title_policy_group_type">نوع گروه خط مشی</string>
+    <string name="title_policy_group_subscription_id">از گروه اشتراک</string>
+    <string name="title_policy_group_subscription_filter">توضیحات فیلتر معمولی</string>
+
+    <!-- BackupActivity -->
+    <string name="title_configuration_backup_restore">پشتیبان‌گیری و بازیابی</string>
+    <string name="title_configuration_backup">پشتیبان گیری از پیکربندی</string>
+    <string name="title_configuration_restore">بازیابی پیکربندی</string>
+    <string name="title_configuration_share">اشتراک گذاری پیکربندی</string>
+    <string name="title_webdav_config_setting">تنظیمات WebDAV</string>
+    <string name="title_webdav_config_setting_unknown">لطفا ابتدا WebDAV را پیکربندی کنید.</string>
+    <string name="title_webdav_url">WebDAV server URL</string>
+    <string name="title_webdav_user">یوزرنیم</string>
+    <string name="title_webdav_pass">پسورد</string>
+    <string name="title_webdav_remote_path">دایرکتوری راه دور (اختیاری)</string>
 
     <string-array name="share_method">
         <item>QRcode</item>
@@ -371,6 +403,7 @@
         <item>لیست سیاه چین</item>
         <item>جهانی(GLOBAL)</item>
         <item>ایران</item>
+        <item>لیست سفید روسیه</item>
     </string-array>
 
     <string-array name="vpn_bypass_lan">
@@ -384,13 +417,16 @@
         <item>Resolve and add to DNS Hosts</item>
         <item>Resolve and replace domain</item>
     </string-array>
-    <string name="intelligent_selection">انتخاب هوشمند</string>
-    <string name="sub_setting_intelligent_selection_filter">فیلتر نام مستعار برای انتخاب هوشمند</string>
-    <string name="title_intelligent_selection_method">روش انتخاب هوشمند</string>
-    <string-array name="intelligent_selection_method">
+    <string-array name="policy_group_type">
         <item>کمترین پینگ</item>
         <item>کمترین بار(لود)</item>
+        <item>تصادفی</item>
+        <item>گردشی</item>
     </string-array>
-    <string name="pre_resolving_domain">Pre-resolving domain…</string>
+
+    <string-array name="config_backup_options">
+        <item>محلی</item>
+        <item>WebDAV</item>
+    </string-array>
 
 </resources>

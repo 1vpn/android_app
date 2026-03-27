@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.v2ray.ang.R
 import com.v2ray.ang.databinding.ActivityRoutingEditBinding
 import com.v2ray.ang.dto.RulesetItem
+import com.v2ray.ang.extension.nullIfBlank
 import com.v2ray.ang.extension.toast
 import com.v2ray.ang.extension.toastSuccess
 import com.v2ray.ang.handler.SettingsManager
@@ -25,8 +26,8 @@ class RoutingEditActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        title = getString(R.string.routing_settings_rule_title)
+        //setContentView(binding.root)
+        setContentViewWithToolbar(binding.root, showHomeAsUp = true, title = getString(R.string.routing_settings_rule_title))
 
         val rulesetItem = SettingsManager.getRoutingRuleset(position)
         if (rulesetItem != null) {
@@ -62,14 +63,11 @@ class RoutingEditActivity : BaseActivity() {
         rulesetItem.apply {
             remarks = binding.etRemarks.text.toString()
             locked = binding.chkLocked.isChecked
-            domain = binding.etDomain.text.toString().takeIf { it.isNotEmpty() }
-                ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
-            ip = binding.etIp.text.toString().takeIf { it.isNotEmpty() }
-                ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
-            protocol = binding.etProtocol.text.toString().takeIf { it.isNotEmpty() }
-                ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
-            port = binding.etPort.text.toString().takeIf { it.isNotEmpty() }
-            network = binding.etNetwork.text.toString().takeIf { it.isNotEmpty() }
+            domain = binding.etDomain.text.toString().nullIfBlank()?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+            ip = binding.etIp.text.toString().nullIfBlank()?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+            protocol = binding.etProtocol.text.toString().nullIfBlank()?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+            port = binding.etPort.text.toString().nullIfBlank()
+            network = binding.etNetwork.text.toString().nullIfBlank()
             outboundTag = outbound_tag[binding.spOutboundTag.selectedItemPosition]
         }
 
@@ -106,10 +104,10 @@ class RoutingEditActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_server, menu)
-        val del_config = menu.findItem(R.id.del_config)
+        val delConfig = menu.findItem(R.id.del_config)
 
         if (position < 0) {
-            del_config?.isVisible = false
+            delConfig?.isVisible = false
         }
 
         return super.onCreateOptionsMenu(menu)

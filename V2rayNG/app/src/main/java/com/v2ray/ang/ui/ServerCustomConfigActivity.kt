@@ -11,11 +11,12 @@ import com.blacksquircle.ui.language.json.JsonLanguage
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.R
 import com.v2ray.ang.databinding.ActivityServerCustomConfigBinding
-import com.v2ray.ang.dto.EConfigType
 import com.v2ray.ang.dto.ProfileItem
+import com.v2ray.ang.enums.EConfigType
 import com.v2ray.ang.extension.toast
 import com.v2ray.ang.extension.toastSuccess
 import com.v2ray.ang.fmt.CustomFmt
+import com.v2ray.ang.handler.AngConfigManager
 import com.v2ray.ang.handler.MmkvManager
 import com.v2ray.ang.util.Utils
 
@@ -31,8 +32,8 @@ class ServerCustomConfigActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        title = getString(R.string.title_server)
+        //setContentView(binding.root)
+        setContentViewWithToolbar(binding.root, showHomeAsUp = true, title = EConfigType.CUSTOM.toString())
 
         if (!Utils.getDarkModeStatus(this)) {
             binding.editor.colorScheme = EditorTheme.INTELLIJ_LIGHT
@@ -89,6 +90,7 @@ class ServerCustomConfigActivity : BaseActivity() {
         }
         config.server = profileItem?.server
         config.serverPort = profileItem?.serverPort
+        config.description = AngConfigManager.generateDescription(config)
 
         MmkvManager.encodeServerConfig(editGuid, config)
         MmkvManager.encodeServerRaw(editGuid, binding.editor.text.toString())

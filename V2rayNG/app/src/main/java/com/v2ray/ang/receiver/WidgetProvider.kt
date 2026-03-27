@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.widget.RemoteViews
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.R
@@ -42,11 +41,7 @@ class WidgetProvider : AppWidgetProvider() {
             context,
             R.id.layout_switch,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         remoteViews.setOnClickPendingIntent(R.id.layout_switch, pendingIntent)
         if (isRunning) {

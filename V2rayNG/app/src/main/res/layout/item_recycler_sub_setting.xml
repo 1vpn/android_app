@@ -58,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
+                        android:contentDescription="@string/title_configuration_share"
                         android:focusable="true"
                         android:gravity="center"
                         android:nextFocusLeft="@+id/info_container"
@@ -67,6 +68,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/image_size_dp24"
+                            android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_share_24dp" />
 
                     </LinearLayout>
@@ -77,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
+                        android:contentDescription="@string/menu_item_edit_config"
                         android:focusable="true"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -85,6 +88,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_edit_24dp" />
 
                     </LinearLayout>
@@ -95,6 +99,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
+                        android:contentDescription="@string/menu_item_del_config"
                         android:focusable="true"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -103,6 +108,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_delete_24dp" />
 
                     </LinearLayout>
@@ -148,6 +154,23 @@
                         android:layout_height="wrap_content"
                         app:theme="@style/BrandedSwitch" />
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_last_updated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/padding_spacing_dp8"
+                android:paddingStart="@dimen/padding_spacing_dp8"
+                android:paddingEnd="@dimen/padding_spacing_dp8">
+
+                <TextView
+                    android:id="@+id/tv_last_updated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
             </LinearLayout>
 

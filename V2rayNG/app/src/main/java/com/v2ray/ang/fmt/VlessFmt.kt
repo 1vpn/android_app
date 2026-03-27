@@ -1,9 +1,9 @@
 package com.v2ray.ang.fmt
 
 import com.v2ray.ang.AppConfig
-import com.v2ray.ang.dto.EConfigType
 import com.v2ray.ang.dto.ProfileItem
 import com.v2ray.ang.dto.V2rayConfig.OutboundBean
+import com.v2ray.ang.enums.EConfigType
 import com.v2ray.ang.extension.idnHost
 import com.v2ray.ang.handler.MmkvManager
 import com.v2ray.ang.handler.V2rayConfigManager
@@ -26,7 +26,7 @@ object VlessFmt : FmtBase() {
         if (uri.rawQuery.isNullOrEmpty()) return null
         val queryParam = getQueryParam(uri)
 
-        config.remarks = Utils.urlDecode(uri.fragment.orEmpty()).let { if (it.isEmpty()) "none" else it }
+        config.remarks = Utils.decodeURIComponent(uri.fragment.orEmpty()).let { it.ifEmpty { "none" } }
         config.server = uri.idnHost
         config.serverPort = uri.port.toString()
         config.password = uri.userInfo

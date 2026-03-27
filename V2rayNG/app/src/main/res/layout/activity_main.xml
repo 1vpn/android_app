@@ -37,7 +37,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/pb_waiting"
+                        android:id="@+id/progress_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:indeterminate="true"
@@ -48,26 +48,26 @@
                         android:id="@+id/tab_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_spacing_dp8"
                         app:tabIndicatorFullWidth="false"
                         app:tabMode="scrollable"
                         app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view"
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
                         android:nextFocusRight="@+id/fab"
-                        android:scrollbars="vertical" />
+                        android:scrollbars="vertical"
+                        android:layout_weight="1" />
 
                     <LinearLayout
                         android:id="@+id/layout_test"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/view_height_dp64"
                         android:clickable="true"
+                        android:contentDescription="@string/connection_test_pending"
                         android:focusable="true"
-                        android:nextFocusLeft="@+id/recycler_view"
+                        android:nextFocusLeft="@+id/view_pager"
                         android:nextFocusRight="@+id/fab"
                         android:orientation="vertical">
 
@@ -94,7 +94,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="-16dp"
                     android:layout_marginEnd="@dimen/padding_spacing_dp16">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_locate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginBottom="@dimen/view_height_dp120"
+                        android:clickable="true"
+                        android:contentDescription="@string/title_server"
+                        android:focusable="true"
+                        android:src="@android:drawable/ic_menu_mylocation"
+                        app:useCompatPadding="true"
+                        app:layout_anchorGravity="bottom|right|end" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fab"
@@ -103,9 +117,12 @@
                         android:layout_gravity="bottom|end"
                         android:layout_marginBottom="@dimen/view_height_dp36"
                         android:clickable="true"
+                        android:contentDescription="@string/tasker_start_service"
                         android:focusable="true"
                         android:nextFocusLeft="@+id/layout_test"
                         android:src="@drawable/ic_play_24dp"
+                        app:tint="@color/colorWhite"
+                        app:useCompatPadding="true"
                         app:layout_anchorGravity="bottom|right|end" />
 
                 </FrameLayout>
@@ -119,10 +136,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/colorAccent"
         app:menu="@menu/menu_drawer">
 
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-

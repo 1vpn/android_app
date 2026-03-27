@@ -1,22 +1,20 @@
 package com.v2ray.ang.ui
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.R
+import com.v2ray.ang.contracts.BaseAdapterListener
 import com.v2ray.ang.databinding.ActivityRoutingSettingBinding
-import com.v2ray.ang.dto.RulesetItem
-import com.v2ray.ang.extension.toast
 import com.v2ray.ang.extension.toastError
 import com.v2ray.ang.extension.toastSuccess
 import com.v2ray.ang.handler.MmkvManager
@@ -24,15 +22,17 @@ import com.v2ray.ang.handler.SettingsManager
 import com.v2ray.ang.helper.SimpleItemTouchHelperCallback
 import com.v2ray.ang.util.JsonUtil
 import com.v2ray.ang.util.Utils
+import com.v2ray.ang.viewmodel.RoutingSettingsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RoutingSettingActivity : BaseActivity() {
+class RoutingSettingActivity : HelperBaseActivity() {
     private val binding by lazy { ActivityRoutingSettingBinding.inflate(layoutInflater) }
-
-    var rulesets: MutableList<RulesetItem> = mutableListOf()
-    private val adapter by lazy { RoutingSettingRecyclerAdapter(this) }
+    private val ownerActivity: RoutingSettingActivity
+        get() = this
+    private val viewModel: RoutingSettingsViewModel by viewModels()
+    private lateinit var adapter: RoutingSettingRecyclerAdapter
     private var mItemTouchHelper: ItemTouchHelper? = null
     private val routing_domain_strategy: Array<out String> by lazy {
         resources.getStringArray(R.array.routing_domain_strategy)
@@ -41,21 +41,12 @@ class RoutingSettingActivity : BaseActivity() {
         resources.getStringArray(R.array.preset_rulesets)
     }
 
-    private val requestCameraPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            scanQRcodeForRulesets.launch(Intent(this, ScannerActivity::class.java))
-        } else {
-            toast(R.string.toast_permission_denied)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        //setContentView(binding.root)
+        setContentViewWithToolbar(binding.root, showHomeAsUp = true, title = getString(R.string.routing_settings_title))
 
-        title = getString(R.string.routing_settings_title)
+        adapter = RoutingSettingRecyclerAdapter(viewModel, ActivityAdapterListener())
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -85,7 +76,7 @@ class RoutingSettingActivity : BaseActivity() {
         R.id.add_rule -> startActivity(Intent(this, RoutingEditActivity::class.java)).let { true }
         R.id.import_predefined_rulesets -> importPredefined().let { true }
         R.id.import_rulesets_from_clipboard -> importFromClipboard().let { true }
-        R.id.import_rulesets_from_qrcode -> requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA).let { true }
+        R.id.import_rulesets_from_qrcode -> importQRcode()
         R.id.export_rulesets_to_clipboard -> export2Clipboard().let { true }
         else -> super.onOptionsItemSelected(item)
     }
@@ -157,6 +148,15 @@ class RoutingSettingActivity : BaseActivity() {
             .show()
     }
 
+    private fun importQRcode(): Boolean {
+        launchQRCodeScanner { scanResult ->
+            if (scanResult != null) {
+                importRulesetsFromQRcode(scanResult)
+            }
+        }
+        return true
+    }
+
     private fun export2Clipboard() {
         val rulesetList = MmkvManager.decodeRoutingRulesets()
         if (rulesetList.isNullOrEmpty()) {
@@ -167,11 +167,6 @@ class RoutingSettingActivity : BaseActivity() {
         }
     }
 
-    private val scanQRcodeForRulesets = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
-            importRulesetsFromQRcode(it.data?.getStringExtra("SCAN_RESULT"))
-        }
-    }
 
     private fun importRulesetsFromQRcode(qrcode: String?): Boolean {
         AlertDialog.Builder(this).setMessage(R.string.routing_settings_import_rulesets_tip)
@@ -197,8 +192,26 @@ class RoutingSettingActivity : BaseActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun refreshData() {
-        rulesets.clear()
-        rulesets.addAll(MmkvManager.decodeRoutingRulesets() ?: mutableListOf())
+        viewModel.reload()
         adapter.notifyDataSetChanged()
+    }
+
+    private inner class ActivityAdapterListener : BaseAdapterListener {
+        override fun onEdit(guid: String, position: Int) {
+            startActivity(
+                Intent(ownerActivity, RoutingEditActivity::class.java)
+                    .putExtra("position", position)
+            )
+        }
+
+        override fun onRemove(guid: String, position: Int) {
+        }
+
+        override fun onShare(url: String) {
+        }
+
+        override fun onRefreshData() {
+            refreshData()
+        }
     }
 }

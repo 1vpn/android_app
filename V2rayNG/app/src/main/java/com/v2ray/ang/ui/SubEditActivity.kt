@@ -13,6 +13,8 @@ import com.v2ray.ang.dto.SubscriptionItem
 import com.v2ray.ang.extension.toast
 import com.v2ray.ang.extension.toastSuccess
 import com.v2ray.ang.handler.MmkvManager
+import com.v2ray.ang.handler.SettingsChangeManager
+import com.v2ray.ang.handler.SettingsManager
 import com.v2ray.ang.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,9 +29,10 @@ class SubEditActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        title = getString(R.string.title_sub_setting)
+        //setContentView(binding.root)
+        setContentViewWithToolbar(binding.root, showHomeAsUp = true, title = getString(R.string.title_sub_setting))
 
+        SettingsChangeManager.makeSetupGroupTab()
         val subItem = MmkvManager.decodeSubscription(editSubId)
         if (subItem != null) {
             bindingServer(subItem)
@@ -44,8 +47,8 @@ class SubEditActivity : BaseActivity() {
     private fun bindingServer(subItem: SubscriptionItem): Boolean {
         binding.etRemarks.text = Utils.getEditable(subItem.remarks)
         binding.etUrl.text = Utils.getEditable(subItem.url)
+        binding.etUserAgent.text = Utils.getEditable(subItem.userAgent)
         binding.etFilter.text = Utils.getEditable(subItem.filter)
-        binding.etIntelligentSelectionFilter.text = Utils.getEditable(subItem.intelligentSelectionFilter)
         binding.chkEnable.isChecked = subItem.enabled
         binding.autoUpdateCheck.isChecked = subItem.autoUpdate
         binding.allowInsecureUrl.isChecked = subItem.allowInsecureUrl
@@ -61,7 +64,6 @@ class SubEditActivity : BaseActivity() {
         binding.etRemarks.text = null
         binding.etUrl.text = null
         binding.etFilter.text = null
-        binding.etIntelligentSelectionFilter.text = null
         binding.chkEnable.isChecked = true
         binding.etPreProfile.text = null
         binding.etNextProfile.text = null
@@ -76,8 +78,8 @@ class SubEditActivity : BaseActivity() {
 
         subItem.remarks = binding.etRemarks.text.toString()
         subItem.url = binding.etUrl.text.toString()
+        subItem.userAgent = binding.etUserAgent.text.toString()
         subItem.filter = binding.etFilter.text.toString()
-        subItem.intelligentSelectionFilter = binding.etIntelligentSelectionFilter.text.toString()
         subItem.enabled = binding.chkEnable.isChecked
         subItem.autoUpdate = binding.autoUpdateCheck.isChecked
         subItem.prevProfile = binding.etPreProfile.text.toString()
@@ -113,11 +115,11 @@ class SubEditActivity : BaseActivity() {
      */
     private fun deleteServer(): Boolean {
         if (editSubId.isNotEmpty()) {
-            if (MmkvManager.decodeSettingsBool(AppConfig.PREF_CONFIRM_REMOVE) == true) {
+            if (MmkvManager.decodeSettingsBool(AppConfig.PREF_CONFIRM_REMOVE)) {
                 AlertDialog.Builder(this).setMessage(R.string.del_config_comfirm)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         lifecycleScope.launch(Dispatchers.IO) {
-                            MmkvManager.removeSubscription(editSubId)
+                            SettingsManager.removeSubscriptionWithDefault(editSubId)
                             launch(Dispatchers.Main) {
                                 finish()
                             }
@@ -129,7 +131,7 @@ class SubEditActivity : BaseActivity() {
                     .show()
             } else {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    MmkvManager.removeSubscription(editSubId)
+                    SettingsManager.removeSubscriptionWithDefault(editSubId)
                     launch(Dispatchers.Main) {
                         finish()
                     }
@@ -143,10 +145,6 @@ class SubEditActivity : BaseActivity() {
         menuInflater.inflate(R.menu.action_server, menu)
         del_config = menu.findItem(R.id.del_config)
         save_config = menu.findItem(R.id.save_config)
-
-        if (editSubId.isEmpty()) {
-            del_config?.isVisible = false
-        }
 
         return super.onCreateOptionsMenu(menu)
     }

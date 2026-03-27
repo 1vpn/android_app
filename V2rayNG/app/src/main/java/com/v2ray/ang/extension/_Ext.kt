@@ -9,10 +9,9 @@ import android.os.Bundle
 import android.widget.Toast
 import com.v2ray.ang.AngApplication
 import es.dmoral.toasty.Toasty
-import org.json.JSONObject
 import java.io.Serializable
 import java.net.URI
-import java.net.URLConnection
+import java.util.Locale
 
 val Context.v2RayApplication: AngApplication?
     get() = applicationContext as? AngApplication
@@ -71,25 +70,6 @@ fun Context.toastError(message: CharSequence) {
     Toasty.error(this, message, Toast.LENGTH_SHORT, true).show()
 }
 
-
-/**
- * Puts a key-value pair into the JSONObject.
- *
- * @param pair The key-value pair to put.
- */
-fun JSONObject.putOpt(pair: Pair<String, Any?>) {
-    put(pair.first, pair.second)
-}
-
-/**
- * Puts multiple key-value pairs into the JSONObject.
- *
- * @param pairs The map of key-value pairs to put.
- */
-fun JSONObject.putOpt(pairs: Map<String, Any?>) {
-    pairs.forEach { put(it.key, it.value) }
-}
-
 const val THRESHOLD = 1000L
 const val DIVISOR = 1024.0
 
@@ -113,15 +93,8 @@ fun Long.toTrafficString(): String {
         size /= DIVISOR
         unitIndex++
     }
-    return String.format("%.1f %s", size, units[unitIndex])
+    return String.format(Locale.getDefault(), "%.1f %s", size, units[unitIndex])
 }
-
-val URLConnection.responseLength: Long
-    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        contentLengthLong
-    } else {
-        contentLength.toLong()
-    }
 
 val URI.idnHost: String
     get() = host?.replace("[", "")?.replace("]", "").orEmpty()
@@ -132,6 +105,13 @@ val URI.idnHost: String
  * @return The string without whitespace.
  */
 fun String?.removeWhiteSpace(): String? = this?.replace(" ", "")
+
+/**
+ * Returns null if the string is null or blank, otherwise returns the string itself.
+ *
+ * @return The string or null.
+ */
+fun String?.nullIfBlank(): String? = this?.takeIf { it.isNotBlank() }
 
 /**
  * Converts the string to a Long value, or returns 0 if the conversion fails.
@@ -196,7 +176,7 @@ inline fun <reified T : Serializable> Intent.serializable(key: String): T? = whe
  *
  * @return True if the CharSequence is not null and not empty, false otherwise.
  */
-fun CharSequence?.isNotNullEmpty(): Boolean = this != null && this.isNotEmpty()
+fun CharSequence?.isNotNullEmpty(): Boolean = !this.isNullOrBlank()
 
 fun String.concatUrl(vararg paths: String): String {
     val builder = StringBuilder(this.trimEnd('/'))
@@ -209,4 +189,15 @@ fun String.concatUrl(vararg paths: String): String {
     }
 
     return builder.toString()
+}
+
+/**
+ * Helper function to match text either by Regex or literal string.
+ */
+fun String.matchesPattern(regex: Regex?, keyword: String?, ignoreCase: Boolean = true): Boolean {
+    if (keyword.isNullOrEmpty()) {
+        return true
+    }
+    return regex?.containsMatchIn(this)
+        ?: this.contains(keyword, ignoreCase = ignoreCase)
 }

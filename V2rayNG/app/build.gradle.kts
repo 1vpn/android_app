@@ -13,14 +13,14 @@ plugins {
 
 android {
     namespace = "com.v2ray.ang"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.v2ray.ang"
-        minSdk = 23
-        targetSdk = 35
-        versionCode = 300
-        versionName = "2.1.4"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = 299
+        versionName = "2.1.3"
         multiDexEnabled = true
 
         buildConfigField(
@@ -70,7 +70,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -118,8 +117,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     applicationVariants.all {
@@ -209,6 +210,8 @@ dependencies {
     implementation(libs.preference.ktx)
     implementation(libs.recyclerview)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.fragment)
 
     // UI Libraries
     implementation(libs.material)
@@ -219,6 +222,7 @@ dependencies {
     // Data and Storage Libraries
     implementation(libs.mmkv.static)
     implementation(libs.gson)
+    implementation(libs.okhttp)
 
     // Reactive and Utility Libraries
     implementation(libs.kotlinx.coroutines.android)

@@ -14,8 +14,12 @@ import androidx.lifecycle.viewModelScope
 import com.v2ray.ang.AngApplication
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.R
-import com.v2ray.ang.dto.ProfileItem
+import com.v2ray.ang.dto.GroupMapItem
 import com.v2ray.ang.dto.ServersCache
+import com.v2ray.ang.dto.SubscriptionCache
+import com.v2ray.ang.dto.SubscriptionUpdateResult
+import com.v2ray.ang.dto.TestServiceMessage
+import com.v2ray.ang.extension.matchesPattern
 import com.v2ray.ang.extension.serializable
 import com.v2ray.ang.extension.toastError
 import com.v2ray.ang.extension.toastSuccess
@@ -30,13 +34,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Collections
+import java.util.regex.PatternSyntaxException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private var serverList = MmkvManager.decodeServerList()
+    private var serverList = mutableListOf<String>() // MmkvManager.decodeServerList()
     var subscriptionId: String = MmkvManager.decodeSettingsString(AppConfig.CACHE_SUBSCRIPTION_ID, "").orEmpty()
-
-    //var keywordFilter: String = MmkvManager.MmkvManager.decodeSettingsString(AppConfig.CACHE_KEYWORD_FILTER, "")?:""
     var keywordFilter = ""
     val serversCache = mutableListOf<ServersCache>()
     val isRunning by lazy { MutableLiveData<Boolean>() }
@@ -67,10 +71,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Reloads the server list.
+     * Reloads the server list based on current subscription filter.
      */
     fun reloadServerList() {
-        serverList = MmkvManager.decodeServerList()
+        serverList = if (subscriptionId.isEmpty()) {
+            MmkvManager.decodeAllServerList()
+        } else {
+            MmkvManager.decodeServerList(subscriptionId)
+        }
+
         updateCache()
         updateListAction.value = -1
     }
@@ -88,38 +97,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//    /**
-//     * Appends a custom configuration server.
-//     * @param server The server configuration to append.
-//     * @return True if the server was successfully appended, false otherwise.
-//     */
-//    fun appendCustomConfigServer(server: String): Boolean {
-//        if (server.contains("inbounds")
-//            && server.contains("outbounds")
-//            && server.contains("routing")
-//        ) {
-//            try {
-//                val config = CustomFmt.parse(server) ?: return false
-//                config.subscriptionId = subscriptionId
-//                val key = MmkvManager.encodeServerConfig("", config)
-//                MmkvManager.encodeServerRaw(key, server)
-//                serverList.add(0, key)
-////                val profile = ProfileLiteItem(
-////                    configType = config.configType,
-////                    subscriptionId = config.subscriptionId,
-////                    remarks = config.remarks,
-////                    server = config.getProxyOutbound()?.getServerAddress(),
-////                    serverPort = config.getProxyOutbound()?.getServerPort(),
-////                )
-//                serversCache.add(0, ServersCache(key, config))
-//                return true
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//        return false
-//    }
-
     /**
      * Swaps the positions of two servers.
      * @param fromPosition The initial position of the server.
@@ -127,14 +104,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun swapServer(fromPosition: Int, toPosition: Int) {
         if (subscriptionId.isEmpty()) {
-            Collections.swap(serverList, fromPosition, toPosition)
-        } else {
-            val fromPosition2 = serverList.indexOf(serversCache[fromPosition].guid)
-            val toPosition2 = serverList.indexOf(serversCache[toPosition].guid)
-            Collections.swap(serverList, fromPosition2, toPosition2)
+            return
         }
+
+        Collections.swap(serverList, fromPosition, toPosition)
         Collections.swap(serversCache, fromPosition, toPosition)
-        MmkvManager.encodeServerList(serverList)
+
+        MmkvManager.encodeServerList(serverList, subscriptionId)
     }
 
     /**
@@ -143,26 +119,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     @Synchronized
     fun updateCache() {
         serversCache.clear()
+        val kw = keywordFilter.trim()
+        val searchRegex = try {
+            if (kw.isNotEmpty()) Regex(kw, setOf(RegexOption.IGNORE_CASE)) else null
+        } catch (e: PatternSyntaxException) {
+            null // Fallback to literal search if regex is invalid
+        }
         for (guid in serverList) {
-            var profile = MmkvManager.decodeServerConfig(guid) ?: continue
-//            var profile = MmkvManager.decodeProfileConfig(guid)
-//            if (profile == null) {
-//                val config = MmkvManager.decodeServerConfig(guid) ?: continue
-//                profile = ProfileLiteItem(
-//                    configType = config.configType,
-//                    subscriptionId = config.subscriptionId,
-//                    remarks = config.remarks,
-//                    server = config.getProxyOutbound()?.getServerAddress(),
-//                    serverPort = config.getProxyOutbound()?.getServerPort(),
-//                )
-//                MmkvManager.encodeServerConfig(guid, config)
-//            }
-
-            if (subscriptionId.isNotEmpty() && subscriptionId != profile.subscriptionId) {
+            val profile = MmkvManager.decodeServerConfig(guid) ?: continue
+            if (kw.isEmpty()) {
+                serversCache.add(ServersCache(guid, profile))
                 continue
             }
 
-            if (keywordFilter.isEmpty() || profile.remarks.lowercase().contains(keywordFilter.lowercase())) {
+            val remarks = profile.remarks
+            val description = profile.description.orEmpty()
+            val server = profile.server.orEmpty()
+            val protocol = profile.configType.name
+            if (remarks.matchesPattern(searchRegex, kw)
+                || description.matchesPattern(searchRegex, kw)
+                || server.matchesPattern(searchRegex, kw)
+                || protocol.matchesPattern(searchRegex, kw)
+            ) {
                 serversCache.add(ServersCache(guid, profile))
             }
         }
@@ -170,14 +148,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * Updates the configuration via subscription for all servers.
-     * @return The number of updated configurations.
+     * @return Detailed result of the subscription update operation.
      */
-    fun updateConfigViaSubAll(): Int {
+    fun updateConfigViaSubAll(): SubscriptionUpdateResult {
         if (subscriptionId.isEmpty()) {
             return AngConfigManager.updateConfigViaSubAll()
         } else {
-            val subItem = MmkvManager.decodeSubscription(subscriptionId) ?: return 0
-            return AngConfigManager.updateConfigViaSub(Pair(subscriptionId, subItem))
+            val subItem = MmkvManager.decodeSubscription(subscriptionId) ?: return SubscriptionUpdateResult()
+            return AngConfigManager.updateConfigViaSub(SubscriptionCache(subscriptionId, subItem))
         }
     }
 
@@ -230,15 +208,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Tests the real ping for all servers.
      */
     fun testAllRealPing() {
-        MessageUtil.sendMsg2TestService(getApplication(), AppConfig.MSG_MEASURE_CONFIG_CANCEL, "")
+        MessageUtil.sendMsg2TestService(
+            getApplication(),
+            TestServiceMessage(key = AppConfig.MSG_MEASURE_CONFIG_CANCEL)
+        )
         MmkvManager.clearAllTestDelayResults(serversCache.map { it.guid }.toList())
         updateListAction.value = -1
 
-        val serversCopy = serversCache.toList()
         viewModelScope.launch(Dispatchers.Default) {
-            for (item in serversCopy) {
-                MessageUtil.sendMsg2TestService(getApplication(), AppConfig.MSG_MEASURE_CONFIG, item.guid)
+            if (serversCache.isEmpty()) {
+                return@launch
             }
+            MessageUtil.sendMsg2TestService(
+                getApplication(),
+                TestServiceMessage(
+                    key = AppConfig.MSG_MEASURE_CONFIG,
+                    subscriptionId = subscriptionId,
+                    serverGuids = if (keywordFilter.isNotEmpty()) serversCache.map { it.guid } else emptyList()
+                )
+            )
         }
     }
 
@@ -257,8 +245,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (subscriptionId != id) {
             subscriptionId = id
             MmkvManager.encodeSettings(AppConfig.CACHE_SUBSCRIPTION_ID, subscriptionId)
-            reloadServerList()
         }
+        reloadServerList()
     }
 
     /**
@@ -266,22 +254,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * @param context The context.
      * @return A pair of lists containing the subscription IDs and remarks.
      */
-    fun getSubscriptions(context: Context): Pair<MutableList<String>?, MutableList<String>?> {
+    fun getSubscriptions(context: Context): List<GroupMapItem> {
         val subscriptions = MmkvManager.decodeSubscriptions()
         if (subscriptionId.isNotEmpty()
-            && !subscriptions.map { it.first }.contains(subscriptionId)
+            && !subscriptions.map { it.guid }.contains(subscriptionId)
         ) {
             subscriptionIdChanged("")
         }
-        if (subscriptions.isEmpty()) {
-            return null to null
-        }
-        val listId = subscriptions.map { it.first }.toMutableList()
-        listId.add(0, "")
-        val listRemarks = subscriptions.map { it.second.remarks }.toMutableList()
-        listRemarks.add(0, context.getString(R.string.filter_config_all))
 
-        return listId to listRemarks
+        val groups = mutableListOf<GroupMapItem>()
+        if (MmkvManager.decodeSettingsBool(AppConfig.PREF_GROUP_ALL_DISPLAY)) {
+            groups.add(
+                GroupMapItem(
+                    id = "",
+                    remarks = context.getString(R.string.filter_config_all)
+                )
+            )
+        }
+        subscriptions.forEach { sub ->
+            groups.add(
+                GroupMapItem(
+                    id = sub.guid,
+                    remarks = sub.subscription.remarks
+                )
+            )
+        }
+        return groups
     }
 
     /**
@@ -302,20 +300,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * @return The number of removed servers.
      */
     fun removeDuplicateServer(): Int {
-        val serversCacheCopy = mutableListOf<Pair<String, ProfileItem>>()
-        for (it in serversCache) {
-            val config = MmkvManager.decodeServerConfig(it.guid) ?: continue
-            serversCacheCopy.add(Pair(it.guid, config))
-        }
-
+        val serversCacheCopy = serversCache.toList().toMutableList()
         val deleteServer = mutableListOf<String>()
-        serversCacheCopy.forEachIndexed { index, it ->
-            val outbound = it.second
-            serversCacheCopy.forEachIndexed { index2, it2 ->
+        serversCacheCopy.forEachIndexed { index, sc ->
+            val profile = sc.profile
+            serversCacheCopy.forEachIndexed { index2, sc2 ->
                 if (index2 > index) {
-                    val outbound2 = it2.second
-                    if (outbound.equals(outbound2) && !deleteServer.contains(it2.first)) {
-                        deleteServer.add(it2.first)
+                    val profile2 = sc2.profile
+                    if (profile == profile2 && !deleteServer.contains(sc2.guid)) {
+                        deleteServer.add(sc2.guid)
                     }
                 }
             }
@@ -366,46 +359,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Sorts servers by their test results.
      */
     fun sortByTestResults() {
+        if (subscriptionId.isEmpty()) {
+            MmkvManager.decodeSubsList().forEach { guid ->
+                sortByTestResultsForSub(guid)
+            }
+        } else {
+            sortByTestResultsForSub(subscriptionId)
+        }
+    }
+
+    /**
+     * Sorts servers by their test results for a specific subscription.
+     * @param subId The subscription ID to sort servers for.
+     */
+    private fun sortByTestResultsForSub(subId: String) {
         data class ServerDelay(var guid: String, var testDelayMillis: Long)
 
         val serverDelays = mutableListOf<ServerDelay>()
-        val serverList = MmkvManager.decodeServerList()
-        serverList.forEach { key ->
+        val serverListToSort = MmkvManager.decodeServerList(subId)
+
+        serverListToSort.forEach { key ->
             val delay = MmkvManager.decodeServerAffiliationInfo(key)?.testDelayMillis ?: 0L
             serverDelays.add(ServerDelay(key, if (delay <= 0L) 999999 else delay))
         }
         serverDelays.sortBy { it.testDelayMillis }
 
-        serverDelays.forEach {
-            serverList.remove(it.guid)
-            serverList.add(it.guid)
-        }
+        val sortedServerList = serverDelays.map { it.guid }.toMutableList()
 
-        MmkvManager.encodeServerList(serverList)
+        // Save the sorted list for this subscription
+        MmkvManager.encodeServerList(sortedServerList, subId)
     }
 
-    /**
-     * Creates an intelligent selection configuration containing all currently filtered servers.
-     */
-    fun createIntelligentSelectionAll() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val key = AngConfigManager.createIntelligentSelection(
-                getApplication<AngApplication>(),
-                serversCache.map { it.guid }.toList(),
-                subscriptionId
-            )
-
-            launch(Dispatchers.Main) {
-                if (key.isNullOrEmpty()) {
-                    getApplication<AngApplication>().toastError(R.string.toast_failure)
-                } else {
-                    getApplication<AngApplication>().toastSuccess(R.string.toast_success)
-                    MmkvManager.setSelectServer(key)
-                    reloadServerList()
-                }
-            }
-        }
-    }
 
     /**
      * Initializes assets.
@@ -426,8 +410,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
         keywordFilter = keyword
-        MmkvManager.encodeSettings(AppConfig.CACHE_KEYWORD_FILTER, keywordFilter)
         reloadServerList()
+    }
+
+    fun findSubscriptionIdBySelect(): String? {
+        // Get the selected server GUID
+        val selectedGuid = MmkvManager.getSelectServer()
+        if (selectedGuid.isNullOrEmpty()) {
+            return null
+        }
+
+        val config = MmkvManager.decodeServerConfig(selectedGuid)
+        return config?.subscriptionId
+    }
+
+    fun onTestsFinished() {
+        viewModelScope.launch(Dispatchers.Default) {
+            if (MmkvManager.decodeSettingsBool(AppConfig.PREF_AUTO_REMOVE_INVALID_AFTER_TEST)) {
+                removeInvalidServer()
+            }
+
+            if (MmkvManager.decodeSettingsBool(AppConfig.PREF_AUTO_SORT_AFTER_TEST)) {
+                sortByTestResults()
+            }
+
+            withContext(Dispatchers.Main) {
+                reloadServerList()
+            }
+        }
     }
 
     private val mMsgReceiver = object : BroadcastReceiver() {
@@ -463,6 +473,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     val resultPair = intent.serializable<Pair<String, Long>>("content") ?: return
                     MmkvManager.encodeServerTestDelayMillis(resultPair.first, resultPair.second)
                     updateListAction.value = getPosition(resultPair.first)
+                }
+
+                AppConfig.MSG_MEASURE_CONFIG_NOTIFY -> {
+                    val content = intent.getStringExtra("content")
+                    updateTestResultAction.value =
+                        getApplication<AngApplication>().getString(R.string.connection_runing_task_left, content)
+                }
+
+                AppConfig.MSG_MEASURE_CONFIG_FINISH -> {
+                    val content = intent.getStringExtra("content")
+                    if (content == "0") {
+                        onTestsFinished()
+                    }
                 }
             }
         }

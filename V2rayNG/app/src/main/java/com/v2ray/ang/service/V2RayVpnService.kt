@@ -1,5 +1,6 @@
 package com.v2ray.ang.service
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -18,6 +19,8 @@ import androidx.annotation.RequiresApi
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.LOOPBACK
 import com.v2ray.ang.BuildConfig
+import com.v2ray.ang.contracts.ServiceControl
+import com.v2ray.ang.contracts.Tun2SocksControl
 import com.v2ray.ang.handler.MmkvManager
 import com.v2ray.ang.handler.NotificationManager
 import com.v2ray.ang.handler.SettingsManager
@@ -26,6 +29,7 @@ import com.v2ray.ang.util.MyContextWrapper
 import com.v2ray.ang.util.Utils
 import java.lang.ref.SoftReference
 
+@SuppressLint("VpnServicePolicy")
 class V2RayVpnService : VpnService(), ServiceControl {
     private lateinit var mInterface: ParcelFileDescriptor
     private var isRunning = false
@@ -70,13 +74,15 @@ class V2RayVpnService : VpnService(), ServiceControl {
 
     override fun onCreate() {
         super.onCreate()
+        Log.i(AppConfig.TAG, "StartCore-VPN: Service created")
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         V2RayServiceManager.serviceControl = SoftReference(this)
     }
 
     override fun onRevoke() {
-        stopV2Ray()
+        Log.w(AppConfig.TAG, "StartCore-VPN: Permission revoked")
+        stopAllService()
     }
 
 //    override fun onLowMemory() {
@@ -86,13 +92,14 @@ class V2RayVpnService : VpnService(), ServiceControl {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.i(AppConfig.TAG, "StartCore-VPN: Service destroyed")
         NotificationManager.cancelNotification()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (V2RayServiceManager.startCoreLoop()) {
-            startService()
-        }
+        Log.i(AppConfig.TAG, "StartCore-VPN: Service command received")
+        setupVpnService()
+        startService()
         return START_STICKY
         //return super.onStartCommand(intent, flags, startId)
     }
@@ -102,18 +109,25 @@ class V2RayVpnService : VpnService(), ServiceControl {
     }
 
     override fun startService() {
-        setupService()
+        if (!::mInterface.isInitialized) {
+            Log.e(AppConfig.TAG, "StartCore-VPN: Interface not initialized")
+            return
+        }
+        if (!V2RayServiceManager.startCoreLoop(mInterface)) {
+            Log.e(AppConfig.TAG, "StartCore-VPN: Failed to start core loop")
+            stopAllService()
+            return
+        }
     }
 
     override fun stopService() {
-        stopV2Ray(true)
+        stopAllService(true)
     }
 
     override fun vpnProtect(socket: Int): Boolean {
         return protect(socket)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun attachBaseContext(newBase: Context?) {
         val context = newBase?.let {
             MyContextWrapper.wrap(newBase, SettingsManager.getLocale())
@@ -125,13 +139,17 @@ class V2RayVpnService : VpnService(), ServiceControl {
      * Sets up the VPN service.
      * Prepares the VPN and configures it if preparation is successful.
      */
-    private fun setupService() {
+    private fun setupVpnService() {
         val prepare = prepare(this)
         if (prepare != null) {
+            Log.e(AppConfig.TAG, "StartCore-VPN: Permission not granted")
+            stopSelf()
             return
         }
 
         if (configureVpnService() != true) {
+            Log.e(AppConfig.TAG, "StartCore-VPN: Configuration failed")
+            stopSelf()
             return
         }
 
@@ -153,9 +171,11 @@ class V2RayVpnService : VpnService(), ServiceControl {
 
         // Close the old interface since the parameters have been changed
         try {
-            mInterface.close()
-        } catch (ignored: Exception) {
-            // ignored
+            if (::mInterface.isInitialized) {
+                mInterface.close()
+            }
+        } catch (e: Exception) {
+            Log.w(AppConfig.TAG, "Failed to close old interface", e)
         }
 
         // Configure platform-specific features
@@ -168,7 +188,7 @@ class V2RayVpnService : VpnService(), ServiceControl {
             return true
         } catch (e: Exception) {
             Log.e(AppConfig.TAG, "Failed to establish VPN interface", e)
-            stopV2Ray()
+            stopAllService()
         }
         return false
     }
@@ -232,7 +252,7 @@ class V2RayVpnService : VpnService(), ServiceControl {
             try {
                 connectivity.requestNetwork(defaultNetworkRequest, defaultNetworkCallback)
             } catch (e: Exception) {
-                Log.e(AppConfig.TAG, "Failed to request default network", e)
+                Log.e(AppConfig.TAG, "StartCore-VPN: Failed to request network", e)
             }
         }
 
@@ -285,7 +305,7 @@ class V2RayVpnService : VpnService(), ServiceControl {
                     builder.addAllowedApplication(it)
                 }
             } catch (e: PackageManager.NameNotFoundException) {
-                Log.e(AppConfig.TAG, "Failed to configure app in VPN: ${e.localizedMessage}", e)
+                Log.e(AppConfig.TAG, "StartCore-VPN: Failed to configure app", e)
             }
         }
     }
@@ -295,7 +315,7 @@ class V2RayVpnService : VpnService(), ServiceControl {
      * Starts the tun2socks process with the appropriate parameters.
      */
     private fun runTun2socks() {
-        if (MmkvManager.decodeSettingsBool(AppConfig.PREF_USE_HEV_TUNNEL) == true) {
+        if (SettingsManager.isUsingHevTun()) {
             tun2SocksService = TProxyService(
                 context = applicationContext,
                 vpnInterface = mInterface,
@@ -303,22 +323,13 @@ class V2RayVpnService : VpnService(), ServiceControl {
                 restartCallback = { runTun2socks() }
             )
         } else {
-            tun2SocksService = Tun2SocksService(
-                context = applicationContext,
-                vpnInterface = mInterface,
-                isRunningProvider = { isRunning },
-                restartCallback = { runTun2socks() }
-            )
+            tun2SocksService = null
         }
 
         tun2SocksService?.startTun2Socks()
     }
 
-    /**
-     * Stops the V2Ray service.
-     * @param isForced Whether to force stop the service.
-     */
-    private fun stopV2Ray(isForced: Boolean = true) {
+    private fun stopAllService(isForced: Boolean = true) {
 //        val configName = defaultDPreference.getPrefString(PREF_CURR_CONFIG_GUID, "")
 //        val emptyInfo = VpnNetworkInfo()
 //        val info = loadVpnNetworkInfo(configName, emptyInfo)!! + (lastNetworkInfo ?: emptyInfo)
@@ -327,8 +338,8 @@ class V2RayVpnService : VpnService(), ServiceControl {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             try {
                 connectivity.unregisterNetworkCallback(defaultNetworkCallback)
-            } catch (ignored: Exception) {
-                // ignored
+            } catch (e: Exception) {
+                Log.w(AppConfig.TAG, "StartCore-VPN: Failed to unregister callback", e)
             }
         }
 
@@ -346,9 +357,11 @@ class V2RayVpnService : VpnService(), ServiceControl {
             stopSelf()
 
             try {
-                mInterface.close()
+                if (::mInterface.isInitialized) {
+                    mInterface.close()
+                }
             } catch (e: Exception) {
-                Log.e(AppConfig.TAG, "Failed to close VPN interface", e)
+                Log.e(AppConfig.TAG, "StartCore-VPN: Failed to close interface", e)
             }
         }
     }

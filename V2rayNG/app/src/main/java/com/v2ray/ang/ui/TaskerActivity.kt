@@ -23,13 +23,14 @@ class TaskerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        //setContentView(binding.root)
+        setContentViewWithToolbar(binding.root, showHomeAsUp = true, title = "")
 
         //add def value
         lstData.add("Default")
         lstGuid.add(AppConfig.TASKER_DEFAULT_GUID)
 
-        MmkvManager.decodeServerList().forEach { key ->
+        MmkvManager.decodeAllServerList().forEach { key ->
             MmkvManager.decodeServerConfig(key)?.let { config ->
                 lstData.add(config.remarks)
                 lstGuid.add(key)
@@ -92,8 +93,8 @@ class TaskerActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_server, menu)
-        val del_config = menu.findItem(R.id.del_config)
-        del_config?.isVisible = false
+        val delConfig = menu.findItem(R.id.del_config)
+        delConfig?.isVisible = false
         return super.onCreateOptionsMenu(menu)
     }
 

@@ -2,10 +2,10 @@ package com.v2ray.ang.fmt
 
 import android.util.Log
 import com.v2ray.ang.AppConfig
-import com.v2ray.ang.dto.EConfigType
-import com.v2ray.ang.dto.NetworkType
 import com.v2ray.ang.dto.ProfileItem
 import com.v2ray.ang.dto.V2rayConfig.OutboundBean
+import com.v2ray.ang.enums.EConfigType
+import com.v2ray.ang.enums.NetworkType
 import com.v2ray.ang.extension.idnHost
 import com.v2ray.ang.handler.V2rayConfigManager
 import com.v2ray.ang.util.Utils
@@ -36,7 +36,7 @@ object ShadowsocksFmt : FmtBase() {
         if (uri.port <= 0) return null
         if (uri.userInfo.isNullOrEmpty()) return null
 
-        config.remarks = Utils.urlDecode(uri.fragment.orEmpty()).let { if (it.isEmpty()) "none" else it }
+        config.remarks = Utils.decodeURIComponent(uri.fragment.orEmpty()).let { it.ifEmpty { "none" } }
         config.server = uri.idnHost
         config.serverPort = uri.port.toString()
 
@@ -83,7 +83,7 @@ object ShadowsocksFmt : FmtBase() {
         if (indexSplit > 0) {
             try {
                 config.remarks =
-                    Utils.urlDecode(result.substring(indexSplit + 1, result.length))
+                    Utils.decodeURIComponent(result.substring(indexSplit + 1, result.length))
             } catch (e: Exception) {
                 Log.e(AppConfig.TAG, "Failed to decode remarks in SS legacy URL", e)
             }
@@ -122,7 +122,7 @@ object ShadowsocksFmt : FmtBase() {
     fun toUri(config: ProfileItem): String {
         val pw = "${config.method}:${config.password}"
 
-        return toUri(config, Utils.encode(pw), null)
+        return toUri(config, Utils.encode(pw, true), null)
     }
 
     /**

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.os.Build
-import android.os.Build.VERSION_CODES
 import android.os.LocaleList
 import android.provider.Settings
 import android.text.Editable
@@ -26,6 +25,8 @@ import java.net.ServerSocket
 import java.net.URI
 import java.net.URLDecoder
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
@@ -135,11 +136,16 @@ object Utils {
      * Encode a string to base64.
      *
      * @param text The string to encode.
+     * @param removePadding
      * @return The base64 encoded string, or an empty string if encoding fails.
      */
-    fun encode(text: String): String {
+    fun encode(text: String, removePadding : Boolean = false): String {
         return try {
-            Base64.encodeToString(text.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)
+            var encoded = Base64.encodeToString(text.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)
+            if (removePadding) {
+                encoded = encoded.trimEnd('=')
+            }
+            encoded
         } catch (e: Exception) {
             Log.e(AppConfig.TAG, "Failed to encode text to base64", e)
             ""
@@ -322,9 +328,44 @@ object Utils {
      */
     fun urlEncode(url: String): String {
         return try {
-            URLEncoder.encode(url, Charsets.UTF_8.toString()).replace("+", "%20")
+            URLEncoder.encode(url, Charsets.UTF_8.toString())
         } catch (e: Exception) {
             Log.e(AppConfig.TAG, "Failed to encode URL", e)
+            url
+        }
+    }
+
+    /**
+     * Decode a "encodeURIComponent" string.
+     *
+     * @param url The "encodeURIComponent" string.
+     * @return The decoded string, or the original string if decoding fails.
+     */
+    fun decodeURIComponent(url: String): String {
+        return try {
+            // Decode strictly according to RFC 3986 / encodeURIComponent semantics.
+            // '+' is a literal plus and MUST NOT be interpreted as space.
+            // Inputs using '+' for spaces are non-conforming and rejected deliberately
+            // to avoid cross-language interoperability issues.
+            URLDecoder.decode(url.replace("+", "%2B"), Charsets.UTF_8.toString())
+        } catch (e: Exception) {
+            Log.e(AppConfig.TAG, "Failed to decode encodeURIComponent", e)
+            url
+        }
+    }
+
+    /**
+     * Encode a string to "encodeURIComponent" format.
+     *
+     * @param url The string to encode.
+     * @return The "encodeURIComponent" encoded string, or the original string if encoding fails.
+     */
+    fun encodeURIComponent(url: String): String {
+        return try {
+            // Replace '+' with '%20' to conform to encodeURIComponent semantics.
+            URLEncoder.encode(url, Charsets.UTF_8.toString()).replace("+", "%20")
+        } catch (e: Exception) {
+            Log.e(AppConfig.TAG, "Failed to encode encodeURIComponent", e)
             url
         }
     }
@@ -365,24 +406,6 @@ object Utils {
                 ?: context.getDir(AppConfig.DIR_ASSETS, 0).absolutePath
         } catch (e: Exception) {
             Log.e(AppConfig.TAG, "Failed to get user asset path", e)
-            ""
-        }
-    }
-
-    /**
-     * Get the path to the backup directory.
-     *
-     * @param context The context to use.
-     * @return The path to the backup directory.
-     */
-    fun backupPath(context: Context?): String {
-        if (context == null) return ""
-
-        return try {
-            context.getExternalFilesDir(AppConfig.DIR_BACKUPS)?.absolutePath
-                ?: context.getDir(AppConfig.DIR_BACKUPS, 0).absolutePath
-        } catch (e: Exception) {
-            Log.e(AppConfig.TAG, "Failed to get backup path", e)
             ""
         }
     }
@@ -433,11 +456,7 @@ object Utils {
      *
      * @return The system locale.
      */
-    fun getSysLocale(): Locale = if (Build.VERSION.SDK_INT >= VERSION_CODES.N) {
-        LocaleList.getDefault()[0]
-    } else {
-        Locale.getDefault()
-    }
+    fun getSysLocale(): Locale = LocaleList.getDefault().get(0) ?: Locale.getDefault()
 
     /**
      * Fix illegal characters in a URL.
@@ -503,7 +522,7 @@ object Utils {
      *
      * @return The receiver flags.
      */
-    fun receiverFlags(): Int = if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+    fun receiverFlags(): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         ContextCompat.RECEIVER_EXPORTED
     } else {
         ContextCompat.RECEIVER_NOT_EXPORTED
@@ -567,5 +586,21 @@ object Utils {
             return false
         }
     }
-}
 
+    /**
+     * Format a timestamp (milliseconds since epoch) into a date string.
+     * Returns empty string for null or non-positive timestamps.
+     * @param ts timestamp in milliseconds or null
+     * @param pattern SimpleDateFormat pattern, default "yyyy-MM-dd HH:mm"
+     */
+    fun formatTimestamp(ts: Long?, pattern: String = "yyyy-MM-dd HH:mm", locale: Locale = Locale.getDefault()): String {
+        if (ts == null || ts <= 0L) return ""
+        return try {
+            val sdf = SimpleDateFormat(pattern, locale)
+            sdf.format(Date(ts))
+        } catch (e: Exception) {
+            Log.e(AppConfig.TAG, "Failed to format timestamp", e)
+            ""
+        }
+    }
+}

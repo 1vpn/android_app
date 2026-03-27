@@ -13,17 +13,17 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         submodules: 'recursive'
         fetch-depth: '0'
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3.2.0
+      uses: android-actions/setup-android@v4.0.0
       with:
         log-accepted-android-sdk-licenses: false
-        cmdline-tools-version: '12266719'
-        packages: 'platforms;android-35 build-tools;35.0.0 platform-tools'
+        cmdline-tools-version: '13114758'
+        packages: 'platforms;android-36.1 build-tools;36.1.0 platform-tools'
 
     - name: Install NDK
       run: |
@@ -35,26 +35,26 @@ jobs:
         \
             ndkVersion = "28.2.13676358"' ${{ github.workspace }}/V2rayNG/app/build.gradle.kts
 
-    - name: Restore cached libtun2socks
-      id: cache-libtun2socks-restore
+    - name: Restore cached libhevtun
+      id: cache-libhevtun-restore
       uses: actions/cache/restore@v4
       with:
         path: ${{ github.workspace }}/libs
-        key: libtun2socks-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hev-socks5-tunnel/HEAD') }}-${{ hashFiles('.git/modules/badvpn/HEAD') }}-${{ hashFiles('.git/modules/libancillary/HEAD') }}
+        key: libhevtun-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hev-socks5-tunnel/HEAD') }}-${{ hashFiles('compile-hevtun.sh') }}
 
-    - name: Build libtun2socks
-      if: steps.cache-libtun2socks-restore.outputs.cache-hit != 'true'
+    - name: Build libhevtun
+      if: steps.cache-libhevtun-restore.outputs.cache-hit != 'true'
       run: |
-        bash compile-tun2socks.sh
+        bash compile-hevtun.sh
     
-    - name: Save libtun2socks
-      if: steps.cache-libtun2socks-restore.outputs.cache-hit != 'true'
+    - name: Save libhevtun
+      if: steps.cache-libhevtun-restore.outputs.cache-hit != 'true'
       uses: actions/cache/save@v4
       with:
         path: ${{ github.workspace }}/libs
-        key: libtun2socks-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hev-socks5-tunnel/HEAD') }}-${{ hashFiles('.git/modules/badvpn/HEAD') }}-${{ hashFiles('.git/modules/libancillary/HEAD') }}
+        key: libhevtun-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hev-socks5-tunnel/HEAD') }}-${{ hashFiles('compile-hevtun.sh') }}
 
-    - name: Copy libtun2socks
+    - name: Copy libhevtun
       run: |
         cp -r ${{ github.workspace }}/libs ${{ github.workspace }}/V2rayNG/app
 
@@ -74,38 +74,8 @@ jobs:
         fileName: 'libv2ray.aar'
         out-file-path: V2rayNG/app/libs/
 
-    - name: Restore cached libhysteria2
-      id: cache-libhysteria2-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: ${{ github.workspace }}/hysteria/libs
-        key: libhysteria2-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hysteria/HEAD') }}-${{ hashFiles('libhysteria2.sh') }}
-
-    - name: Setup Golang
-      if: steps.cache-libhysteria2-restore.outputs.cache-hit != 'true'
-      uses: actions/setup-go@v5.4.0
-      with:
-        go-version-file: 'AndroidLibXrayLite/go.mod'
-        cache: false
-
-    - name: Build libhysteria2
-      if: steps.cache-libhysteria2-restore.outputs.cache-hit != 'true'
-      run: |
-        bash libhysteria2.sh
-
-    - name: Save libhysteria2
-      if: steps.cache-libhysteria2-restore.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v4
-      with:
-        path: ${{ github.workspace }}/hysteria/libs
-        key: libhysteria2-${{ runner.os }}-${{ env.NDK_HOME }}-${{ hashFiles('.git/modules/hysteria/HEAD') }}-${{ hashFiles('libhysteria2.sh') }}
-
-    - name: Copy libhysteria2
-      run: |
-        cp -r ${{ github.workspace }}/hysteria/libs ${{ github.workspace }}/V2rayNG/app
-
     - name: Setup Java
-      uses: actions/setup-java@v4.7.0
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
@@ -126,21 +96,21 @@ jobs:
         ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
     
     - name: Upload arm64-v8a APK
-      uses: actions/upload-artifact@v4.6.2
+      uses: actions/upload-artifact@v7
       if: ${{  success() }}
       with:
         name: arm64-v8a
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*arm64-v8a*.apk
 
     - name: Upload armeabi-v7a APK
-      uses: actions/upload-artifact@v4.6.2
+      uses: actions/upload-artifact@v7
       if: ${{  success() }}
       with:
         name: armeabi-v7a
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*armeabi-v7a*.apk
 
     - name: Upload x86 APK
-      uses: actions/upload-artifact@v4.6.2
+      uses: actions/upload-artifact@v7
       if: ${{  success() }}
       with:
         name: x86-apk
@@ -150,7 +120,7 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       if: github.event.inputs.release_tag != ''
       with:
-        file: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*playstore*/release/*.apk
+        file: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*.apk
         tag: ${{ github.event.inputs.release_tag }}
         file_glob: true
         prerelease: true

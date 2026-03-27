@@ -83,10 +83,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sub_setting_filter" />
+                    android:text="@string/sub_setting_user_agent" />
 
                 <EditText
-                    android:id="@+id/et_filter"
+                    android:id="@+id/et_user_agent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -102,10 +102,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sub_setting_intelligent_selection_filter" />
+                    android:text="@string/sub_setting_filter" />
 
                 <EditText
-                    android:id="@+id/et_intelligent_selection_filter"
+                    android:id="@+id/et_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
