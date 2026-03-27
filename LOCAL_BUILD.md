@@ -1,18 +1,20 @@
 # Local build
 
-Run steps 1–4 from repo root.
+Matches `.github/workflows/build.yml`. Run steps 1–3 from **repo root**.
 
 ## Setup (once)
 
-- **Android SDK** – set `sdk.dir` in `V2rayNG/local.properties` (e.g. `/home/user/Android/Sdk`).
-- **Android NDK** – Android Studio → File → Settings → Languages & Frameworks → Android SDK → SDK Tools → enable **NDK (Side by side)** → Apply. Then set `NDK_HOME` to the installed version:
-  ```bash
-  export ANDROID_HOME=/home/user/Android/Sdk   # or your sdk.dir path
-  ls $ANDROID_HOME/ndk/                         # e.g. 29.0.14206865
-  export NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865   # use the folder name from ls
-  ```
-- **Go** – for step 4. Install: `sudo apt install golang-go` (or from https://go.dev/dl/).
-- **Java 17+** – for Gradle.
+- **Android SDK** – use the same path as `sdk.dir` in `V2rayNG/local.properties` (not a fake path). Install **Android 36** platform and **build-tools 36.x** (CI: `platforms;android-36.1`, `build-tools;36.1.0`).
+- **NDK** – CI uses **28.2.13676358**; your machine may only have **29.x** (Android Studio often installs one version). **Always** point `NDK_HOME` at a real folder: `ls $ANDROID_HOME/ndk/` and use that name (e.g. `29.0.14206865`). To match CI exactly, install NDK 28.2 in SDK Manager (Side by side).
+- **Java 21** – matches CI.
+
+Set env for the native build (`ANDROID_HOME` = your `sdk.dir`):
+
+```bash
+export ANDROID_HOME=/home/user/Android/Sdk
+export NDK_HOME=$ANDROID_HOME/ndk/$(ls "$ANDROID_HOME/ndk" | head -1)
+```
+Or set `NDK_HOME` manually after `ls $ANDROID_HOME/ndk/`.
 
 ## 1. Submodules
 
@@ -20,12 +22,12 @@ Run steps 1–4 from repo root.
 git submodule update --init --recursive
 ```
 
-## 2. libtun2socks
+## 2. libhevtun (hev-socks5-tunnel)
 
 ```bash
 export ANDROID_HOME=/home/user/Android/Sdk
-export NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865
-bash compile-tun2socks.sh
+export NDK_HOME=$ANDROID_HOME/ndk/$(ls "$ANDROID_HOME/ndk" | head -1)
+bash compile-hevtun.sh
 cp -r libs V2rayNG/app/
 ```
 
@@ -37,26 +39,24 @@ mkdir -p V2rayNG/app/libs
 curl -L -o V2rayNG/app/libs/libv2ray.aar "https://github.com/2dust/AndroidLibXrayLite/releases/download/${CURRENT_TAG}/libv2ray.aar"
 ```
 
-## 4. libhysteria2
-
-```bash
-export ANDROID_HOME=/home/user/Android/Sdk
-export NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865
-bash libhysteria2.sh
-cp -r hysteria/libs/* V2rayNG/app/libs/
-```
-
-## 5. App
+## 4. App
 
 **Debug (install on device):**
+
 ```bash
 cd V2rayNG
 ./gradlew :app:install1vpnPlaystoreDebug
 ```
 
-**Prod (release APK):**
+**Release (same signing pattern as CI):**
+
 ```bash
 cd V2rayNG
-./gradlew :app:assemble1vpnPlaystoreRelease
+./gradlew assembleRelease \
+  -Pandroid.injected.signing.store.file=/path/to/keystore.jks \
+  -Pandroid.injected.signing.store.password=... \
+  -Pandroid.injected.signing.key.alias=... \
+  -Pandroid.injected.signing.key.password=...
 ```
-APKs: `V2rayNG/app/build/outputs/apk/1vpnPlaystore/release/`. Signing: configure in `app/build.gradle.kts` or pass `-Pandroid.injected.signing.*` (see CI workflow).
+
+CI also runs `./gradlew licenseFdroidReleaseReport` before `assembleRelease`. Per-ABI APKs: `V2rayNG/app/build/outputs/apk/*/release/`.
