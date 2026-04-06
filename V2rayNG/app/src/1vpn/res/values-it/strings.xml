@@ -48,6 +48,7 @@
     <string name="de">Germania</string>
     <string name="es">Spagna</string>
     <string name="fr">Francia</string>
+    <string name="il">Israele</string>
     <string name="in">India</string>
     <string name="jp">Giappone</string>
     <string name="kr">Corea del Sud</string>
@@ -58,11 +59,11 @@
     <string name="se">Svezia</string>
     <string name="sg">Singapore</string>
     <string name="uk">Regno Unito</string>
-    <string name="ue">USA Est</string>
-    <string name="us">USA Sud</string>
-    <string name="uw">USA Ovest</string>
-    <string name="use">USA Est</string>
-    <string name="uss">USA Sud</string>
-    <string name="usw">USA Ovest</string>
+    <string name="ue">Stati Uniti</string>
+    <string name="us">Stati Uniti</string>
+    <string name="uw">Stati Uniti</string>
+    <string name="use">Stati Uniti</string>
+    <string name="uss">Stati Uniti</string>
+    <string name="usw">Stati Uniti</string>
     <string name="za">Sudafrica</string>
 </resources>

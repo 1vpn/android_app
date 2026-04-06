@@ -1,5 +1,6 @@
 package com.one.vpnapp.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,12 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.one.vpnapp.model.Location
 import com.one.vpnapp.util.getFlag
-import com.one.vpnapp.util.getCountryName
+import com.one.vpnapp.util.getLocationName
 import com.v2ray.ang.R
 
 @Composable
@@ -34,43 +34,51 @@ fun LocationButton(
         Button(
             onClick = onClick,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(62.dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
-                containerColor = androidx.compose.ui.graphics.Color(
-                    0xFFe7eaed
-                )
+                containerColor = white
             ),
-            shape = RoundedCornerShape(6.dp),
-            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 0.dp)
+            shape = RoundedCornerShape(8.dp),
+            border = BorderStroke(1.dp, darkBorderGrey),
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(
-                    painter = painterResource(id = flagId),
-                    contentDescription = "\${selectedLocation.country} Flag",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-                Text(
-                    text = getCountryName(
-                        context,
-                        countryCode = selectedLocation.countryCode
-                    ),
-                    textAlign = TextAlign.Center,
-                    fontSize = 18.sp,
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Normal,
-                    color = androidx.compose.ui.graphics.Color(0xFF333333)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(18.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = flagId),
+                        contentDescription = "${selectedLocation.countryCode} Flag",
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                    )
+                    Column {
+                        Text(
+                            text = getLocationName(context, selectedLocation.cityCode),
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Medium,
+                            color = black
+                        )
+                        Text(
+                            text = getLocationName(context, selectedLocation.countryCode),
+                            fontSize = 13.sp,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Normal,
+                            color = grey
+                        )
+                    }
+                }
                 Image(
                     painter = painterResource(id = R.drawable.chevron_right),
                     contentDescription = "Chevron Right",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }

@@ -11,6 +11,7 @@ fun getFlag(countryCode: String): Int {
         "cl" to R.drawable.flag_cl,
         "fr" to R.drawable.flag_fr,
         "de" to R.drawable.flag_de,
+        "il" to R.drawable.flag_il,
         "in" to R.drawable.flag_in,
         "jp" to R.drawable.flag_jp,
         "kr" to R.drawable.flag_kr,
@@ -22,6 +23,7 @@ fun getFlag(countryCode: String): Int {
         "es" to R.drawable.flag_es,
         "se" to R.drawable.flag_se,
         "uk" to R.drawable.flag_uk,
+        "us" to R.drawable.flag_us,
         "use" to R.drawable.flag_us,
         "uss" to R.drawable.flag_us,
         "usw" to R.drawable.flag_us
@@ -29,12 +31,12 @@ fun getFlag(countryCode: String): Int {
     return flagMap[countryCode.lowercase()] ?: R.drawable.flag_us
 }
 
-fun getCountryName(context: Context, countryCode: String): String {
+fun getLocationName(context: Context, code: String): String {
     val resourceId =
-        context.resources.getIdentifier(countryCode.lowercase(), "string", context.packageName)
+        context.resources.getIdentifier(code.lowercase(), "string", context.packageName)
     return if (resourceId != 0) {
         context.getString(resourceId)
     } else {
-        countryCode
+        code
     }
 }

@@ -4,6 +4,8 @@ import com.one.vpnapp.model.Location
 
 val freeLocations = listOf(
     Location(
+        city = "Amsterdam",
+        cityCode = "ams",
         country = "Netherlands",
         countryCode = "nl",
         xrayHost = "netherlands-node-free-1.cloudwidecdn.com",
@@ -11,100 +13,231 @@ val freeLocations = listOf(
         shortId = "1d86d17709852910",
     ),
     Location(
-        country = "USA West",
-        countryCode = "usw",
+        city = "Singapore",
+        cityCode = "sgp",
+        country = "Singapore",
+        countryCode = "sg",
         xrayHost = "usa-west-node-free-1.cloudwidecdn.com",
         publicKey = "PryGoq51ilG0eLUPl9i0xCvmk1xpwkyFSr_tG4GNLlU",
         shortId = "1d86d17709852910",
     ),
     Location(
+        city = "Los Angeles",
+        cityCode = "lax",
+        country = "United States",
+        countryCode = "us",
+        xrayHost = "usa-west-node-free-1.cloudwidecdn.com",
+        publicKey = "PryGoq51ilG0eLUPl9i0xCvmk1xpwkyFSr_tG4GNLlU",
+        shortId = "1d86d17709852910",
+    ),
+    Location(
+        city = "Melbourne",
+        cityCode = "mel",
         country = "Australia",
         countryCode = "au",
         isPremium = true
     ),
     Location(
+        city = "Sydney",
+        cityCode = "syd",
+        country = "Australia",
+        countryCode = "au",
+        isPremium = true
+    ),
+    Location(
+        city = "Sao Paulo",
+        cityCode = "sao",
         country = "Brazil",
         countryCode = "br",
         isPremium = true
     ),
     Location(
+        city = "Toronto",
+        cityCode = "yto",
         country = "Canada",
         countryCode = "ca",
         isPremium = true
     ),
     Location(
+        city = "Santiago",
+        cityCode = "scl",
         country = "Chile",
         countryCode = "cl",
         isPremium = true
     ),
     Location(
+        city = "Paris",
+        cityCode = "cdg",
         country = "France",
         countryCode = "fr",
         isPremium = true
     ),
     Location(
+        city = "Frankfurt",
+        cityCode = "fra",
         country = "Germany",
         countryCode = "de",
         isPremium = true
     ),
     Location(
+        city = "Delhi",
+        cityCode = "del",
         country = "India",
         countryCode = "in",
         isPremium = true
     ),
     Location(
+        city = "Mumbai",
+        cityCode = "bom",
+        country = "India",
+        countryCode = "in",
+        isPremium = true
+    ),
+    Location(
+        city = "Bangalore",
+        cityCode = "blr",
+        country = "India",
+        countryCode = "in",
+        isPremium = true
+    ),
+    Location(
+        city = "Tel Aviv",
+        cityCode = "tlv",
+        country = "Israel",
+        countryCode = "il",
+        isPremium = true
+    ),
+    Location(
+        city = "Osaka",
+        cityCode = "itm",
         country = "Japan",
         countryCode = "jp",
         isPremium = true
     ),
     Location(
+        city = "Tokyo",
+        cityCode = "nrt",
+        country = "Japan",
+        countryCode = "jp",
+        isPremium = true
+    ),
+    Location(
+        city = "Seoul",
+        cityCode = "icn",
         country = "South Korea",
         countryCode = "kr",
         isPremium = true
     ),
     Location(
+        city = "Mexico City",
+        cityCode = "mex",
         country = "Mexico",
         countryCode = "mx",
         isPremium = true
     ),
     Location(
+        city = "Warsaw",
+        cityCode = "waw",
         country = "Poland",
         countryCode = "pl",
         isPremium = true
     ),
     Location(
+        city = "Singapore",
+        cityCode = "sgp",
         country = "Singapore",
         countryCode = "sg",
         isPremium = true
     ),
     Location(
+        city = "Johannesburg",
+        cityCode = "jnb",
         country = "South Africa",
         countryCode = "za",
         isPremium = true
     ),
     Location(
+        city = "Madrid",
+        cityCode = "mad",
         country = "Spain",
         countryCode = "es",
         isPremium = true
     ),
     Location(
+        city = "Stockholm",
+        cityCode = "sto",
         country = "Sweden",
         countryCode = "se",
         isPremium = true
     ),
     Location(
+        city = "London",
+        cityCode = "lhr",
         country = "United Kingdom",
         countryCode = "uk",
         isPremium = true
     ),
     Location(
-        country = "USA East",
-        countryCode = "use",
+        city = "Manchester",
+        cityCode = "man",
+        country = "United Kingdom",
+        countryCode = "uk",
         isPremium = true
     ),
     Location(
-        country = "USA South",
-        countryCode = "uss",
+        city = "Chicago",
+        cityCode = "ord",
+        country = "United States",
+        countryCode = "us",
         isPremium = true
-    )
+    ),
+    Location(
+        city = "Dallas",
+        cityCode = "dfw",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "Seattle",
+        cityCode = "sea",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "San Francisco",
+        cityCode = "sjc",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "Miami",
+        cityCode = "mia",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "Honolulu",
+        cityCode = "hnl",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "New York",
+        cityCode = "ewr",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
+    Location(
+        city = "Atlanta",
+        cityCode = "atl",
+        country = "United States",
+        countryCode = "us",
+        isPremium = true
+    ),
 )

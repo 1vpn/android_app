@@ -48,6 +48,7 @@
     <string name="de">Jerman</string>
     <string name="es">Spanyol</string>
     <string name="fr">Prancis</string>
+    <string name="il">Israel</string>
     <string name="in">India</string>
     <string name="jp">Jepang</string>
     <string name="kr">Korea Selatan</string>
@@ -58,11 +59,11 @@
     <string name="se">Swedia</string>
     <string name="sg">Singapura</string>
     <string name="uk">Inggris Raya</string>
-    <string name="ue">AS Timur</string>
-    <string name="us">AS Selatan</string>
-    <string name="uw">AS Barat</string>
-    <string name="use">AS Timur</string>
-    <string name="uss">AS Selatan</string>
-    <string name="usw">AS Barat</string>
+    <string name="ue">Amerika Serikat</string>
+    <string name="us">Amerika Serikat</string>
+    <string name="uw">Amerika Serikat</string>
+    <string name="use">Amerika Serikat</string>
+    <string name="uss">Amerika Serikat</string>
+    <string name="usw">Amerika Serikat</string>
     <string name="za">Afrika Selatan</string>
 </resources>

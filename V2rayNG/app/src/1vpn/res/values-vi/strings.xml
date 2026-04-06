@@ -48,6 +48,7 @@
     <string name="de">Đức</string>
     <string name="es">Tây Ban Nha</string>
     <string name="fr">Pháp</string>
+    <string name="il">Israel</string>
     <string name="in">Ấn Độ</string>
     <string name="jp">Nhật Bản</string>
     <string name="kr">Hàn Quốc</string>
@@ -58,12 +59,12 @@
     <string name="se">Thụy Điển</string>
     <string name="sg">Singapore</string>
     <string name="uk">Vương quốc Anh</string>
-    <string name="ue">Mỹ miền Đông</string>
-    <string name="us">Mỹ miền Nam</string>
-    <string name="uw">Mỹ miền Tây</string>
-    <string name="use">Mỹ miền Đông</string>
-    <string name="uss">Mỹ miền Nam</string>
-    <string name="usw">Mỹ miền Tây</string>
+    <string name="ue">Hoa Kỳ</string>
+    <string name="us">Hoa Kỳ</string>
+    <string name="uw">Hoa Kỳ</string>
+    <string name="use">Hoa Kỳ</string>
+    <string name="uss">Hoa Kỳ</string>
+    <string name="usw">Hoa Kỳ</string>
     <string name="za">Nam Phi</string>
    
 </resources>

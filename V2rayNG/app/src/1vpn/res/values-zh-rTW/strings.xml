@@ -48,6 +48,7 @@
     <string name="de">德國</string>
     <string name="es">西班牙</string>
     <string name="fr">法國</string>
+    <string name="il">以色列</string>
     <string name="in">印度</string>
     <string name="jp">日本</string>
     <string name="kr">南韓</string>
@@ -58,11 +59,11 @@
     <string name="se">瑞典</string>
     <string name="sg">新加坡</string>
     <string name="uk">英國</string>
-    <string name="ue">美國東部</string>
-    <string name="us">美國南部</string>
-    <string name="uw">美國西部</string>
-    <string name="use">美國東部</string>
-    <string name="uss">美國南部</string>
-    <string name="usw">美國西部</string>
+    <string name="ue">美國</string>
+    <string name="us">美國</string>
+    <string name="uw">美國</string>
+    <string name="use">美國</string>
+    <string name="uss">美國</string>
+    <string name="usw">美國</string>
     <string name="za">南非</string>
 </resources>

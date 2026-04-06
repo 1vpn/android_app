@@ -133,6 +133,7 @@ fun MainScreen(
     if (showLocationDialog) {
         LocationDialog(
             locations = getAvailableLocations(),
+            selectedCityCode = selectedLocation.cityCode,
             onOptionSelected = { country ->
                 selectedLocation = getAvailableLocations().first { it.country == country }
                 isVpnOnState.value = false

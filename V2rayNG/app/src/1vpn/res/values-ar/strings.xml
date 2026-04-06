@@ -48,6 +48,7 @@
     <string name="de">ألمانيا</string>
     <string name="es">إسبانيا</string>
     <string name="fr">فرنسا</string>
+    <string name="il">إسرائيل</string>
     <string name="in">الهند</string>
     <string name="jp">اليابان</string>
     <string name="kr">كوريا الجنوبية</string>
@@ -58,12 +59,12 @@
     <string name="se">السويد</string>
     <string name="sg">سنغافورة</string>
     <string name="uk">المملكة المتحدة</string>
-    <string name="ue">شرق الولايات المتحدة</string>
-    <string name="us">جنوب الولايات المتحدة</string>
-    <string name="uw">غرب الولايات المتحدة</string>
-    <string name="use">شرق الولايات المتحدة</string>
-    <string name="uss">جنوب الولايات المتحدة</string>
-    <string name="usw">غرب الولايات المتحدة</string>
+    <string name="ue">الولايات المتحدة</string>
+    <string name="us">الولايات المتحدة</string>
+    <string name="uw">الولايات المتحدة</string>
+    <string name="use">الولايات المتحدة</string>
+    <string name="uss">الولايات المتحدة</string>
+    <string name="usw">الولايات المتحدة</string>
     <string name="za">جنوب أفريقيا</string>
 
 </resources>

@@ -42,6 +42,39 @@
     <string name="login_error">Login Error</string>
     <string name="sign_up_error">Sign Up Error</string>
 
+    <string name="ams" translatable="false">Amsterdam</string>
+    <string name="sgp" translatable="false">Singapore</string>
+    <string name="lax" translatable="false">Los Angeles</string>
+    <string name="mel" translatable="false">Melbourne</string>
+    <string name="syd" translatable="false">Sydney</string>
+    <string name="sao" translatable="false">Sao Paulo</string>
+    <string name="yto" translatable="false">Toronto</string>
+    <string name="scl" translatable="false">Santiago</string>
+    <string name="cdg" translatable="false">Paris</string>
+    <string name="fra" translatable="false">Frankfurt</string>
+    <string name="del" translatable="false">Delhi</string>
+    <string name="bom" translatable="false">Mumbai</string>
+    <string name="blr" translatable="false">Bangalore</string>
+    <string name="tlv" translatable="false">Tel Aviv</string>
+    <string name="itm" translatable="false">Osaka</string>
+    <string name="nrt" translatable="false">Tokyo</string>
+    <string name="mex" translatable="false">Mexico City</string>
+    <string name="waw" translatable="false">Warsaw</string>
+    <string name="jnb" translatable="false">Johannesburg</string>
+    <string name="icn" translatable="false">Seoul</string>
+    <string name="mad" translatable="false">Madrid</string>
+    <string name="sto" translatable="false">Stockholm</string>
+    <string name="lhr" translatable="false">London</string>
+    <string name="man" translatable="false">Manchester</string>
+    <string name="ord" translatable="false">Chicago</string>
+    <string name="dfw" translatable="false">Dallas</string>
+    <string name="sea" translatable="false">Seattle</string>
+    <string name="sjc" translatable="false">San Francisco</string>
+    <string name="mia" translatable="false">Miami</string>
+    <string name="hnl" translatable="false">Honolulu</string>
+    <string name="ewr" translatable="false">New York</string>
+    <string name="atl" translatable="false">Atlanta</string>
+
     <string name="au">Australia</string>
     <string name="br">Brazil</string>
     <string name="ca">Canada</string>
@@ -49,6 +82,7 @@
     <string name="de">Germany</string>
     <string name="es">Spain</string>
     <string name="fr">France</string>
+    <string name="il">Israel</string>
     <string name="in">India</string>
     <string name="jp">Japan</string>
     <string name="kr">South Korea</string>
@@ -59,11 +93,11 @@
     <string name="se">Sweden</string>
     <string name="sg">Singapore</string>
     <string name="uk">United Kingdom</string>
-    <string name="ue">USA East</string>
-    <string name="us">USA South</string>
-    <string name="uw">USA West</string>
-    <string name="use">USA East</string>
-    <string name="uss">USA South</string>
-    <string name="usw">USA West</string>
+    <string name="ue">United States</string>
+    <string name="us">United States</string>
+    <string name="uw">United States</string>
+    <string name="use">United States</string>
+    <string name="uss">United States</string>
+    <string name="usw">United States</string>
     <string name="za">South Africa</string>
 </resources>

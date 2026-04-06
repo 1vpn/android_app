@@ -48,6 +48,7 @@
     <string name="de">Германия</string>
     <string name="es">Испания</string>
     <string name="fr">Франция</string>
+    <string name="il">Израиль</string>
     <string name="in">Индия</string>
     <string name="jp">Япония</string>
     <string name="kr">Южная Корея</string>
@@ -58,11 +59,11 @@
     <string name="se">Швеция</string>
     <string name="sg">Сингапур</string>
     <string name="uk">Великобритания</string>
-    <string name="ue">США Восток</string>
-    <string name="us">США Юг</string>
-    <string name="uw">США Запад</string>
-    <string name="use">США Восток</string>
-    <string name="uss">США Юг</string>
-    <string name="usw">США Запад</string>
+    <string name="ue">США</string>
+    <string name="us">США</string>
+    <string name="uw">США</string>
+    <string name="use">США</string>
+    <string name="uss">США</string>
+    <string name="usw">США</string>
     <string name="za">Южная Африка</string>
 </resources>

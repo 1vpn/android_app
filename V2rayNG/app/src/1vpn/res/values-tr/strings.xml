@@ -48,6 +48,7 @@
     <string name="de">Almanya</string>
     <string name="es">İspanya</string>
     <string name="fr">Fransa</string>
+    <string name="il">İsrail</string>
     <string name="in">Hindistan</string>
     <string name="jp">Japonya</string>
     <string name="kr">Güney Kore</string>
@@ -58,11 +59,11 @@
     <string name="se">İsveç</string>
     <string name="sg">Singapur</string>
     <string name="uk">Birleşik Krallık</string>
-    <string name="ue">ABD Doğu</string>
-    <string name="us">ABD Güney</string>
-    <string name="uw">ABD Batı</string>
-    <string name="use">ABD Doğu</string>
-    <string name="uss">ABD Güney</string>
-    <string name="usw">ABD Batı</string>
+    <string name="ue">Amerika Birleşik Devletleri</string>
+    <string name="us">Amerika Birleşik Devletleri</string>
+    <string name="uw">Amerika Birleşik Devletleri</string>
+    <string name="use">Amerika Birleşik Devletleri</string>
+    <string name="uss">Amerika Birleşik Devletleri</string>
+    <string name="usw">Amerika Birleşik Devletleri</string>
     <string name="za">Güney Afrika</string>
 </resources>
