@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -54,7 +53,7 @@ fun MenuDialog(
     var showAccountDialog by remember { mutableStateOf(false) }
 
     BaseDialog(onDismiss = onDismiss) {
-        Column(modifier = Modifier.padding(vertical = 18.dp)) {
+        Column(modifier = Modifier.padding(vertical = 12.dp)) {
             options.forEach { option ->
                 Row(
                     modifier = Modifier
@@ -90,13 +89,13 @@ fun MenuDialog(
                                 }
                             }
                         }
-                        .padding(horizontal = 24.dp, vertical = 18.dp),
+                        .padding(horizontal = 24.dp, vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = option,
-                        fontSize = 18.sp,
-                        color = Color(0xFF333333)
+                        fontSize = 16.sp,
+                        color = black
                     )
                 }
             }
@@ -125,24 +124,24 @@ fun AccountDialog(
     )
 
     BaseDialog(onDismiss = onDismiss) {
-        Column(modifier = Modifier.padding(vertical = 18.dp)) {
+        Column(modifier = Modifier.padding(vertical = 12.dp)) {
             options.forEach { (label, value) ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 18.dp),
+                        .padding(horizontal = 24.dp, vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = label,
-                        fontSize = 18.sp,
-                        color = Color(0xFF333333),
+                        fontSize = 16.sp,
+                        color = black,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = value,
-                        fontSize = 18.sp,
-                        color = Color(0xFF333333).copy(alpha = 0.6f),
+                        fontSize = 16.sp,
+                        color = black.copy(alpha = 0.6f),
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.End
                     )
@@ -158,13 +157,13 @@ fun AccountDialog(
                         )
                         context.startActivity(browserIntent)
                     }
-                    .padding(horizontal = 24.dp, vertical = 18.dp),
+                    .padding(horizontal = 24.dp, vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = stringResource(R.string.edit_info),
-                    fontSize = 18.sp,
-                    color = Color(0xFF333333)
+                    fontSize = 16.sp,
+                    color = black
                 )
             }
         }

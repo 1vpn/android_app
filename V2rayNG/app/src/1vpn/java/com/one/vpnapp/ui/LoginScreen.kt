@@ -195,14 +195,14 @@ fun LoginScreen(navController: NavController) {
         ) {
             Text(
                 text = stringResource(R.string.create_account),
-                color = Color(0xFF333333),
+                color = black,
                 modifier = Modifier.clickable {
                     navController.navigate("signUp")
                 }
             )
             Text(
                 text = stringResource(R.string.forgot_password),
-                color = Color(0xFF333333),
+                color = black,
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .fillMaxWidth()

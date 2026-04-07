@@ -132,7 +132,7 @@ fun SignUpScreen(navController: NavController) {
         Text(
             text = stringResource(R.string.sign_up),
             fontSize = 26.sp,
-            color = Color(0xFF333333),
+            color = black,
             modifier = Modifier.padding(top = 24.dp)
         )
         ReusableOutlinedTextField(
@@ -171,7 +171,7 @@ fun SignUpScreen(navController: NavController) {
 
         Text(
             text = stringResource(R.string.have_an_account),
-            color = Color(0xFF333333),
+            color = black,
             modifier = Modifier
                 .padding(top = 8.dp, bottom = 24.dp)
                 .clickable {

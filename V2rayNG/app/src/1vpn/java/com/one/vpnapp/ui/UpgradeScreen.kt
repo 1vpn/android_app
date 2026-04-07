@@ -195,7 +195,7 @@ fun UpgradeScreen(navController: NavController) {
 
         Text(
             text = stringResource(R.string.continue_with_limited_plan),
-            color = Color(0xFF333333),
+            color = black,
             modifier = Modifier
                 .padding(bottom = 24.dp)
                 .clickable {
@@ -217,7 +217,7 @@ fun FeatureRow(text: String) {
         )
         Text(
             text = text,
-            color = Color(0xFF333333),
+            color = black,
             modifier = Modifier.padding(start = 12.dp)
         )
     }
@@ -257,7 +257,7 @@ fun PlanOption(
             Column {
                 Text(
                     text = planName,
-                    color = Color(0xFF333333),
+                    color = black,
                 )
                 Text(
                     text = price,

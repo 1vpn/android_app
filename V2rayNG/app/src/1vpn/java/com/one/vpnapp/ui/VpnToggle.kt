@@ -67,7 +67,7 @@ fun VpnToggle(
                 text = if (isVpnOnState.value) stringResource(R.string.connected) else stringResource(
                     R.string.disconnected
                 ),
-                style = TextStyle(fontSize = 18.sp, color = Color(0xFF333333)),
+                style = TextStyle(fontSize = 18.sp, color = black),
                 modifier = Modifier.padding(top = 16.dp)
             )
         }

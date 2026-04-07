@@ -32,7 +32,7 @@ fun ReusableOutlinedTextField(
         modifier = modifier,
         visualTransformation = visualTransformation,
         colors = OutlinedTextFieldDefaults.colors(
-            cursorColor = Color(0xFF333333),
+            cursorColor = black,
             unfocusedLabelColor = Color.Black.copy(alpha = 0.6f),
             focusedLabelColor = Color(0xFF106CD5),
             unfocusedBorderColor = Color(0xFFc4cbd3),

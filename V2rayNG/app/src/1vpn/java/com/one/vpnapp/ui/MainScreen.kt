@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -58,35 +60,38 @@ fun MainScreen(
         setupServerConfig(selectedLocation, userData, isPremium)
     }
 
-    TopAppBar(
-        title = {},
-        navigationIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Logo",
-                tint = Color.Unspecified,
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
-            )
-        },
-        actions = {
-            Box(
-                modifier = Modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { showMenuDialog = true }
-                    .padding(horizontal = 24.dp, vertical = 12.dp)
-            ) {
+    Column {
+        TopAppBar(
+            title = {},
+            navigationIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.menu),
-                    contentDescription = "Menu",
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
                     tint = Color.Unspecified,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.height(28.dp).padding(horizontal = 24.dp)
                 )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
-    )
+            },
+            actions = {
+                Box(
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { showMenuDialog = true }
+                        .padding(horizontal = 24.dp, vertical = 12.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.menu),
+                        contentDescription = "Menu",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+        )
+        HorizontalDivider(color = darkBorderGrey)
+    }
 
     VpnToggle(
         startVpn = {
