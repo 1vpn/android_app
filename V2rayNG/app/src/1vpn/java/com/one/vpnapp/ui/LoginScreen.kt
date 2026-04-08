@@ -38,7 +38,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.launch
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.core.net.toUri
 import com.revenuecat.purchases.Purchases
 import com.one.vpnapp.api.LoginRequest
@@ -176,13 +175,12 @@ fun LoginScreen(navController: NavController) {
                 .height(62.dp)
                 .padding(top = 8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF106CD5)),
-            shape = RoundedCornerShape(6.dp),
+            shape = RoundedCornerShape(8.dp),
             elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 0.dp)
         ) {
             Text(
                 text = if (loading) stringResource(R.string.loading) else stringResource(R.string.login),
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
                 color = Color.White,
             )
         }
@@ -196,6 +194,7 @@ fun LoginScreen(navController: NavController) {
             Text(
                 text = stringResource(R.string.create_account),
                 color = black,
+                fontSize = 16.sp,
                 modifier = Modifier.clickable {
                     navController.navigate("signUp")
                 }
