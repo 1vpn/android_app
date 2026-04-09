@@ -114,7 +114,6 @@ fun UpgradeScreen(navController: NavController) {
                 Text(
                     text = stringResource(R.string.choose_your_plan),
                     fontSize = 26.sp,
-                    fontWeight = FontWeight.Medium,
                     color = Color.White
                 )
             }
@@ -162,7 +161,7 @@ fun UpgradeScreen(navController: NavController) {
             // Plan options — stacked
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 availablePackages
                     .sortedByDescending { it.packageType == com.revenuecat.purchases.PackageType.ANNUAL }
@@ -208,7 +207,7 @@ fun UpgradeScreen(navController: NavController) {
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
                     onClick = {
@@ -336,7 +335,7 @@ fun PlanOption(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             )
-            .background(bgColor, RoundedCornerShape(10.dp))
+            .background(bgColor, RoundedCornerShape(8.dp))
             .fillMaxWidth()
             .border(
                 width = if (isSelected) 2.dp else 1.dp,

@@ -32,9 +32,9 @@ fun ReusableOutlinedTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = labelText) },
+        label = { Text(text = labelText, fontSize = 14.sp) },
         modifier = modifier,
-        textStyle = TextStyle(fontSize = 16.sp),
+        textStyle = TextStyle(fontSize = 14.sp),
         shape = RoundedCornerShape(8.dp),
         visualTransformation = visualTransformation,
         colors = OutlinedTextFieldDefaults.colors(

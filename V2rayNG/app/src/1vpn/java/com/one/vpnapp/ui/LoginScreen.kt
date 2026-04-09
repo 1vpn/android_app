@@ -11,43 +11,43 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavController
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
-import kotlinx.coroutines.launch
-import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
-import com.revenuecat.purchases.Purchases
+import androidx.navigation.NavController
 import com.one.vpnapp.api.LoginRequest
 import com.one.vpnapp.api.RetrofitClient
-import com.one.vpnapp.model.ErrorResponse
 import com.one.vpnapp.handler.MmkvManager
+import com.one.vpnapp.model.ErrorResponse
+import com.revenuecat.purchases.Purchases
+import com.v2ray.ang.R
 import com.v2ray.ang.handler.V2RayServiceManager
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Converter
-import com.v2ray.ang.R
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -128,12 +128,12 @@ fun LoginScreen(navController: NavController) {
             .imePadding()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
     ) {
         Text(
             text = stringResource(R.string.login),
             fontSize = 26.sp,
-            modifier = Modifier.padding(top = 24.dp)
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp)
         )
         ReusableOutlinedTextField(
             value = email,
@@ -172,15 +172,15 @@ fun LoginScreen(navController: NavController) {
             onClick = { handleSubmit() },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(62.dp)
-                .padding(top = 8.dp),
+                .padding(top = 8.dp)
+                .height(48.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF106CD5)),
             shape = RoundedCornerShape(8.dp),
             elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 0.dp)
         ) {
             Text(
                 text = if (loading) stringResource(R.string.loading) else stringResource(R.string.login),
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = Color.White,
             )
         }
@@ -194,17 +194,19 @@ fun LoginScreen(navController: NavController) {
             Text(
                 text = stringResource(R.string.create_account),
                 color = black,
-                fontSize = 16.sp,
-                modifier = Modifier.clickable {
-                    navController.navigate("signUp")
-                }
+                fontSize = 14.sp,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("signUp")
+                    }
             )
             Text(
                 text = stringResource(R.string.forgot_password),
                 color = black,
+                fontSize = 14.sp,
                 textAlign = TextAlign.End,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .clickable {
                         val browserIntent = Intent(
                             Intent.ACTION_VIEW,
