@@ -4,6 +4,7 @@
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
     <string name="upgrade">Upgrade</string>
+    <string name="choose_your_plan">Choose Your Plan</string>
     <string name="sign_up">Sign Up</string>
     <string name="login">Login</string>
     <string name="loading">Loading…</string>
@@ -25,15 +26,17 @@
     <string name="premium">Premium</string>
     <string name="free">Free</string>
     <string name="edit_info">Edit Info</string>
-    <string name="unlock_all_locations">Unlock All 20 Locations</string>
+    <string name="unlock_all_locations">Unlock All Server Locations</string>
     <string name="no_advertisements">No Advertisements</string>
     <string name="faster_server_speeds">Faster Server Speeds</string>
     <string name="bittorrent_support">BitTorrent (P2P) Support</string>
+    <string name="money_back_guarantee">10-Day Money-Back Guarantee</string>
     <string name="yearly_plan">Yearly Plan</string>
     <string name="monthly_plan">Monthly Plan</string>
     <string name="save_60_percent">Save 60%</string>
     <string name="month_short">mo</string>
     <string name="continue_with_limited_plan">Continue With Limited Plan</string>
+    <string name="continue_free">Continue Free</string>
     <string name="rate_your_connection">Rate Your Connection</string>
     <string name="logged_out">Logged Out</string>
     <string name="login_successful">Login Successful</string>
