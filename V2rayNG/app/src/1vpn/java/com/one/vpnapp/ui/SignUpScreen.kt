@@ -181,7 +181,7 @@ fun SignUpScreen(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 24.dp)
+                .padding(top = 4.dp, bottom = 24.dp)
                 .clickable {
                     navController.navigate("login")
                 }
