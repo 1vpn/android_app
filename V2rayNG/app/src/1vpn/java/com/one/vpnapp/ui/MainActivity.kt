@@ -127,7 +127,7 @@ class MainActivity : ComponentActivity() {
                     if (!isPremium) {
                         val lastShown = MmkvManager.getLastUpgradeScreenTime()
                         val now = System.currentTimeMillis()
-                        val twelveHoursMillis = 60 * 1000L
+                        val twelveHoursMillis = 12 * 60 * 60 * 1000L
                         if (lastShown == 0L || now - lastShown >= twelveHoursMillis) {
                             MmkvManager.setLastUpgradeScreenTime(now)
                             navController.navigate("upgrade")
