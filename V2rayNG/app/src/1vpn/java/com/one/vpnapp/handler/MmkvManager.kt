@@ -1,14 +1,15 @@
 package com.one.vpnapp.handler
 
-import com.tencent.mmkv.MMKV
-import com.one.vpnapp.model.UserData
-import com.one.vpnapp.model.Location
 import com.google.gson.Gson
+import com.one.vpnapp.model.Location
+import com.one.vpnapp.model.UserData
+import com.tencent.mmkv.MMKV
 
 object MmkvManager {
     private const val KEY_USER_DATA = "USER_DATA"
     private const val HAS_GIVEN_RATING = "HAS_GIVEN_RATING"
     private const val KEY_SELECTED_LOCATION = "SELECTED_LOCATION"
+    private const val KEY_LAST_UPGRADE_SCREEN_TIME = "LAST_UPGRADE_SCREEN_TIME"
     private val mmkv: MMKV = MMKV.mmkvWithID("1vpn_mmkv")
     private val gson = Gson()
 
@@ -44,5 +45,13 @@ object MmkvManager {
 
     fun removeSelectedLocation() {
         mmkv.remove(KEY_SELECTED_LOCATION)
+    }
+
+    fun getLastUpgradeScreenTime(): Long {
+        return mmkv.decodeLong(KEY_LAST_UPGRADE_SCREEN_TIME, 0L)
+    }
+
+    fun setLastUpgradeScreenTime(time: Long) {
+        mmkv.encode(KEY_LAST_UPGRADE_SCREEN_TIME, time)
     }
 }

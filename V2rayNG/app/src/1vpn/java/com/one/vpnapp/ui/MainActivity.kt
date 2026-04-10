@@ -10,36 +10,39 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
-import com.v2ray.ang.util.Utils
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.revenuecat.purchases.Purchases
+import com.google.android.gms.ads.MobileAds
 import com.one.vpnapp.api.RetrofitClient
+import com.one.vpnapp.handler.MmkvManager
 import com.one.vpnapp.model.Location
+import com.one.vpnapp.util.VpnServiceUtil
+import com.revenuecat.purchases.Purchases
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.handler.V2RayServiceManager
 import com.v2ray.ang.service.V2RayVpnService
-import com.one.vpnapp.util.VpnServiceUtil
+import com.v2ray.ang.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.one.vpnapp.handler.MmkvManager
-import com.google.android.gms.ads.MobileAds
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 
 @OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
@@ -118,6 +121,20 @@ class MainActivity : ComponentActivity() {
             ) {
                 val navController = rememberNavController()
 
+                LaunchedEffect(Unit) {
+                    val userData = MmkvManager.getUserData()
+                    val isPremium = userData?.isPremium == true
+                    if (!isPremium) {
+                        val lastShown = MmkvManager.getLastUpgradeScreenTime()
+                        val now = System.currentTimeMillis()
+                        val twelveHoursMillis = 60 * 1000L
+                        if (lastShown == 0L || now - lastShown >= twelveHoursMillis) {
+                            MmkvManager.setLastUpgradeScreenTime(now)
+                            navController.navigate("upgrade")
+                        }
+                    }
+                }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White
@@ -140,7 +157,11 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("main") {
                             MainScreen(
-                                requestVpnPermission = { intent -> vpnPermissionLauncher.launch(intent) },
+                                requestVpnPermission = { intent ->
+                                    vpnPermissionLauncher.launch(
+                                        intent
+                                    )
+                                },
                                 isVpnOnState = isVpnOnState,
                                 navController = navController
                             )
