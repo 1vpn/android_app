@@ -40,6 +40,8 @@
     <string name="unknown_error">ข้อผิดพลาดที่ไม่รู้จัก</string>
     <string name="login_error">ข้อผิดพลาดในการเข้าสู่ระบบ</string>
     <string name="sign_up_error">ข้อผิดพลาดในการสมัครสมาชิก</string>
+    <string name="upgrade_to_premium">อัปเกรดเป็นพรีเมียม</string>
+    <string name="upgrade_subtitle">ปลดล็อกทุกตำแหน่งและลบโฆษณา</string>
 
     <string name="au">ออสเตรเลีย</string>
     <string name="br">บราซิล</string>

@@ -44,6 +44,8 @@
     <string name="unknown_error">Unknown Error</string>
     <string name="login_error">Login Error</string>
     <string name="sign_up_error">Sign Up Error</string>
+    <string name="upgrade_to_premium">Upgrade to Premium</string>
+    <string name="upgrade_subtitle">Unlock all locations &amp; remove ads</string>
 
     <string name="ams" translatable="false">Amsterdam</string>
     <string name="sgp" translatable="false">Singapore</string>

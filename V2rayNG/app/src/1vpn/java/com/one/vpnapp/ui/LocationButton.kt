@@ -2,7 +2,13 @@ package com.one.vpnapp.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,7 +36,7 @@ fun LocationButton(
 ) {
     val flagId = getFlag(selectedLocation.countryCode)
 
-    Box(modifier = modifier.padding(horizontal = 24.dp, vertical = 24.dp)) {
+    Box(modifier = modifier) {
         Button(
             onClick = onClick,
             modifier = Modifier

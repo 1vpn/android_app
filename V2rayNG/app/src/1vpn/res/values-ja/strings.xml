@@ -40,6 +40,8 @@
     <string name="unknown_error">不明なエラー</string>
     <string name="login_error">ログインエラー</string>
     <string name="sign_up_error">サインアップエラー</string>
+    <string name="upgrade_to_premium">プレミアムにアップグレード</string>
+    <string name="upgrade_subtitle">すべての場所を解除して広告を削除</string>
 
     <string name="au">オーストラリア</string>
     <string name="br">ブラジル</string>

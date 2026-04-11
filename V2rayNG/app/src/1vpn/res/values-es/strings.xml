@@ -40,6 +40,8 @@
     <string name="unknown_error">Error desconocido</string>
     <string name="login_error">Error al iniciar sesión</string>
     <string name="sign_up_error">Error al registrarse</string>
+    <string name="upgrade_to_premium">Actualizar a Premium</string>
+    <string name="upgrade_subtitle">Desbloquea todas las ubicaciones y elimina anuncios</string>
 
     <string name="au">Australia</string>
     <string name="br">Brasil</string>

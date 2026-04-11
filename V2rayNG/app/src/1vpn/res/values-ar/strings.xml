@@ -40,6 +40,8 @@
     <string name="unknown_error">خطأ غير معروف</string>
     <string name="login_error">خطأ في تسجيل الدخول</string>
     <string name="sign_up_error">خطأ في التسجيل</string>
+    <string name="upgrade_to_premium">الترقية إلى بريميوم</string>
+    <string name="upgrade_subtitle">افتح جميع المواقع وإزالة الإعلانات</string>
 
     <string name="au">أستراليا</string>
     <string name="br">البرازيل</string>

@@ -40,6 +40,8 @@
     <string name="unknown_error">Kesalahan Tidak Dikenal</string>
     <string name="login_error">Kesalahan Masuk</string>
     <string name="sign_up_error">Kesalahan Pendaftaran</string>
+    <string name="upgrade_to_premium">Upgrade ke Premium</string>
+    <string name="upgrade_subtitle">Buka semua lokasi &amp; hapus iklan</string>
 
     <string name="au">Australia</string>
     <string name="br">Brasil</string>

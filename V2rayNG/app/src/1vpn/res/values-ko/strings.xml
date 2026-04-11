@@ -40,6 +40,8 @@
     <string name="unknown_error">알 수 없는 오류</string>
     <string name="login_error">로그인 오류</string>
     <string name="sign_up_error">회원가입 오류</string>
+    <string name="upgrade_to_premium">프리미엄으로 업그레이드</string>
+    <string name="upgrade_subtitle">모든 위치 잠금 해제 및 광고 제거</string>
 
     <string name="au">호주</string>
     <string name="br">브라질</string>

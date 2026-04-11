@@ -40,6 +40,8 @@
     <string name="unknown_error">Erreur inconnue</string>
     <string name="login_error">Erreur de connexion</string>
     <string name="sign_up_error">"Erreur d'inscription"</string>
+    <string name="upgrade_to_premium">Passer à Premium</string>
+    <string name="upgrade_subtitle">Débloquez tous les emplacements et supprimez les publicités</string>
 
     <string name="au">Australie</string>
     <string name="br">Brésil</string>

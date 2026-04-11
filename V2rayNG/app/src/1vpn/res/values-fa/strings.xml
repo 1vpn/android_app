@@ -40,6 +40,8 @@
     <string name="unknown_error">خطای ناشناخته</string>
     <string name="login_error">خطا در ورود</string>
     <string name="sign_up_error">خطا در ثبت‌نام</string>
+    <string name="upgrade_to_premium">ارتقاء به پریمیوم</string>
+    <string name="upgrade_subtitle">تمام موقعیت‌ها را باز کنید و تبلیغات را حذف کنید</string>
 
     <string name="au">استرالیا</string>
     <string name="br">برزیل</string>

@@ -40,6 +40,8 @@
     <string name="unknown_error">Невідома помилка</string>
     <string name="login_error">Помилка входу</string>
     <string name="sign_up_error">Помилка реєстрації</string>
+    <string name="upgrade_to_premium">Перейти на Преміум</string>
+    <string name="upgrade_subtitle">Відкрийте всі локації та приберіть рекламу</string>
 
     <string name="au">Австралія</string>
     <string name="br">Бразилія</string>

@@ -40,6 +40,8 @@
     <string name="unknown_error">Bilinmeyen Hata</string>
     <string name="login_error">Giriş Hatası</string>
     <string name="sign_up_error">Kayıt Hatası</string>
+    <string name="upgrade_to_premium">Premium\'a Yükselt</string>
+    <string name="upgrade_subtitle">Tüm konumların kilidini aç ve reklamları kaldır</string>
 
     <string name="au">Avustralya</string>
     <string name="br">Brezilya</string>

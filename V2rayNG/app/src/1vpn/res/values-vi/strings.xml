@@ -40,6 +40,8 @@
     <string name="unknown_error">Lỗi không xác định</string>
     <string name="login_error">Lỗi đăng nhập</string>
     <string name="sign_up_error">Lỗi đăng ký</string>
+    <string name="upgrade_to_premium">Nâng cấp lên Premium</string>
+    <string name="upgrade_subtitle">Mở khóa tất cả vị trí &amp; xóa quảng cáo</string>
 
     <string name="au">Úc</string>
     <string name="br">Brazil</string>

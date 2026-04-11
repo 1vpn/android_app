@@ -40,6 +40,8 @@
     <string name="unknown_error">未知错误</string>
     <string name="login_error">登录错误</string>
     <string name="sign_up_error">注册错误</string>
+    <string name="upgrade_to_premium">升级到高级版</string>
+    <string name="upgrade_subtitle">解锁所有位置并移除广告</string>
 
     <string name="au">澳大利亚</string>
     <string name="br">巴西</string>

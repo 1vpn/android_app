@@ -40,6 +40,8 @@
     <string name="unknown_error">Erro desconhecido</string>
     <string name="login_error">Erro no login</string>
     <string name="sign_up_error">Erro no cadastro</string>
+    <string name="upgrade_to_premium">Atualizar para Premium</string>
+    <string name="upgrade_subtitle">Desbloqueie todos os locais e remova anúncios</string>
 
     <string name="au">Austrália</string>
     <string name="br">Brasil</string>

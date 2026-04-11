@@ -40,6 +40,8 @@
     <string name="unknown_error">Nieznany błąd</string>
     <string name="login_error">Błąd logowania</string>
     <string name="sign_up_error">Błąd rejestracji</string>
+    <string name="upgrade_to_premium">Przejdź na Premium</string>
+    <string name="upgrade_subtitle">Odblokuj wszystkie lokalizacje i usuń reklamy</string>
 
     <string name="au">Australia</string>
     <string name="br">Brazylia</string>
