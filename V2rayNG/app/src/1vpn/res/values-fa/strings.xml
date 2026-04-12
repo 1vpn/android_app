@@ -42,6 +42,7 @@
     <string name="sign_up_error">خطا در ثبت‌نام</string>
     <string name="upgrade_to_premium">ارتقاء به پریمیوم</string>
     <string name="upgrade_subtitle">تمام موقعیت‌ها را باز کنید و تبلیغات را حذف کنید</string>
+    <string name="save_33_percent">۳۳٪ در پریمیوم صرفه‌جویی کنید</string>
 
     <string name="au">استرالیا</string>
     <string name="br">برزیل</string>
@@ -69,4 +70,5 @@
     <string name="usw">ایالات متحده</string>
     <string name="za">آفریقای جنوبی</string>
 
+    <string name="cancel">لغو</string>
 </resources>

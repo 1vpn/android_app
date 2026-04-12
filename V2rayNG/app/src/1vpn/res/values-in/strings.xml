@@ -42,6 +42,7 @@
     <string name="sign_up_error">Kesalahan Pendaftaran</string>
     <string name="upgrade_to_premium">Upgrade ke Premium</string>
     <string name="upgrade_subtitle">Buka semua lokasi &amp; hapus iklan</string>
+    <string name="save_33_percent">Hemat 33% untuk Premium</string>
 
     <string name="au">Australia</string>
     <string name="br">Brasil</string>
@@ -68,4 +69,5 @@
     <string name="uss">Amerika Serikat</string>
     <string name="usw">Amerika Serikat</string>
     <string name="za">Afrika Selatan</string>
+    <string name="cancel">Batal</string>
 </resources>

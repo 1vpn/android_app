@@ -42,6 +42,7 @@
     <string name="sign_up_error">ข้อผิดพลาดในการสมัครสมาชิก</string>
     <string name="upgrade_to_premium">อัปเกรดเป็นพรีเมียม</string>
     <string name="upgrade_subtitle">ปลดล็อกทุกตำแหน่งและลบโฆษณา</string>
+    <string name="save_33_percent">ประหยัด 33% สำหรับพรีเมียม</string>
 
     <string name="au">ออสเตรเลีย</string>
     <string name="br">บราซิล</string>
@@ -68,4 +69,5 @@
     <string name="uss">สหรัฐอเมริกา</string>
     <string name="usw">สหรัฐอเมริกา</string>
     <string name="za">แอฟริกาใต้</string>
+    <string name="cancel">ยกเลิก</string>
 </resources>

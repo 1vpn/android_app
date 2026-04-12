@@ -42,6 +42,7 @@
     <string name="sign_up_error">Błąd rejestracji</string>
     <string name="upgrade_to_premium">Przejdź na Premium</string>
     <string name="upgrade_subtitle">Odblokuj wszystkie lokalizacje i usuń reklamy</string>
+    <string name="save_33_percent">Oszczędź 33% na Premium</string>
 
     <string name="au">Australia</string>
     <string name="br">Brazylia</string>
@@ -68,4 +69,5 @@
     <string name="uss">Stany Zjednoczone</string>
     <string name="usw">Stany Zjednoczone</string>
     <string name="za">Republika Południowej Afryki</string>
+    <string name="cancel">Anuluj</string>
 </resources>

@@ -42,6 +42,7 @@
     <string name="sign_up_error">Lỗi đăng ký</string>
     <string name="upgrade_to_premium">Nâng cấp lên Premium</string>
     <string name="upgrade_subtitle">Mở khóa tất cả vị trí &amp; xóa quảng cáo</string>
+    <string name="save_33_percent">Tiết kiệm 33% cho Premium</string>
 
     <string name="au">Úc</string>
     <string name="br">Brazil</string>
@@ -69,4 +70,5 @@
     <string name="usw">Hoa Kỳ</string>
     <string name="za">Nam Phi</string>
    
+    <string name="cancel">Hủy</string>
 </resources>

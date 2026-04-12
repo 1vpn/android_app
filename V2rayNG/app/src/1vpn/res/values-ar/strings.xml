@@ -42,6 +42,7 @@
     <string name="sign_up_error">خطأ في التسجيل</string>
     <string name="upgrade_to_premium">الترقية إلى بريميوم</string>
     <string name="upgrade_subtitle">افتح جميع المواقع وإزالة الإعلانات</string>
+    <string name="save_33_percent">وفّر 33% على بريميوم</string>
 
     <string name="au">أستراليا</string>
     <string name="br">البرازيل</string>
@@ -69,4 +70,5 @@
     <string name="usw">الولايات المتحدة</string>
     <string name="za">جنوب أفريقيا</string>
 
+    <string name="cancel">إلغاء</string>
 </resources>

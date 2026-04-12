@@ -42,6 +42,7 @@
     <string name="sign_up_error">Erro no cadastro</string>
     <string name="upgrade_to_premium">Atualizar para Premium</string>
     <string name="upgrade_subtitle">Desbloqueie todos os locais e remova anúncios</string>
+    <string name="save_33_percent">Economize 33% no Premium</string>
 
     <string name="au">Austrália</string>
     <string name="br">Brasil</string>
@@ -68,4 +69,5 @@
     <string name="uss">Estados Unidos</string>
     <string name="usw">Estados Unidos</string>
     <string name="za">África do Sul</string>
+    <string name="cancel">Cancelar</string>
 </resources>

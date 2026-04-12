@@ -42,6 +42,7 @@
     <string name="sign_up_error">회원가입 오류</string>
     <string name="upgrade_to_premium">프리미엄으로 업그레이드</string>
     <string name="upgrade_subtitle">모든 위치 잠금 해제 및 광고 제거</string>
+    <string name="save_33_percent">프리미엄 33% 할인</string>
 
     <string name="au">호주</string>
     <string name="br">브라질</string>
@@ -68,4 +69,5 @@
     <string name="uss">미국</string>
     <string name="usw">미국</string>
     <string name="za">남아프리카</string>
+    <string name="cancel">취소</string>
 </resources>

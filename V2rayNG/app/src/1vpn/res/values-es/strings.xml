@@ -42,6 +42,7 @@
     <string name="sign_up_error">Error al registrarse</string>
     <string name="upgrade_to_premium">Actualizar a Premium</string>
     <string name="upgrade_subtitle">Desbloquea todas las ubicaciones y elimina anuncios</string>
+    <string name="save_33_percent">Ahorra 33% en Premium</string>
 
     <string name="au">Australia</string>
     <string name="br">Brasil</string>
@@ -68,4 +69,5 @@
     <string name="uss">Estados Unidos</string>
     <string name="usw">Estados Unidos</string>
     <string name="za">Sudáfrica</string>
+    <string name="cancel">Cancelar</string>
 </resources>

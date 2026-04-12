@@ -42,6 +42,7 @@
     <string name="sign_up_error">Ошибка регистрации</string>
     <string name="upgrade_to_premium">Перейти на Премиум</string>
     <string name="upgrade_subtitle">Откройте все локации и уберите рекламу</string>
+    <string name="save_33_percent">Сэкономьте 33% на Премиум</string>
 
     <string name="au">Австралия</string>
     <string name="br">Бразилия</string>
@@ -68,4 +69,5 @@
     <string name="uss">США</string>
     <string name="usw">США</string>
     <string name="za">Южная Африка</string>
+    <string name="cancel">Отмена</string>
 </resources>

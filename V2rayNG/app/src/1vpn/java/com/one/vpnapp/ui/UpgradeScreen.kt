@@ -23,7 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +33,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.one.vpnapp.handler.MmkvManager
 import com.revenuecat.purchases.CustomerInfo
@@ -58,6 +61,12 @@ fun UpgradeScreen(navController: NavController) {
     var availablePackages by remember {
         mutableStateOf<List<com.revenuecat.purchases.Package>>(emptyList())
     }
+    val userData = MmkvManager.getUserData()
+    val hasEmail = !userData?.email.isNullOrEmpty()
+    var email by remember { mutableStateOf("") }
+    var showEmailDialog by remember { mutableStateOf(false) }
+    var pendingPurchase by remember { mutableStateOf<com.revenuecat.purchases.Package?>(null) }
+
     LaunchedEffect(Unit) {
         Purchases.sharedInstance.getOfferings(object :
             com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback {
@@ -80,61 +89,38 @@ fun UpgradeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .imePadding()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .verticalScroll(rememberScrollState())
     ) {
-        // Blue header
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(blue)
-                .padding(horizontal = 24.dp)
-                .padding(top = 36.dp, bottom = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(horizontal = 36.dp, vertical = 36.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .background(Color.White.copy(alpha = 0.15f), RoundedCornerShape(20.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.star_outline),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.choose_your_plan),
-                    fontSize = 26.sp,
-                    color = Color.White
-                )
-            }
+            Text(
+                text = stringResource(R.string.choose_your_plan),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White
+            )
         }
+        HorizontalDivider(color = Color.White.copy(alpha = 0.2f))
 
-        // White bottom section
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White)
-                .padding(horizontal = 24.dp)
-                .padding(top = 24.dp, bottom = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Features list
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 4.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                    .padding(top = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 FeatureRow(
                     text = stringResource(R.string.unlock_all_locations),
@@ -158,9 +144,11 @@ fun UpgradeScreen(navController: NavController) {
                 )
             }
 
-            // Plan options — stacked
+            // Plan options
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 availablePackages
@@ -206,8 +194,10 @@ fun UpgradeScreen(navController: NavController) {
             }
 
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(
                     onClick = {
@@ -216,6 +206,11 @@ fun UpgradeScreen(navController: NavController) {
                         val selectedPkg =
                             availablePackages.firstOrNull { it.identifier == selectedPlan }
                         if (selectedPkg != null) {
+                            if (!hasEmail) {
+                                pendingPurchase = selectedPkg
+                                showEmailDialog = true
+                                return@Button
+                            }
                             Purchases.sharedInstance.purchasePackage(
                                 activity = activity,
                                 packageToPurchase = selectedPkg,
@@ -261,7 +256,7 @@ fun UpgradeScreen(navController: NavController) {
                     elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 0.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.upgrade),
+                        text = stringResource(R.string.get_premium),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color.White,
@@ -288,6 +283,104 @@ fun UpgradeScreen(navController: NavController) {
             }
         }
     }
+
+    if (showEmailDialog) {
+        Dialog(onDismissRequest = {
+            showEmailDialog = false
+            pendingPurchase = null
+        }) {
+            val focusRequester = remember { FocusRequester() }
+            var emailError by remember { mutableStateOf(false) }
+            LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
+            fun submit() {
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
+                    emailError = true; return
+                }
+                showEmailDialog = false
+                val pkg = pendingPurchase ?: return
+                pendingPurchase = null
+                if (activity == null) return
+                Purchases.sharedInstance.purchasePackage(
+                    activity = activity,
+                    packageToPurchase = pkg,
+                    listener = object : PurchaseCallback {
+                        override fun onCompleted(
+                            storeTransaction: com.revenuecat.purchases.models.StoreTransaction,
+                            customerInfo: CustomerInfo
+                        ) {
+                            val userData = MmkvManager.getUserData()
+                            val sessionAuthToken = userData?.sessionAuthToken
+                            if (sessionAuthToken.isNullOrEmpty()) {
+                                navController.navigate("signUp")
+                            } else {
+                                val updatedUserData = userData.copy(isPremium = true)
+                                MmkvManager.setUserData(updatedUserData)
+                                fetchUserData(context)
+                                navController.navigate("main")
+                            }
+                        }
+
+                        override fun onError(
+                            error: PurchasesError,
+                            userCancelled: Boolean
+                        ) {
+                            if (userCancelled) {
+                                Log.d("PurchaseInfo", "User cancelled the purchase")
+                            } else {
+                                Log.e("PurchaseInfo", "Error: ${error.message}")
+                            }
+                        }
+                    }
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(12.dp))
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ReusableOutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it; emailError = false },
+                    labelText = stringResource(R.string.email),
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Email,
+                    imeAction = androidx.compose.ui.text.input.ImeAction.Done,
+                    keyboardActions = androidx.compose.foundation.text.KeyboardActions(onDone = { submit() }),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                )
+                if (emailError) {
+                    Text(
+                        text = stringResource(R.string.enter_valid_email),
+                        color = red,
+                        fontSize = 14.sp,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    onClick = { submit() },
+                    colors = ButtonDefaults.buttonColors(containerColor = blue),
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 0.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.get_premium),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -297,14 +390,14 @@ fun FeatureRow(text: String, icon: Int) {
     ) {
         Box(
             modifier = Modifier
-                .size(28.dp)
+                .size(36.dp)
                 .background(blue10, RoundedCornerShape(8.dp)),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(20.dp)
             )
         }
         Text(
@@ -325,7 +418,7 @@ fun PlanOption(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val borderColor = if (isSelected) blue else borderGrey
+    val borderColor = if (isSelected) blue else darkBorderGrey
     val bgColor = if (isSelected) blue10 else Color.White
 
     Box(
@@ -363,7 +456,7 @@ fun PlanOption(
                             .size(18.dp)
                             .border(
                                 width = if (isSelected) 5.dp else 1.5.dp,
-                                color = if (isSelected) blue else borderGrey,
+                                color = if (isSelected) blue else darkBorderGrey,
                                 shape = CircleShape
                             )
                     )

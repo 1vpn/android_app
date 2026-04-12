@@ -42,6 +42,7 @@
     <string name="sign_up_error">Kayıt Hatası</string>
     <string name="upgrade_to_premium">Premium\'a Yükselt</string>
     <string name="upgrade_subtitle">Tüm konumların kilidini aç ve reklamları kaldır</string>
+    <string name="save_33_percent">Premium\'da %33 tasarruf et</string>
 
     <string name="au">Avustralya</string>
     <string name="br">Brezilya</string>
@@ -68,4 +69,5 @@
     <string name="uss">Amerika Birleşik Devletleri</string>
     <string name="usw">Amerika Birleşik Devletleri</string>
     <string name="za">Güney Afrika</string>
+    <string name="cancel">İptal</string>
 </resources>

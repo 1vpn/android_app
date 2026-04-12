@@ -42,6 +42,7 @@
     <string name="sign_up_error">サインアップエラー</string>
     <string name="upgrade_to_premium">プレミアムにアップグレード</string>
     <string name="upgrade_subtitle">すべての場所を解除して広告を削除</string>
+    <string name="save_33_percent">プレミアムを33％割引</string>
 
     <string name="au">オーストラリア</string>
     <string name="br">ブラジル</string>
@@ -68,4 +69,5 @@
     <string name="uss">アメリカ合衆国</string>
     <string name="usw">アメリカ合衆国</string>
     <string name="za">南アフリカ</string>
+    <string name="cancel">キャンセル</string>
 </resources>

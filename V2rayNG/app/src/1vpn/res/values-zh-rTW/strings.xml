@@ -42,6 +42,7 @@
     <string name="sign_up_error">註冊錯誤</string>
     <string name="upgrade_to_premium">升級至高級版</string>
     <string name="upgrade_subtitle">解鎖所有位置並移除廣告</string>
+    <string name="save_33_percent">高級版節省 33%</string>
 
     <string name="au">澳洲</string>
     <string name="br">巴西</string>
@@ -68,4 +69,5 @@
     <string name="uss">美國</string>
     <string name="usw">美國</string>
     <string name="za">南非</string>
+    <string name="cancel">取消</string>
 </resources>

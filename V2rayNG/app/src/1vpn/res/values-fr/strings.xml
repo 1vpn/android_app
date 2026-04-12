@@ -42,6 +42,7 @@
     <string name="sign_up_error">"Erreur d'inscription"</string>
     <string name="upgrade_to_premium">Passer à Premium</string>
     <string name="upgrade_subtitle">Débloquez tous les emplacements et supprimez les publicités</string>
+    <string name="save_33_percent">Économisez 33 % sur Premium</string>
 
     <string name="au">Australie</string>
     <string name="br">Brésil</string>
@@ -68,4 +69,5 @@
     <string name="uss">États-Unis</string>
     <string name="usw">États-Unis</string>
     <string name="za">Afrique du Sud</string>
+    <string name="cancel">Annuler</string>
 </resources>
