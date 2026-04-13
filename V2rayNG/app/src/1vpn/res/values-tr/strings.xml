@@ -28,9 +28,10 @@
     <string name="no_advertisements">Reklam Yok</string>
     <string name="faster_server_speeds">Daha Hızlı Sunucu Hızları</string>
     <string name="bittorrent_support">BitTorrent (P2P) Desteği</string>
-    <string name="yearly_plan">Yıllık Plan</string>
-    <string name="monthly_plan">Aylık Plan</string>
+    <string name="yearly_plan">Yıllık</string>
+    <string name="monthly_plan">Aylık</string>
     <string name="save_60_percent">%60 Tasarruf Et</string>
+    <string name="save_33_on_premium">Premium\'da %33 Tasarruf Et</string>
     <string name="month_short">ay</string>
     <string name="continue_with_limited_plan">Sınırlı Planla Devam Et</string>
     <string name="rate_your_connection">Bağlantınızı Değerlendirin</string>

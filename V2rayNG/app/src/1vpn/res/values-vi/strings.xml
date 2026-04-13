@@ -28,9 +28,10 @@
     <string name="no_advertisements">Không có quảng cáo</string>
     <string name="faster_server_speeds">Tốc độ máy chủ nhanh hơn</string>
     <string name="bittorrent_support">Hỗ trợ BitTorrent (P2P)</string>
-    <string name="yearly_plan">Gói hàng năm</string>
-    <string name="monthly_plan">Gói hàng tháng</string>
+    <string name="yearly_plan">Hàng năm</string>
+    <string name="monthly_plan">Hàng tháng</string>
     <string name="save_60_percent">Tiết kiệm 60%</string>
+    <string name="save_33_on_premium">Tiết kiệm 33% cho Premium</string>
     <string name="month_short">th</string>
     <string name="continue_with_limited_plan">Tiếp tục với gói giới hạn</string>
     <string name="rate_your_connection">Đánh giá kết nối của bạn</string>

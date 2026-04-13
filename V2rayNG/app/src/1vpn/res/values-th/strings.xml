@@ -28,9 +28,10 @@
     <string name="no_advertisements">ไม่มีโฆษณา</string>
     <string name="faster_server_speeds">ความเร็วเซิร์ฟเวอร์ที่เร็วขึ้น</string>
     <string name="bittorrent_support">รองรับ BitTorrent (P2P)</string>
-    <string name="yearly_plan">แผนรายปี</string>
-    <string name="monthly_plan">แผนรายเดือน</string>
+    <string name="yearly_plan">รายปี</string>
+    <string name="monthly_plan">รายเดือน</string>
     <string name="save_60_percent">ประหยัด 60%</string>
+    <string name="save_33_on_premium">ประหยัด 33% สำหรับพรีเมียม</string>
     <string name="month_short">ด.</string>
     <string name="continue_with_limited_plan">ดำเนินการต่อด้วยแผนแบบจำกัด</string>
     <string name="rate_your_connection">ให้คะแนนการเชื่อมต่อของคุณ</string>

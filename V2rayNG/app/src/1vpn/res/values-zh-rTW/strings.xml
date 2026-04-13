@@ -28,9 +28,10 @@
     <string name="no_advertisements">無廣告</string>
     <string name="faster_server_speeds">更快的伺服器速度</string>
     <string name="bittorrent_support">支援 BitTorrent（P2P）</string>
-    <string name="yearly_plan">年度方案</string>
-    <string name="monthly_plan">月度方案</string>
+    <string name="yearly_plan">年度</string>
+    <string name="monthly_plan">月度</string>
     <string name="save_60_percent">節省 60%</string>
+    <string name="save_33_on_premium">節省33%高級會員費用</string>
     <string name="month_short">月</string>
     <string name="continue_with_limited_plan">繼續使用限制方案</string>
     <string name="rate_your_connection">評價您的連線</string>

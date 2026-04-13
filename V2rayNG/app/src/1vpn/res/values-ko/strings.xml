@@ -28,9 +28,10 @@
     <string name="no_advertisements">광고 없음</string>
     <string name="faster_server_speeds">더 빠른 서버 속도</string>
     <string name="bittorrent_support">BitTorrent (P2P) 지원</string>
-    <string name="yearly_plan">연간 요금제</string>
-    <string name="monthly_plan">월간 요금제</string>
+    <string name="yearly_plan">연간</string>
+    <string name="monthly_plan">월간</string>
     <string name="save_60_percent">60% 절약</string>
+    <string name="save_33_on_premium">프리미엄 33% 절약</string>
     <string name="month_short">월</string>
     <string name="continue_with_limited_plan">제한된 요금제로 계속하기</string>
     <string name="rate_your_connection">연결을 평가하세요</string>

@@ -28,9 +28,10 @@
     <string name="no_advertisements">Tanpa Iklan</string>
     <string name="faster_server_speeds">Kecepatan Server Lebih Cepat</string>
     <string name="bittorrent_support">Dukungan BitTorrent (P2P)</string>
-    <string name="yearly_plan">Paket Tahunan</string>
-    <string name="monthly_plan">Paket Bulanan</string>
+    <string name="yearly_plan">Tahunan</string>
+    <string name="monthly_plan">Bulanan</string>
     <string name="save_60_percent">Hemat 60%</string>
+    <string name="save_33_on_premium">Hemat 33% untuk Premium</string>
     <string name="month_short">bln</string>
     <string name="continue_with_limited_plan">Lanjutkan Dengan Paket Terbatas</string>
     <string name="rate_your_connection">Nilai Koneksi Anda</string>

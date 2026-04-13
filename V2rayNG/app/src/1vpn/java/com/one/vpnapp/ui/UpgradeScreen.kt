@@ -93,18 +93,28 @@ fun UpgradeScreen(navController: NavController) {
             .imePadding()
             .verticalScroll(rememberScrollState())
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(blue)
-                .padding(horizontal = 36.dp, vertical = 36.dp),
-            contentAlignment = Alignment.Center
+                .padding(horizontal = 32.dp, vertical = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Text(
                 text = stringResource(R.string.choose_your_plan),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White
+            )
+            Text(
+                text = stringResource(R.string.save_33_on_premium),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier
+                    .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
+                    .padding(horizontal = 14.dp, vertical = 4.dp)
             )
         }
         HorizontalDivider(color = Color.White.copy(alpha = 0.2f))
@@ -174,11 +184,10 @@ fun UpgradeScreen(navController: NavController) {
                             }"
                         }
 
-                        val currency = product.price.currencyCode
                         val rawOriginal =
                             (if (isYearly) monthlyPrice else product.price.amountMicros / 1_000_000.0) / 0.67
                         val roundedOriginal = kotlin.math.round(rawOriginal * 10) / 10.0
-                        val originalPrice = "${"%.2f".format(roundedOriginal)} $currency"
+                        val originalPrice = "%.2f".format(roundedOriginal)
 
                         PlanOption(
                             planName = if (isYearly) stringResource(R.string.yearly_plan) else stringResource(
@@ -186,7 +195,7 @@ fun UpgradeScreen(navController: NavController) {
                             ),
                             price = price,
                             originalPrice = originalPrice,
-                            discountText = if (isYearly) "33% Sale + 50% Yearly" else "33% Sale",
+                            discountText = if (isYearly) "33% Sale + 50% Yearly Discount" else "33% Sale",
                             isSelected = selectedPlan == pkg.identifier,
                             onClick = { selectedPlan = pkg.identifier }
                         )

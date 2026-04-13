@@ -28,9 +28,10 @@
     <string name="no_advertisements">بدون إعلانات</string>
     <string name="faster_server_speeds">سرعات خوادم أسرع</string>
     <string name="bittorrent_support">دعم BitTorrent (P2P)</string>
-    <string name="yearly_plan">خطة سنوية</string>
-    <string name="monthly_plan">خطة شهرية</string>
+    <string name="yearly_plan">سنوي</string>
+    <string name="monthly_plan">شهري</string>
     <string name="save_60_percent">وفر 60%</string>
+    <string name="save_33_on_premium">وفّر 33% على بريميوم</string>
     <string name="month_short">ش</string>
     <string name="continue_with_limited_plan">المتابعة بالخطة المحدودة</string>
     <string name="rate_your_connection">قيّم الاتصال الخاص بك</string>

@@ -28,9 +28,10 @@
     <string name="no_advertisements">Nessuna pubblicità</string>
     <string name="faster_server_speeds">Velocità server più rapide</string>
     <string name="bittorrent_support">Supporto BitTorrent (P2P)</string>
-    <string name="yearly_plan">Piano annuale</string>
-    <string name="monthly_plan">Piano mensile</string>
+    <string name="yearly_plan">Annuale</string>
+    <string name="monthly_plan">Mensile</string>
     <string name="save_60_percent">Risparmia il 60%</string>
+    <string name="save_33_on_premium">Risparmia il 33% su Premium</string>
     <string name="month_short">mese</string>
     <string name="continue_with_limited_plan">Continua con il piano limitato</string>
     <string name="rate_your_connection">Valuta la tua connessione</string>

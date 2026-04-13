@@ -28,9 +28,10 @@
     <string name="no_advertisements">بدون تبلیغات</string>
     <string name="faster_server_speeds">سرعت بالاتر سرورها</string>
     <string name="bittorrent_support">پشتیبانی از BitTorrent (P2P)</string>
-    <string name="yearly_plan">طرح سالانه</string>
-    <string name="monthly_plan">طرح ماهانه</string>
+    <string name="yearly_plan">سالانه</string>
+    <string name="monthly_plan">ماهانه</string>
     <string name="save_60_percent">صرفه‌جویی ۶۰٪</string>
+    <string name="save_33_on_premium">۳۳٪ در پرمیوم صرفه‌جویی کنید</string>
     <string name="month_short">ماه</string>
     <string name="continue_with_limited_plan">ادامه با طرح محدود</string>
     <string name="rate_your_connection">اتصال خود را ارزیابی کنید</string>
