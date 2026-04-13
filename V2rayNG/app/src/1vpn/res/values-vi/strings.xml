@@ -7,6 +7,8 @@
     <string name="login">Đăng nhập</string>
     <string name="loading">Đang tải…</string>
     <string name="contact_us">Liên hệ với chúng tôi</string>
+    <string name="backup_domain_prefix">Tên miền chính bị chặn. Đang dùng </string>
+    <string name="backup_domain_suffix"> làm dự phòng.</string>
     <string name="logout">Đăng xuất</string>
     <string name="username">Tên người dùng</string>
     <string name="password">Mật khẩu</string>

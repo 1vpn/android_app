@@ -7,6 +7,8 @@
     <string name="login">Zaloguj się</string>
     <string name="loading">Ładowanie…</string>
     <string name="contact_us">Skontaktuj się z nami</string>
+    <string name="backup_domain_prefix">Główna domena jest zablokowana. Używanie </string>
+    <string name="backup_domain_suffix"> jako zapasowej.</string>
     <string name="logout">Wyloguj się</string>
     <string name="username">Nazwa użytkownika</string>
     <string name="password">Hasło</string>

@@ -7,6 +7,8 @@
     <string name="login">Accedi</string>
     <string name="loading">Caricamento…</string>
     <string name="contact_us">Contattaci</string>
+    <string name="backup_domain_prefix">Il dominio principale è bloccato. Utilizzo di </string>
+    <string name="backup_domain_suffix"> come backup.</string>
     <string name="logout">Disconnetti</string>
     <string name="username">Nome utente</string>
     <string name="password">Password</string>

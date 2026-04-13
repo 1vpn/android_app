@@ -87,7 +87,7 @@ fun SignUpScreen(navController: NavController, initialEmail: String = "") {
                     revenuecat_id = customerInfo.originalAppUserId
                 )
 
-                val response = RetrofitClient.apiService.signUp(signUpRequest)
+                val response = RetrofitClient.callWithFallback { it.signUp(signUpRequest) }
                 if (response.isSuccessful) {
                     response.body()?.let {
                         MmkvManager.setUserData(it)

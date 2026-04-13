@@ -216,7 +216,7 @@ fun fetchUserData(context: Context) {
                         "Authorization" to "Token $sessionAuthToken"
                     )
 
-                    val response = RetrofitClient.apiService.fetchUserData(headers)
+                    val response = RetrofitClient.callWithFallback { it.fetchUserData(headers) }
 
                     if (response.isSuccessful) {
                         val userData = response.body()
@@ -247,12 +247,14 @@ fun refreshToken(context: Context) {
 
                 if (!sessionAuthToken.isNullOrEmpty()) {
                     val response = withContext(Dispatchers.IO) {
-                        RetrofitClient.apiService.refreshToken(
-                            headers = mapOf(
-                                "Content-Type" to "application/json",
-                                "Authorization" to "Token $sessionAuthToken"
+                        RetrofitClient.callWithFallback {
+                            it.refreshToken(
+                                headers = mapOf(
+                                    "Content-Type" to "application/json",
+                                    "Authorization" to "Token $sessionAuthToken"
+                                )
                             )
-                        )
+                        }
                     }
 
                     if (response.isSuccessful) {

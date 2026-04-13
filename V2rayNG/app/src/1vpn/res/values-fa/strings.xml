@@ -7,6 +7,8 @@
     <string name="login">ورود</string>
     <string name="loading">در حال بارگذاری…</string>
     <string name="contact_us">تماس با ما</string>
+    <string name="backup_domain_prefix">دامنه اصلی مسدود است. استفاده از </string>
+    <string name="backup_domain_suffix"> به عنوان پشتیبان.</string>
     <string name="logout">خروج</string>
     <string name="username">نام کاربری</string>
     <string name="password">رمز عبور</string>

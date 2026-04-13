@@ -7,6 +7,8 @@
     <string name="login">تسجيل الدخول</string>
     <string name="loading">جارٍ التحميل…</string>
     <string name="contact_us">اتصل بنا</string>
+    <string name="backup_domain_prefix">النطاق الرئيسي محجوب. باستخدام </string>
+    <string name="backup_domain_suffix"> كنسخة احتياطية.</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="username">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>

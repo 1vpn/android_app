@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.navigation.NavController
+import com.one.vpnapp.api.RetrofitClient
 import com.one.vpnapp.model.UserData
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -78,7 +79,7 @@ fun MenuDialog(
                                 contactUsText -> {
                                     val browserIntent = Intent(
                                         Intent.ACTION_VIEW,
-                                        "https://1vpn.org/contact_us".toUri()
+                                        "${RetrofitClient.activeBaseUrl()}/contact_us".toUri()
                                     )
                                     context.startActivity(browserIntent)
                                     onDismiss()
@@ -153,7 +154,7 @@ fun AccountDialog(
                     .clickable {
                         val browserIntent = Intent(
                             Intent.ACTION_VIEW,
-                            "https://1vpn.org/account".toUri()
+                            "${RetrofitClient.activeBaseUrl()}/account".toUri()
                         )
                         context.startActivity(browserIntent)
                     }

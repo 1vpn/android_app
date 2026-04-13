@@ -7,6 +7,8 @@
     <string name="login">로그인</string>
     <string name="loading">로딩 중…</string>
     <string name="contact_us">문의하기</string>
+    <string name="backup_domain_prefix">기본 도메인이 차단되었습니다. </string>
+    <string name="backup_domain_suffix">을(를) 백업으로 사용 중.</string>
     <string name="logout">로그아웃</string>
     <string name="username">사용자 이름</string>
     <string name="password">비밀번호</string>

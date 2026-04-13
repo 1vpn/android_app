@@ -7,6 +7,8 @@
     <string name="login">Giriş Yap</string>
     <string name="loading">Yükleniyor…</string>
     <string name="contact_us">Bize Ulaşın</string>
+    <string name="backup_domain_prefix">Ana alan adı engellendi. </string>
+    <string name="backup_domain_suffix"> yedek olarak kullanılıyor.</string>
     <string name="logout">Çıkış Yap</string>
     <string name="username">Kullanıcı Adı</string>
     <string name="password">Şifre</string>

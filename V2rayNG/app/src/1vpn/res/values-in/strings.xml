@@ -7,6 +7,8 @@
     <string name="login">Masuk</string>
     <string name="loading">Memuat…</string>
     <string name="contact_us">Hubungi Kami</string>
+    <string name="backup_domain_prefix">Domain utama diblokir. Menggunakan </string>
+    <string name="backup_domain_suffix"> sebagai cadangan.</string>
     <string name="logout">Keluar</string>
     <string name="username">Nama Pengguna</string>
     <string name="password">Kata Sandi</string>

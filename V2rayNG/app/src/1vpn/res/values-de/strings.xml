@@ -7,6 +7,8 @@
     <string name="login">Anmelden</string>
     <string name="loading">Lädt…</string>
     <string name="contact_us">Kontaktieren Sie uns</string>
+    <string name="backup_domain_prefix">Hauptdomain ist blockiert. Verwende </string>
+    <string name="backup_domain_suffix"> als Backup.</string>
     <string name="logout">Abmelden</string>
     <string name="username">Benutzername</string>
     <string name="password">Passwort</string>

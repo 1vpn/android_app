@@ -10,6 +10,8 @@
     <string name="login">Login</string>
     <string name="loading">Loading…</string>
     <string name="contact_us">Contact Us</string>
+    <string name="backup_domain_prefix">Main domain is blocked. Using</string>
+    <string name="backup_domain_suffix">as backup.</string>
     <string name="logout">Logout</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

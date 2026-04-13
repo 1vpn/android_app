@@ -77,7 +77,7 @@ fun LoginScreen(navController: NavController) {
                 } else {
                     LoginRequest(email, password)
                 }
-                val response = RetrofitClient.apiService.login(loginRequest)
+                val response = RetrofitClient.callWithFallback { it.login(loginRequest) }
                 if (response.isSuccessful) {
                     val userData = response.body()
                     userData?.let {
@@ -210,7 +210,7 @@ fun LoginScreen(navController: NavController) {
                     .clickable {
                         val browserIntent = Intent(
                             Intent.ACTION_VIEW,
-                            "https://1vpn.org/password_reset_request".toUri()
+                            "${RetrofitClient.activeBaseUrl()}/password_reset_request".toUri()
                         )
                         context.startActivity(browserIntent)
                     }
