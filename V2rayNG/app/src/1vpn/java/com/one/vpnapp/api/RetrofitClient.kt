@@ -9,16 +9,16 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val PRIMARY = "https://1vpnn.org"
+    private const val PRIMARY = "1vpn.org"
     private val BACKUPS = listOf(
-        "https://1vpn.co",
-        "https://onevpn.com",
-        "https://cloudlogcdn.com"
+        "1vpn.co",
+        "onevpn.com",
+        "cloudlogcdn.com"
     )
 
     val usingBackupDomain = mutableStateOf<String?>(null)
 
-    fun activeBaseUrl(): String = usingBackupDomain.value?.let { "https://$it" } ?: PRIMARY
+    fun activeBaseUrl(): String = "https://${usingBackupDomain.value ?: PRIMARY}"
 
     private fun buildHttpClient() =
         OkHttpClient.Builder()
@@ -27,9 +27,9 @@ object RetrofitClient {
             .writeTimeout(5, TimeUnit.SECONDS)
             .build()
 
-    private fun buildRetrofit(baseUrl: String): Retrofit =
+    private fun buildRetrofit(domain: String): Retrofit =
         Retrofit.Builder()
-            .baseUrl("$baseUrl/api/")
+            .baseUrl("https://$domain/api/")
             .client(buildHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -52,12 +52,12 @@ object RetrofitClient {
         }
 
         // Try backups
-        for (url in BACKUPS) {
+        for (domain in BACKUPS) {
             try {
-                val service = buildRetrofit(url).create(ApiService::class.java)
+                val service = buildRetrofit(domain).create(ApiService::class.java)
                 val response = call(service)
                 if (shouldUseResponse(response.code())) {
-                    usingBackupDomain.value = url.removePrefix("https://")
+                    usingBackupDomain.value = domain
                     return response
                 }
             } catch (e: Exception) {

@@ -1,7 +1,6 @@
 package com.one.vpnapp.ui
 
 import android.content.Intent
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,16 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.one.vpnapp.api.RetrofitClient
 import com.one.vpnapp.handler.AdManager
 import com.one.vpnapp.handler.MmkvManager
 import com.one.vpnapp.util.setupServerConfig
@@ -153,28 +143,7 @@ fun MainScreen(
             if (!isPremium) {
                 UpgradeButton(onClick = { navController.navigate("upgrade") })
             }
-            val backupDomain by RetrofitClient.usingBackupDomain
-            if (backupDomain != null) {
-                val annotatedText = buildAnnotatedString {
-                    append(stringResource(R.string.backup_domain_prefix) + " ")
-                    pushLink(androidx.compose.ui.text.LinkAnnotation.Url("https://$backupDomain"))
-                    withStyle(SpanStyle(color = blue, textDecoration = TextDecoration.Underline)) {
-                        append(backupDomain!!)
-                    }
-                    pop()
-                    append(" " + stringResource(R.string.backup_domain_suffix))
-                }
-                androidx.compose.material3.Text(
-                    text = annotatedText,
-                    fontSize = 12.sp,
-                    color = grey,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(1.dp, borderGrey, RoundedCornerShape(8.dp))
-                        .padding(vertical = 16.dp, horizontal = 16.dp)
-                )
-            }
+            BackupDomainBanner()
         }
     }
 
