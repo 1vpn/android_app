@@ -49,8 +49,8 @@ import okhttp3.ResponseBody
 import retrofit2.Converter
 
 @Composable
-fun SignUpScreen(navController: NavController) {
-    var email by remember { mutableStateOf("") }
+fun SignUpScreen(navController: NavController, initialEmail: String = "") {
+    var email by remember { mutableStateOf(initialEmail) }
     var password by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
     val context = LocalContext.current

@@ -27,9 +27,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.android.gms.ads.MobileAds
 import com.one.vpnapp.api.RetrofitClient
 import com.one.vpnapp.handler.MmkvManager
@@ -169,8 +171,17 @@ class MainActivity : ComponentActivity() {
                         composable("login") {
                             LoginScreen(navController = navController)
                         }
-                        composable("signUp") {
-                            SignUpScreen(navController = navController)
+                        composable(
+                            "signUp?email={email}",
+                            arguments = listOf(navArgument("email") {
+                                type = NavType.StringType
+                                defaultValue = ""
+                            })
+                        ) { backStackEntry ->
+                            SignUpScreen(
+                                navController = navController,
+                                initialEmail = backStackEntry.arguments?.getString("email") ?: ""
+                            )
                         }
                         composable("upgrade") {
                             UpgradeScreen(navController = navController)

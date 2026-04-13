@@ -232,7 +232,8 @@ fun UpgradeScreen(navController: NavController) {
                                         val sessionAuthToken = userData?.sessionAuthToken
 
                                         if (sessionAuthToken.isNullOrEmpty()) {
-                                            navController.navigate("signUp")
+                                            val existingEmail = userData?.email ?: ""
+                                            navController.navigate("signUp?email=${android.net.Uri.encode(existingEmail)}")
                                         } else {
                                             val updatedUserData = userData.copy(isPremium = true)
                                             MmkvManager.setUserData(updatedUserData)
@@ -310,6 +311,7 @@ fun UpgradeScreen(navController: NavController) {
                 val pkg = pendingPurchase ?: return
                 pendingPurchase = null
                 if (activity == null) return
+                Purchases.sharedInstance.setEmail(email.trim())
                 Purchases.sharedInstance.purchasePackage(
                     activity = activity,
                     packageToPurchase = pkg,
@@ -321,7 +323,7 @@ fun UpgradeScreen(navController: NavController) {
                             val userData = MmkvManager.getUserData()
                             val sessionAuthToken = userData?.sessionAuthToken
                             if (sessionAuthToken.isNullOrEmpty()) {
-                                navController.navigate("signUp")
+                                navController.navigate("signUp?email=${android.net.Uri.encode(email.trim())}")
                             } else {
                                 val updatedUserData = userData.copy(isPremium = true)
                                 MmkvManager.setUserData(updatedUserData)
