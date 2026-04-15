@@ -139,6 +139,7 @@ fun LoginScreen(navController: NavController) {
             value = email,
             onValueChange = { email = it },
             labelText = stringResource(R.string.email),
+            keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
             onImeAction = { focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down) }
         )
