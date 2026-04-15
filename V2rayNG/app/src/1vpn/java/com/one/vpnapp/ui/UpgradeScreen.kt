@@ -220,6 +220,7 @@ fun UpgradeScreen(navController: NavController) {
                                 showEmailDialog = true
                                 return@Button
                             }
+                            userData.email.let { Purchases.sharedInstance.setEmail(it) }
                             Purchases.sharedInstance.purchasePackage(
                                 activity = activity,
                                 packageToPurchase = selectedPkg,
@@ -233,11 +234,16 @@ fun UpgradeScreen(navController: NavController) {
 
                                         if (sessionAuthToken.isNullOrEmpty()) {
                                             val existingEmail = userData?.email ?: ""
-                                            navController.navigate("signUp?email=${android.net.Uri.encode(existingEmail)}")
+                                            navController.navigate(
+                                                "signUp?email=${
+                                                    android.net.Uri.encode(
+                                                        existingEmail
+                                                    )
+                                                }"
+                                            )
                                         } else {
                                             val updatedUserData = userData.copy(isPremium = true)
                                             MmkvManager.setUserData(updatedUserData)
-                                            fetchUserData(context)
                                             navController.navigate("main")
                                         }
                                     }
@@ -327,7 +333,6 @@ fun UpgradeScreen(navController: NavController) {
                             } else {
                                 val updatedUserData = userData.copy(isPremium = true)
                                 MmkvManager.setUserData(updatedUserData)
-                                fetchUserData(context)
                                 navController.navigate("main")
                             }
                         }
@@ -502,7 +507,7 @@ fun PlanOption(
                 if (originalPrice != null) {
                     Text(
                         text = originalPrice,
-                        fontSize = 11.sp,
+                        fontSize = 12.sp,
                         color = Color.Red,
                         textDecoration = TextDecoration.LineThrough,
                     )
