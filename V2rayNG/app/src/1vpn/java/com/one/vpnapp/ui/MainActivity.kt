@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
     private val isVpnOnState = mutableStateOf(false)
     private lateinit var vpnPermissionLauncher: ActivityResultLauncher<Intent>
+    private var onVpnPermissionGranted: (() -> Unit)? = null
 
     private val v2rayStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -102,11 +103,11 @@ class MainActivity : ComponentActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                isVpnOnState.value = true
-                V2RayServiceManager.startVServiceFromToggle(this)
+                onVpnPermissionGranted?.invoke()
             } else {
                 isVpnOnState.value = false
             }
+            onVpnPermissionGranted = null
         }
 
         isVpnOnState.value = VpnServiceUtil.isVpnServiceRunning(this, V2RayVpnService::class.java)
@@ -159,10 +160,9 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("main") {
                             MainScreen(
-                                requestVpnPermission = { intent ->
-                                    vpnPermissionLauncher.launch(
-                                        intent
-                                    )
+                                requestVpnPermission = { intent, onGranted ->
+                                    onVpnPermissionGranted = onGranted
+                                    vpnPermissionLauncher.launch(intent)
                                 },
                                 isVpnOnState = isVpnOnState,
                                 navController = navController

@@ -44,7 +44,7 @@ import com.v2ray.ang.R
 fun VpnToggle(
     startVpn: () -> Unit,
     stopVpn: () -> Unit,
-    requestVpnPermission: (Intent) -> Unit,
+    requestVpnPermission: (Intent, onGranted: () -> Unit) -> Unit,
     isVpnOnState: MutableState<Boolean>,
     connectionStatus: VpnConnectionStatus,
 ) {
@@ -71,8 +71,8 @@ fun VpnToggle(
                         isVpnOnState.value = true
                         startVpn()
                     } else {
-                        requestVpnPermission(intent)
                         isVpnOnState.value = true
+                        requestVpnPermission(intent) { startVpn() }
                     }
                 } else {
                     isVpnOnState.value = false

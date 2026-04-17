@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    requestVpnPermission: (Intent) -> Unit,
+    requestVpnPermission: (Intent, onGranted: () -> Unit) -> Unit,
     isVpnOnState: androidx.compose.runtime.MutableState<Boolean>,
     navController: NavController
 ) {
