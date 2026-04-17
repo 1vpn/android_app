@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.one.vpnapp.handler.AdManager
 import com.one.vpnapp.handler.MmkvManager
-import com.one.vpnapp.util.setupServerConfig
+import com.one.vpnapp.util.VpnConnectionManager
+import com.one.vpnapp.util.VpnConnectionStatus
 import com.v2ray.ang.R
 import com.v2ray.ang.handler.V2RayServiceManager
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,18 +48,22 @@ fun MainScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    val userData = MmkvManager.getUserData()
-    val isLoggedIn = userData?.sessionAuthToken?.isNotEmpty() == true
-    val isPremium = userData?.isPremium == true
-    val hasGivenRating = MmkvManager.hasGivenRating()
+    val userData = remember { MmkvManager.getUserData() }
+    val isLoggedIn = remember { userData?.sessionAuthToken?.isNotEmpty() == true }
+    val isPremium = remember { userData?.isPremium == true }
+    val hasGivenRating = remember { MmkvManager.hasGivenRating() }
+    val availableLocations = remember { getAvailableLocations() }
 
     var selectedLocation by remember {
         mutableStateOf(
             MmkvManager.getSelectedLocation()
-                ?: getAvailableLocations().first()
+                ?: availableLocations.first()
         )
     }
+    var connectionStatus by remember { mutableStateOf(VpnConnectionStatus.DISCONNECTED) }
+    var connectionJob by remember { mutableStateOf<Job?>(null) }
     var showLocationDialog by remember { mutableStateOf(false) }
     var showMenuDialog by remember { mutableStateOf(false) }
     var showReviewDialog by remember { mutableStateOf(false) }
@@ -63,7 +71,6 @@ fun MainScreen(
     LaunchedEffect(selectedLocation) {
         MmkvManager.setSelectedLocation(selectedLocation)
         AdManager.loadInterstitialAd(context, isPremium)
-        setupServerConfig(selectedLocation, userData, isPremium, context)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -111,23 +118,42 @@ fun MainScreen(
                     AdManager.showInterstitialAdAndHandleVpn(
                         context,
                         onVpnConnect = {
-                            V2RayServiceManager.startVServiceFromToggle(context)
                             isVpnOnState.value = true
+                            connectionStatus = VpnConnectionStatus.CONNECTING
+                            connectionJob = coroutineScope.launch {
+                                VpnConnectionManager.connectWithFallback(
+                                    context = context,
+                                    location = selectedLocation,
+                                    userData = userData,
+                                    isPremium = isPremium,
+                                    onConnected = {
+                                        connectionStatus = VpnConnectionStatus.CONNECTED
+                                    },
+                                    onNoConnection = {
+                                        connectionStatus = VpnConnectionStatus.NO_CONNECTION
+                                    }
+                                )
+                            }
                         },
                         onVpnCancel = {
                             isVpnOnState.value = false
+                            connectionStatus = VpnConnectionStatus.DISCONNECTED
                         },
                         isPremium
                     )
                 },
                 stopVpn = {
+                    connectionJob?.cancel()
+                    connectionJob = null
                     V2RayServiceManager.stopVService(context)
                     AdManager.loadInterstitialAd(context, isPremium)
                     isVpnOnState.value = false
+                    connectionStatus = VpnConnectionStatus.DISCONNECTED
                     showReviewDialog = true
                 },
                 requestVpnPermission = requestVpnPermission,
                 isVpnOnState = isVpnOnState,
+                connectionStatus = connectionStatus,
             )
         }
 
@@ -158,11 +184,14 @@ fun MainScreen(
 
     if (showLocationDialog) {
         LocationDialog(
-            locations = getAvailableLocations(),
+            locations = availableLocations,
             selectedCityCode = selectedLocation.cityCode,
             onOptionSelected = { country ->
-                selectedLocation = getAvailableLocations().first { it.country == country }
+                connectionJob?.cancel()
+                connectionJob = null
+                selectedLocation = availableLocations.first { it.country == country }
                 isVpnOnState.value = false
+                connectionStatus = VpnConnectionStatus.DISCONNECTED
                 V2RayServiceManager.stopVService(context)
             },
             onPremiumSelected = { navController.navigate("upgrade") },

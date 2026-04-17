@@ -10,6 +10,7 @@ private const val FREE_UUID = "44ae52b9-76fc-444d-8e43-186b4384b80a"
 
 fun setupServerConfig(
     selectedLocation: Location,
+    host: String,
     userData: UserData?,
     isPremium: Boolean,
     context: Context
@@ -18,14 +19,13 @@ fun setupServerConfig(
         .bufferedReader()
         .use { it.readText() }
 
-    val uuid = if (isPremium) userData?.uuid ?: FREE_UUID else FREE_UUID
-    val publicKey = if (isPremium) userData?.publicKey
-        ?: selectedLocation.publicKey else selectedLocation.publicKey
-    val shortId =
-        if (isPremium) userData?.shortId ?: selectedLocation.shortId else selectedLocation.shortId
+    val premiumData = if (isPremium) userData else null
+    val uuid = premiumData?.uuid ?: FREE_UUID
+    val publicKey = premiumData?.publicKey ?: selectedLocation.publicKey
+    val shortId = premiumData?.shortId ?: selectedLocation.shortId
 
     val config = template
-        .replace("{{xrayHost}}", selectedLocation.xrayHost ?: "")
+        .replace("{{xrayHost}}", host)
         .replace("{{uuid}}", uuid)
         .replace("{{publicKey}}", publicKey ?: "")
         .replace("{{shortId}}", shortId ?: "")
