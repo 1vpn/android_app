@@ -63,7 +63,7 @@ fun MainScreen(
     LaunchedEffect(selectedLocation) {
         MmkvManager.setSelectedLocation(selectedLocation)
         AdManager.loadInterstitialAd(context, isPremium)
-        setupServerConfig(selectedLocation, userData, isPremium)
+        setupServerConfig(selectedLocation, userData, isPremium, context)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
