@@ -50,6 +50,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : ComponentActivity() {
 
     private val isVpnOnState = mutableStateOf(false)
+    internal val userDataState = mutableStateOf(MmkvManager.getUserData())
     private lateinit var vpnPermissionLauncher: ActivityResultLauncher<Intent>
     private var onVpnPermissionGranted: (() -> Unit)? = null
 
@@ -75,6 +76,7 @@ class MainActivity : ComponentActivity() {
             // no-op
         }
         isVpnOnState.value = VpnServiceUtil.isVpnServiceRunning(this, V2RayVpnService::class.java)
+        userDataState.value = MmkvManager.getUserData()
     }
 
     override fun onStop() {
@@ -112,7 +114,7 @@ class MainActivity : ComponentActivity() {
 
         isVpnOnState.value = VpnServiceUtil.isVpnServiceRunning(this, V2RayVpnService::class.java)
 
-        fetchUserData(this)
+        fetchUserData(this) { userDataState.value = MmkvManager.getUserData() }
 
         setContent {
             MaterialTheme(
@@ -165,6 +167,7 @@ class MainActivity : ComponentActivity() {
                                     vpnPermissionLauncher.launch(intent)
                                 },
                                 isVpnOnState = isVpnOnState,
+                                userDataState = userDataState,
                                 navController = navController
                             )
                         }
@@ -203,7 +206,7 @@ fun getAvailableLocations(): List<Location> {
     }
 }
 
-fun fetchUserData(context: Context) {
+fun fetchUserData(context: Context, onComplete: (() -> Unit)? = null) {
     val userData = MmkvManager.getUserData()
 
     val sessionAuthToken = userData?.sessionAuthToken
@@ -226,6 +229,7 @@ fun fetchUserData(context: Context) {
                         }
 
                         refreshToken(context)
+                        onComplete?.invoke()
                     } else {
                         val errorBody = response.errorBody()?.string()
                         println("Error: $errorBody")

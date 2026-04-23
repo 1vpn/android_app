@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.one.vpnapp.handler.AdManager
 import com.one.vpnapp.handler.MmkvManager
+import com.one.vpnapp.model.UserData
 import com.one.vpnapp.util.VpnConnectionManager
 import com.one.vpnapp.util.VpnConnectionStatus
 import com.v2ray.ang.R
@@ -44,17 +46,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     requestVpnPermission: (Intent, onGranted: () -> Unit) -> Unit,
-    isVpnOnState: androidx.compose.runtime.MutableState<Boolean>,
+    isVpnOnState: MutableState<Boolean>,
+    userDataState: MutableState<UserData?>,
     navController: NavController
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    val userData = remember { MmkvManager.getUserData() }
-    val isLoggedIn = remember { userData?.sessionAuthToken?.isNotEmpty() == true }
-    val isPremium = remember { userData?.isPremium == true }
-    val hasGivenRating = remember { MmkvManager.hasGivenRating() }
-    val availableLocations = remember { getAvailableLocations() }
+    val userData = userDataState.value
+    val isLoggedIn = userData?.sessionAuthToken?.isNotEmpty() == true
+    val isPremium = userData?.isPremium == true
+    val hasGivenRating = MmkvManager.hasGivenRating()
+    val availableLocations = getAvailableLocations()
 
     var selectedLocation by remember {
         mutableStateOf(
