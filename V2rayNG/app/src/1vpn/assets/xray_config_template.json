@@ -64,7 +64,7 @@
         "security": "reality",
         "realitySettings": {
           "fingerprint": "chrome",
-          "serverName": "www.cloudflare.com",
+          "serverName": "{{serverName}}",
           "publicKey": "{{publicKey}}",
           "shortId": "{{shortId}}",
           "spiderX": ""

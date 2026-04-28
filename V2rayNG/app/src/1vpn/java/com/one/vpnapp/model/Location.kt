@@ -9,5 +9,6 @@ data class Location(
     val xrayHosts: List<String>? = null, // multiple hosts for local free locations
     val publicKey: String? = null,
     val shortId: String? = null,
+    val realityServerName: String? = null,
     val isPremium: Boolean = false,
 )

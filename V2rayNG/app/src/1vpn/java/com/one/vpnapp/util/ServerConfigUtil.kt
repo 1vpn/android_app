@@ -23,12 +23,14 @@ fun setupServerConfig(
     val uuid = premiumData?.uuid ?: FREE_UUID
     val publicKey = premiumData?.publicKey ?: selectedLocation.publicKey
     val shortId = premiumData?.shortId ?: selectedLocation.shortId
+    val serverName = selectedLocation.realityServerName ?: "www.cloudflare.com"
 
     val config = template
         .replace("{{xrayHost}}", host)
         .replace("{{uuid}}", uuid)
         .replace("{{publicKey}}", publicKey ?: "")
         .replace("{{shortId}}", shortId ?: "")
+        .replace("{{serverName}}", serverName)
 
     val profileItem = CustomFmt.parse(config)
 
