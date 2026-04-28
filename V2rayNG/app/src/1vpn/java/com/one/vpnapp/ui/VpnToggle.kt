@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.one.vpnapp.util.VpnConnectionStatus
 import com.v2ray.ang.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun VpnToggle(
@@ -102,22 +102,25 @@ fun ToggleSwitch(
     modifier: Modifier = Modifier
 ) {
     val isConnecting = connectionStatus == VpnConnectionStatus.CONNECTING
-    // Stay visually "on" even if isVpnOnState was reset by the broadcast receiver on failure
     val effectiveChecked = checked || connectionStatus == VpnConnectionStatus.NO_CONNECTION
     val thumbSize = 100.dp
-    val animSpecDp = tween<androidx.compose.ui.unit.Dp>(500, easing = FastOutSlowInEasing)
+    val animDuration = 500
 
     val thumbOffset by animateDpAsState(
         targetValue = if (effectiveChecked) 100.dp else 0.dp,
-        animationSpec = animSpecDp
+        animationSpec = tween(animDuration, easing = FastOutSlowInEasing)
     )
 
     val targetColor = when {
         !effectiveChecked -> Color(0xFFc4cbd3)
         connectionStatus == VpnConnectionStatus.NO_CONNECTION -> Color(0xFFE53935)
-        else -> Color(0xFF106CD5)
+        connectionStatus == VpnConnectionStatus.CONNECTED -> Color(0xFF106CD5)
+        else -> Color(0xFFc4cbd3)
     }
-    val trackColor by animateColorAsState(targetValue = targetColor)
+    val trackColor by animateColorAsState(
+        targetValue = targetColor,
+        animationSpec = tween(animDuration, easing = FastOutSlowInEasing)
+    )
 
     val interactionSource = remember { MutableInteractionSource() }
 
