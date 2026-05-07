@@ -1,0 +1,264 @@
+package com.one.vpnapp.ui
+
+import android.content.Intent
+import android.content.res.Configuration
+import java.util.Locale
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.one.vpnapp.handler.AdManager
+import com.one.vpnapp.handler.MmkvManager
+import com.one.vpnapp.model.UserData
+import com.one.vpnapp.util.VpnConnectionManager
+import com.one.vpnapp.util.VpnConnectionStatus
+import com.v2ray.ang.R
+import com.v2ray.ang.handler.V2RayServiceManager
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen(
+    requestVpnPermission: (Intent, onGranted: () -> Unit) -> Unit,
+    isVpnOnState: MutableState<Boolean>,
+    userDataState: MutableState<UserData?>,
+    navController: NavController
+) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val userData = userDataState.value
+    val isLoggedIn = userData?.sessionAuthToken?.isNotEmpty() == true
+    val isPremium = userData?.isPremium == true
+    val hasGivenRating = MmkvManager.hasGivenRating()
+    val availableLocations = getAvailableLocations()
+
+    var selectedLocation by remember {
+        mutableStateOf(
+            MmkvManager.getSelectedLocation()
+                ?: availableLocations.first()
+        )
+    }
+    var connectionStatus by remember {
+        mutableStateOf(
+            if (isVpnOnState.value) {
+                when (MmkvManager.getVpnConnectionStatus()) {
+                    "NO_CONNECTION" -> VpnConnectionStatus.NO_CONNECTION
+                    else -> VpnConnectionStatus.CONNECTED
+                }
+            } else {
+                MmkvManager.clearVpnConnectionStatus()
+                VpnConnectionStatus.DISCONNECTED
+            }
+        )
+    }
+
+    LaunchedEffect(isVpnOnState.value) {
+        if (!isVpnOnState.value) {
+            connectionStatus = VpnConnectionStatus.DISCONNECTED
+            MmkvManager.clearVpnConnectionStatus()
+        }
+    }
+    var connectionJob by remember { mutableStateOf<Job?>(null) }
+    var showLocationDialog by remember { mutableStateOf(false) }
+    var showMenuDialog by remember { mutableStateOf(false) }
+    var showReviewDialog by remember { mutableStateOf(false) }
+    val isGeoRestrictedLocale = Locale.getDefault().language in setOf("ru", "zh", "fa")
+    var showGeoWarningDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(selectedLocation) {
+        MmkvManager.setSelectedLocation(selectedLocation)
+        AdManager.loadInterstitialAd(context, isPremium)
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = {},
+            navigationIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .height(28.dp)
+                        .padding(horizontal = 24.dp)
+                )
+            },
+            actions = {
+                Box(
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { showMenuDialog = true }
+                        .padding(horizontal = 24.dp, vertical = 12.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.menu),
+                        contentDescription = "Menu",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = white)
+        )
+        HorizontalDivider(color = darkBorderGrey)
+
+        val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        val vpnToggle: @Composable () -> Unit = {
+            VpnToggle(
+                startVpn = {
+                    if (isGeoRestrictedLocale && !isPremium && !MmkvManager.hasShownGeoWarning()) {
+                        MmkvManager.setHasShownGeoWarning()
+                        showGeoWarningDialog = true
+                    }
+                    AdManager.showInterstitialAdAndHandleVpn(
+                        context,
+                        onVpnConnect = {
+                            isVpnOnState.value = true
+                            connectionStatus = VpnConnectionStatus.CONNECTING
+                            connectionJob = coroutineScope.launch {
+                                VpnConnectionManager.connectWithFallback(
+                                    context = context,
+                                    location = selectedLocation,
+                                    userData = userData,
+                                    isPremium = isPremium,
+                                    onConnected = {
+                                        connectionStatus = VpnConnectionStatus.CONNECTED
+                                        MmkvManager.setVpnConnectionStatus("CONNECTED")
+                                    },
+                                    onNoConnection = {
+                                        connectionStatus = VpnConnectionStatus.NO_CONNECTION
+                                        MmkvManager.setVpnConnectionStatus("NO_CONNECTION")
+                                    }
+                                )
+                            }
+                        },
+                        onVpnCancel = {
+                            isVpnOnState.value = false
+                            connectionStatus = VpnConnectionStatus.DISCONNECTED
+                        },
+                        isPremium
+                    )
+                },
+                stopVpn = {
+                    connectionJob?.cancel()
+                    connectionJob = null
+                    V2RayServiceManager.stopVService(context)
+                    AdManager.loadInterstitialAd(context, isPremium)
+                    isVpnOnState.value = false
+                    connectionStatus = VpnConnectionStatus.DISCONNECTED
+                    showReviewDialog = true
+                },
+                requestVpnPermission = requestVpnPermission,
+                isVpnOnState = isVpnOnState,
+                connectionStatus = connectionStatus,
+            )
+        }
+
+        val actionButtons: @Composable () -> Unit = {
+            LocationButton(
+                selectedLocation = selectedLocation,
+                onClick = { showLocationDialog = true },
+                context = context,
+            )
+            if (!isPremium) {
+                UpgradeButton(onClick = { navController.navigate("upgrade") })
+            }
+            BackupDomainBanner()
+        }
+
+        if (isLandscape) {
+            Row(modifier = Modifier.fillMaxSize().weight(1f)) {
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) { vpnToggle() }
+                Column(
+                    modifier = Modifier.weight(1f).fillMaxHeight().padding(horizontal = 24.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) { actionButtons() }
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                contentAlignment = Alignment.Center
+            ) { vpnToggle() }
+            Column(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(18.dp)
+            ) { actionButtons() }
+        }
+    }
+
+    if (showMenuDialog) {
+        MenuDialog(
+            userData,
+            isLoggedIn,
+            navController = navController,
+            onDismiss = { showMenuDialog = false }
+        )
+    }
+
+    if (showLocationDialog) {
+        LocationDialog(
+            locations = availableLocations,
+            selectedCityCode = selectedLocation.cityCode,
+            onOptionSelected = { location ->
+                connectionJob?.cancel()
+                connectionJob = null
+                selectedLocation = location
+                isVpnOnState.value = false
+                connectionStatus = VpnConnectionStatus.DISCONNECTED
+                V2RayServiceManager.stopVService(context)
+            },
+            onPremiumSelected = { navController.navigate("upgrade") },
+            onDismiss = { showLocationDialog = false },
+            context = context,
+        )
+    }
+
+    if (!hasGivenRating && showReviewDialog) {
+        ReviewDialog(
+            onDismiss = { showReviewDialog = false }
+        )
+    }
+
+    if (showGeoWarningDialog) {
+        GeoWarningDialog(onDismiss = { showGeoWarningDialog = false })
+    }
+}
