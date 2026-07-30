@@ -10,10 +10,13 @@ val freeLocations = listOf(
         country = "Netherlands",
         countryCode = "nl",
         servers = listOf(
-            Server(host = "netherlands-node-free-1.cloudwidecdn.com"),
             Server(
                 host = "free-amsterdam-node-1.cloudwidecdn.com",
                 realityServerName = "www.apple.com",
+            ),
+            Server(
+                host = "free-amsterdam-node-2.cloudwidecdn.com",
+                realityServerName = "www.cloudflare.com",
             ),
         ),
     ),
@@ -39,10 +42,13 @@ val freeLocations = listOf(
         country = "United States",
         countryCode = "us",
         servers = listOf(
-            Server(host = "usa-west-node-free-1.cloudwidecdn.com"),
             Server(
                 host = "free-los-angeles-node-1.cloudwidecdn.com",
                 realityServerName = "www.apple.com",
+            ),
+            Server(
+                host = "free-los-angeles-node-2.cloudwidecdn.com",
+                realityServerName = "www.cloudflare.com",
             ),
         ),
     ),
